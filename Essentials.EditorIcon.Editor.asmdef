@@ -1,0 +1,19 @@
+{
+  "name": "Essentials.EditorIcon.Editor",
+  "rootNamespace": "Essentials.EditorIcon.Editor",
+  "references": [],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": true,
+  "precompiledReferences": [],
+  "autoReferenced": false,
+  "defineConstraints": [
+    "!ESSENTIALS_DISABLE_ALL",
+    "!ESSENTIALS_DISABLE_EDITOR_ICON"
+  ],
+  "versionDefines": [],
+  "noEngineReferences": false
+}
