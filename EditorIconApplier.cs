@@ -8,8 +8,6 @@ namespace Essentials.EditorIcon.Editor
     [InitializeOnLoad]
     internal static class EditorIconApplier
     {
-        const string ApplyMenuPath = "Tools/Essentials/Editor Icon/Apply Player Icon";
-        const string ResetMenuPath = "Tools/Essentials/Editor Icon/Reset";
         const string CacheDirectory = "Library/Essentials/EditorIcon";
         const double StartupForceReapplyDurationSeconds = 120d;
         const double StartupForceReapplyIntervalSeconds = 2d;
@@ -22,7 +20,7 @@ namespace Essentials.EditorIcon.Editor
         static double s_fastReapplyUntilTime;
         static bool s_applyScheduled;
         static bool s_forceNextApply;
-        static bool s_autoApplyPaused;
+        static bool s_autoApplyWasEnabled;
 #if UNITY_6000_0_OR_NEWER
         static UnityEngine.EntityId s_lastAppliedIconId;
 #else
@@ -32,61 +30,48 @@ namespace Essentials.EditorIcon.Editor
         static EditorIconApplier()
         {
 #if UNITY_EDITOR_OSX
-            StartForceReapplyWindow();
-            ScheduleApply(force: true);
+            s_autoApplyWasEnabled = AutoApplyEnabled;
+            if (s_autoApplyWasEnabled)
+            {
+                StartForceReapplyWindow();
+                ScheduleApply(force: true);
+            }
 
             EditorApplication.delayCall -= ScheduleForcedApply;
+            EditorApplication.delayCall -= ResetIconIfAutoApplyDisabled;
             EditorApplication.projectChanged -= ScheduleForcedApply;
             EditorApplication.focusChanged -= OnEditorFocusChanged;
             EditorApplication.update -= ReapplyAfterDelay;
 
             EditorApplication.delayCall += ScheduleForcedApply;
+            EditorApplication.delayCall += ResetIconIfAutoApplyDisabled;
             EditorApplication.projectChanged += ScheduleForcedApply;
             EditorApplication.focusChanged += OnEditorFocusChanged;
             EditorApplication.update += ReapplyAfterDelay;
 #endif
         }
 
-        [MenuItem(ApplyMenuPath)]
-        static void ApplyPlayerIconMenu()
-        {
-            s_autoApplyPaused = false;
-            StartForceReapplyWindow();
-
-            if (TryApplyPlayerIcon(force: true, out string error))
-            {
-                Debug.Log("Applied Player icon badge to the macOS Unity Editor application icon.");
-                return;
-            }
-
-            EditorUtility.DisplayDialog("Editor Icon", error, "OK");
-        }
-
-        [MenuItem(ResetMenuPath)]
-        static void ResetIconMenu()
-        {
-            if (EditorIconNative.TryResetApplicationIcon(out string error))
-            {
-                s_autoApplyPaused = true;
-                s_applyScheduled = false;
-                s_forceNextApply = false;
-                s_lastAppliedIconId = default;
-                Debug.Log("Reset the macOS Unity Editor application icon.");
-                return;
-            }
-
-            EditorUtility.DisplayDialog("Editor Icon", error, "OK");
-        }
-
         static void ScheduleForcedApply()
         {
+            if (!AutoApplyEnabled)
+                return;
+
             StartForceReapplyWindow();
             ScheduleApply(force: true);
         }
 
+        static void ResetIconIfAutoApplyDisabled()
+        {
+            if (AutoApplyEnabled)
+                return;
+
+            EditorIconNative.TryResetApplicationIcon(out _);
+            ClearScheduledApplyState();
+        }
+
         static void OnEditorFocusChanged(bool hasFocus)
         {
-            if (s_autoApplyPaused)
+            if (!AutoApplyEnabled)
                 return;
 
             StartFastReapplyWindow();
@@ -96,7 +81,7 @@ namespace Essentials.EditorIcon.Editor
 
         static void ScheduleApply(bool force)
         {
-            if (s_autoApplyPaused)
+            if (!AutoApplyEnabled)
                 return;
 
             s_applyScheduled = true;
@@ -119,8 +104,25 @@ namespace Essentials.EditorIcon.Editor
 
         static void ReapplyAfterDelay()
         {
-            if (s_autoApplyPaused)
+            bool autoApplyEnabled = AutoApplyEnabled;
+            if (!autoApplyEnabled)
+            {
+                if (s_autoApplyWasEnabled)
+                {
+                    EditorIconNative.TryResetApplicationIcon(out _);
+                    ClearScheduledApplyState();
+                }
+
+                s_autoApplyWasEnabled = false;
                 return;
+            }
+
+            if (!s_autoApplyWasEnabled)
+            {
+                s_autoApplyWasEnabled = true;
+                StartForceReapplyWindow();
+                ScheduleApply(force: true);
+            }
 
             double now = EditorApplication.timeSinceStartup;
             bool inFastForceWindow = now <= s_fastReapplyUntilTime;
@@ -141,6 +143,19 @@ namespace Essentials.EditorIcon.Editor
             s_applyScheduled = false;
             s_forceNextApply = false;
             TryApplyPlayerIconSilently(force);
+        }
+
+        internal static bool AutoApplyEnabled
+        {
+            get => EditorIconPreferences.AutoApplyPlayerIcon;
+            set => EditorIconPreferences.AutoApplyPlayerIcon = value;
+        }
+
+        static void ClearScheduledApplyState()
+        {
+            s_applyScheduled = false;
+            s_forceNextApply = false;
+            s_lastAppliedIconId = default;
         }
 
         static void TryApplyPlayerIconSilently(bool force)
