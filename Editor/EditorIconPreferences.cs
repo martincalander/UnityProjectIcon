@@ -43,7 +43,7 @@ namespace Essentials.EditorIcon.Editor
 
     internal static class EditorIconPreferencesProvider
     {
-        internal const string SettingsPath = "Preferences/Essentials/Editor Icon";
+        internal const string SettingsPath = "Preferences/Essentials/Project Icon";
 
         static readonly GUIContent AutoApplyPlayerIconContent = new GUIContent(
             "Auto Apply Player Icon",
@@ -58,7 +58,7 @@ namespace Essentials.EditorIcon.Editor
         {
             return new SettingsProvider(SettingsPath, SettingsScope.User)
             {
-                label = "Editor Icon",
+                label = "Project Icon",
                 guiHandler = DrawGui,
                 keywords = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
                 {

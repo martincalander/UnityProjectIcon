@@ -4,6 +4,10 @@ All notable changes to this package are documented in this file.
 
 ## [Unreleased]
 
+### Changed
+
+- Renamed the user Preferences entry from **Editor Icon** to **Project Icon** while preserving the existing `EditorPrefs` keys.
+
 ## [0.3.0] - 2026-08-22
 
 ### Added

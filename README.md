@@ -45,12 +45,12 @@ Or add the authenticated Git dependency to `Packages/manifest.json`:
 
 ## Usage
 
-Assign an application icon in Unity's Player settings, then open **Preferences > Essentials > Editor Icon**. Enable **Auto Apply Player Icon** and choose an **Appearance**:
+Assign an application icon in Unity's Player settings, then open **Preferences > Essentials > Project Icon**. Enable **Auto Apply Player Icon** and choose an **Appearance**:
 
 - **Badge** composites the Player icon over Unity's icon. This remains the default for existing users.
 - **Icon Replacement** uses the Player icon as the complete Editor application icon.
 
-Both choices persist as personal `EditorPrefs` settings. The preference path and existing auto-apply key retain their established names for compatibility.
+Both choices persist as personal `EditorPrefs` settings. The existing preference keys retain their established names, so changing the Preferences entry to **Project Icon** does not reset user choices.
 
 On macOS, the package applies appearance changes immediately and reapplies the selected icon after project and Editor focus changes because Unity can restore its default application icon during normal Editor activity. Disabling auto-apply resets the icon.
 

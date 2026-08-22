@@ -54,7 +54,8 @@ namespace Essentials.Tests.Editor.EditorIcon
             SettingsProvider provider = EditorIconPreferencesProvider.CreateProvider();
 
             Assert.That(provider, Is.Not.Null);
-            Assert.That(provider.settingsPath, Is.EqualTo("Preferences/Essentials/Editor Icon"));
+            Assert.That(provider.settingsPath, Is.EqualTo("Preferences/Essentials/Project Icon"));
+            Assert.That(provider.label, Is.EqualTo("Project Icon"));
             Assert.That(provider.scope, Is.EqualTo(SettingsScope.User));
         }
 
