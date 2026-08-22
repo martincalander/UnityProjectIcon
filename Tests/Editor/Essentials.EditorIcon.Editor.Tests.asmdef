@@ -1,0 +1,24 @@
+{
+  "name": "Essentials.EditorIcon.Editor.Tests",
+  "rootNamespace": "Essentials.Tests.Editor.EditorIcon",
+  "references": [
+    "Essentials.EditorIcon.Editor"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": false,
+  "defineConstraints": [
+    "!ESSENTIALS_DISABLE_ALL",
+    "!ESSENTIALS_DISABLE_EDITOR_ICON"
+  ],
+  "versionDefines": [],
+  "noEngineReferences": false,
+  "optionalUnityReferences": [
+    "TestAssemblies"
+  ]
+}

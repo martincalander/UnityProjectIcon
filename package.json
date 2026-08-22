@@ -1,0 +1,28 @@
+{
+  "name": "com.essentials.editoricon",
+  "version": "0.2.0",
+  "displayName": "Editor Icon",
+  "description": "Badges the running macOS Unity Editor icon with the active Player icon.",
+  "unity": "2021.3",
+  "unityRelease": "0f1",
+  "documentationUrl": "https://github.com/EssentialsForUnity/com.essentials.editoricon/blob/main/README.md",
+  "changelogUrl": "https://github.com/EssentialsForUnity/com.essentials.editoricon/blob/main/CHANGELOG.md",
+  "licensesUrl": "https://github.com/EssentialsForUnity/com.essentials.editoricon/blob/main/LICENSE.md",
+  "license": "SEE LICENSE IN LICENSE.md",
+  "keywords": [
+    "unity",
+    "editor",
+    "icon",
+    "macos",
+    "player",
+    "badge"
+  ],
+  "author": {
+    "name": "Essentials",
+    "url": "https://github.com/EssentialsForUnity",
+    "email": "martin.calander@gmail.com"
+  },
+  "publishConfig": {
+    "registry": "https://upm.essentialsforunity.com"
+  }
+}
