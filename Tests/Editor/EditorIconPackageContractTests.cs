@@ -3,7 +3,7 @@ using System.Reflection;
 using Essentials.EditorIcon.Editor;
 using NUnit.Framework;
 using UnityEditor;
-using UnityEditor.PackageManager;
+using PackageInfo = UnityEditor.PackageManager.PackageInfo;
 
 namespace Essentials.Tests.Editor.EditorIcon
 {
