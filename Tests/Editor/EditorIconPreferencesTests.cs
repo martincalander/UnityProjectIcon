@@ -8,6 +8,8 @@ namespace Essentials.Tests.Editor.EditorIcon
     {
         bool hadAutoApplyPreference;
         bool originalAutoApplyPreference;
+        bool hadApplicationIconModePreference;
+        int originalApplicationIconModePreference;
 
         [SetUp]
         public void SetUp()
@@ -16,6 +18,10 @@ namespace Essentials.Tests.Editor.EditorIcon
             originalAutoApplyPreference = EditorPrefs.GetBool(
                 EditorIconPreferences.AutoApplyPlayerIconKey,
                 EditorIconPreferences.AutoApplyPlayerIconDefaultValue);
+            hadApplicationIconModePreference = EditorPrefs.HasKey(EditorIconPreferences.ApplicationIconModeKey);
+            originalApplicationIconModePreference = EditorPrefs.GetInt(
+                EditorIconPreferences.ApplicationIconModeKey,
+                (int)EditorIconPreferences.ApplicationIconModeDefaultValue);
         }
 
         [TearDown]
@@ -23,11 +29,22 @@ namespace Essentials.Tests.Editor.EditorIcon
         {
             if (hadAutoApplyPreference)
             {
-                EditorIconApplier.AutoApplyEnabled = originalAutoApplyPreference;
+                EditorPrefs.SetBool(EditorIconPreferences.AutoApplyPlayerIconKey, originalAutoApplyPreference);
             }
             else
             {
                 EditorPrefs.DeleteKey(EditorIconPreferences.AutoApplyPlayerIconKey);
+            }
+
+            if (hadApplicationIconModePreference)
+            {
+                EditorPrefs.SetInt(
+                    EditorIconPreferences.ApplicationIconModeKey,
+                    originalApplicationIconModePreference);
+            }
+            else
+            {
+                EditorPrefs.DeleteKey(EditorIconPreferences.ApplicationIconModeKey);
             }
         }
 
@@ -61,6 +78,38 @@ namespace Essentials.Tests.Editor.EditorIcon
             Assert.That(
                 EditorPrefs.GetBool(EditorIconPreferences.AutoApplyPlayerIconKey, false),
                 Is.True);
+        }
+
+        [Test]
+        public void ApplicationIconMode_UsesBadgeDefault_WhenKeyIsMissing()
+        {
+            EditorPrefs.DeleteKey(EditorIconPreferences.ApplicationIconModeKey);
+
+            Assert.That(EditorIconApplier.ApplicationIconMode, Is.EqualTo(EditorIconMode.Badge));
+        }
+
+        [Test]
+        public void ApplicationIconMode_PersistsEverySupportedModeInEditorPrefs()
+        {
+            EditorIconApplier.AutoApplyEnabled = false;
+
+            EditorIconApplier.ApplicationIconMode = EditorIconMode.IconReplacement;
+            Assert.That(
+                EditorPrefs.GetInt(EditorIconPreferences.ApplicationIconModeKey, -1),
+                Is.EqualTo((int)EditorIconMode.IconReplacement));
+
+            EditorIconApplier.ApplicationIconMode = EditorIconMode.Badge;
+            Assert.That(
+                EditorPrefs.GetInt(EditorIconPreferences.ApplicationIconModeKey, -1),
+                Is.EqualTo((int)EditorIconMode.Badge));
+        }
+
+        [Test]
+        public void ApplicationIconMode_FallsBackToBadge_WhenStoredValueIsInvalid()
+        {
+            EditorPrefs.SetInt(EditorIconPreferences.ApplicationIconModeKey, 99);
+
+            Assert.That(EditorIconApplier.ApplicationIconMode, Is.EqualTo(EditorIconMode.Badge));
         }
     }
 }

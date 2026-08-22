@@ -23,6 +23,7 @@ lipo "$EXECUTABLE" -verify_arch x86_64 arm64
 
 nm -gU "$EXECUTABLE" > "$BUILD_DIR/exported-symbols.txt"
 grep -q '_EssentialsEditorIconSetApplicationIcon$' "$BUILD_DIR/exported-symbols.txt"
+grep -q '_EssentialsEditorIconSetApplicationIconWithMode$' "$BUILD_DIR/exported-symbols.txt"
 grep -q '_EssentialsEditorIconResetApplicationIcon$' "$BUILD_DIR/exported-symbols.txt"
 
 if command -v codesign >/dev/null 2>&1; then

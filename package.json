@@ -1,8 +1,8 @@
 {
   "name": "com.essentials.projecticon",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "displayName": "Project Icon",
-  "description": "Badges the running macOS Unity Editor icon with the active project's Player icon.",
+  "description": "Badges or replaces the running macOS Unity Editor icon with the active project's Player icon.",
   "unity": "2021.3",
   "unityRelease": "0f1",
   "documentationUrl": "https://github.com/EssentialsForUnity/com.essentials.projecticon/blob/main/README.md",
@@ -16,7 +16,8 @@
     "icon",
     "macos",
     "player",
-    "badge"
+    "badge",
+    "replacement"
   ],
   "author": {
     "name": "Essentials",

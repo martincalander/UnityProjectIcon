@@ -22,7 +22,7 @@ namespace Essentials.Tests.Editor.EditorIcon
 
             Assert.That(package, Is.Not.Null);
             Assert.That(package.name, Is.EqualTo(PackageName));
-            Assert.That(package.version, Is.EqualTo("0.2.0"));
+            Assert.That(package.version, Is.EqualTo("0.3.0"));
             Assert.That(package.displayName, Is.EqualTo("Project Icon"));
         }
 
@@ -78,7 +78,7 @@ namespace Essentials.Tests.Editor.EditorIcon
             PackageInfo package = PackageInfo.FindForAssetPath(NativeBundlePath);
             Assert.That(package, Is.Not.Null);
             Assert.That(package.name, Is.EqualTo(PackageName));
-            Assert.That(package.version, Is.EqualTo("0.2.0"));
+            Assert.That(package.version, Is.EqualTo("0.3.0"));
 
             string bundleRoot = Path.Combine(
                 package.resolvedPath,
@@ -92,7 +92,65 @@ namespace Essentials.Tests.Editor.EditorIcon
             string info = File.ReadAllText(infoPath);
             StringAssert.Contains("com.essentials.editoricon.native", info);
             StringAssert.Contains("<string>EssentialsEditorIcon</string>", info);
-            StringAssert.Contains("<string>0.2.0</string>", info);
+            StringAssert.Contains("<string>0.3.0</string>", info);
         }
+
+        [Test]
+        public void NativeContract_RetainsLegacyEntryPointAndAddsModeAwareEntryPoint()
+        {
+            PackageInfo package = PackageInfo.FindForAssetPath(NativeBundlePath);
+            Assert.That(package, Is.Not.Null);
+
+            string source = File.ReadAllText(Path.Combine(
+                package.resolvedPath,
+                "Native~/macOS/EssentialsEditorIcon.mm"));
+            string buildScript = File.ReadAllText(Path.Combine(
+                package.resolvedPath,
+                "Native~/macOS/build.sh"));
+
+            StringAssert.Contains("EssentialsEditorIconSetApplicationIcon(const char *utf8Path)", source);
+            StringAssert.Contains("EssentialsEditorIconSetApplicationIconWithMode", source);
+            StringAssert.Contains("EssentialsEditorIconResetApplicationIcon", source);
+            StringAssert.Contains("_EssentialsEditorIconSetApplicationIcon$", buildScript);
+            StringAssert.Contains("_EssentialsEditorIconSetApplicationIconWithMode$", buildScript);
+            StringAssert.Contains("_EssentialsEditorIconResetApplicationIcon$", buildScript);
+
+            MethodInfo bridge = typeof(EditorIconNative).GetMethod(
+                "TrySetApplicationIcon",
+                AnyStatic);
+            Assert.That(bridge, Is.Not.Null);
+            ParameterInfo[] parameters = bridge.GetParameters();
+            Assert.That(parameters.Length, Is.EqualTo(3));
+            Assert.That(parameters[1].ParameterType, Is.EqualTo(typeof(EditorIconMode)));
+        }
+
+#if UNITY_EDITOR_OSX
+        [TestCase((int)EditorIconMode.Badge)]
+        [TestCase((int)EditorIconMode.IconReplacement)]
+        public void NativeBridge_AppliesEverySupportedMode(int rawMode)
+        {
+            PackageInfo package = PackageInfo.FindForAssetPath(NativeBundlePath);
+            Assert.That(package, Is.Not.Null);
+
+            string iconPath = Path.Combine(package.resolvedPath, "EssentialsIcon.png");
+            Assert.That(File.Exists(iconPath), Is.True);
+            var mode = (EditorIconMode)rawMode;
+
+            try
+            {
+                Assert.That(
+                    EditorIconNative.TrySetApplicationIcon(iconPath, mode, out string error),
+                    Is.True,
+                    error);
+            }
+            finally
+            {
+                Assert.That(
+                    EditorIconNative.TryResetApplicationIcon(out string resetError),
+                    Is.True,
+                    resetError);
+            }
+        }
+#endif
     }
 }
