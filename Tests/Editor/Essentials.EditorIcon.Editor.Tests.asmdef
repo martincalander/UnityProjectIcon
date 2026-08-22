@@ -14,6 +14,7 @@
   "autoReferenced": false,
   "defineConstraints": [
     "!ESSENTIALS_DISABLE_ALL",
+    "!ESSENTIALS_DISABLE_PROJECT_ICON",
     "!ESSENTIALS_DISABLE_EDITOR_ICON"
   ],
   "versionDefines": [],

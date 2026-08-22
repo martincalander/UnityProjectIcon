@@ -4,6 +4,11 @@ All notable changes to this package are documented in this file.
 
 ## [Unreleased]
 
+### Changed
+
+- Renamed the package and repository from `com.essentials.editoricon` to `com.essentials.projecticon`, with the user-facing name **Project Icon**.
+- Added `ESSENTIALS_DISABLE_PROJECT_ICON` while retaining the existing assembly, namespace, preference, native ABI, Unity GUID, and `ESSENTIALS_DISABLE_EDITOR_ICON` compatibility contracts.
+
 ## [0.2.0] - 2026-08-22
 
 ### Added

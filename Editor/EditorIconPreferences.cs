@@ -36,6 +36,7 @@ namespace Essentials.EditorIcon.Editor
                 {
                     "essentials",
                     "editor",
+                    "project",
                     "icon",
                     "player",
                     "badge",

@@ -1,6 +1,6 @@
-# Editor Icon
+# Project Icon
 
-`com.essentials.editoricon` gives each macOS Unity Editor project a recognizable Dock and application-switcher icon by compositing the active Player icon over Unity's application icon.
+`com.essentials.projecticon` gives each macOS Unity Editor project a recognizable Dock and application-switcher icon by compositing the active Player icon over Unity's application icon.
 
 The package changes only the running Editor process. It does not modify the Unity installation, project icon assets, or Player builds.
 
@@ -17,8 +17,8 @@ Install the private repository as an embedded package:
 
 ```bash
 git submodule add -b main \
-  https://github.com/EssentialsForUnity/com.essentials.editoricon.git \
-  Packages/com.essentials.editoricon
+  https://github.com/EssentialsForUnity/com.essentials.projecticon.git \
+  Packages/com.essentials.projecticon
 ```
 
 Or add the authenticated Git dependency to `Packages/manifest.json`:
@@ -26,18 +26,18 @@ Or add the authenticated Git dependency to `Packages/manifest.json`:
 ```json
 {
   "dependencies": {
-    "com.essentials.editoricon": "https://github.com/EssentialsForUnity/com.essentials.editoricon.git"
+    "com.essentials.projecticon": "https://github.com/EssentialsForUnity/com.essentials.projecticon.git"
   }
 }
 ```
 
 ## Usage
 
-Assign an application icon in Unity's Player settings, then enable **Preferences > Essentials > Editor Icon > Auto Apply Player Icon Badge**. Auto-apply is enabled by default and persists as a personal `EditorPrefs` setting.
+Assign an application icon in Unity's Player settings, then enable **Preferences > Essentials > Editor Icon > Auto Apply Player Icon Badge**. Auto-apply is enabled by default and persists as a personal `EditorPrefs` setting. The preference path retains its established name for compatibility.
 
 The package reapplies the badge after project changes and Editor focus changes because Unity can restore its default application icon during normal Editor activity. Disabling auto-apply resets the icon.
 
-To disable the assembly without removing an umbrella package that depends on it, define `ESSENTIALS_DISABLE_EDITOR_ICON`. `ESSENTIALS_DISABLE_ALL` remains supported for compatibility with the Essentials umbrella packages.
+To disable the assembly without removing an umbrella package that depends on it, define `ESSENTIALS_DISABLE_PROJECT_ICON`. The existing `ESSENTIALS_DISABLE_EDITOR_ICON` and `ESSENTIALS_DISABLE_ALL` symbols remain supported for compatibility.
 
 ## Native bundle
 
@@ -54,6 +54,8 @@ Native source is intentionally hidden from Unity under `Native~/macOS`. Rebuild 
 ```
 
 Commit the rebuilt executable and signature resources together. Preserve the bundle name, identifier, exported entry points, architecture set, and Unity asset GUID because the managed bridge and existing projects depend on those identities.
+
+The native `EssentialsEditorIcon` names, managed `Essentials.EditorIcon.*` assembly and namespace identities, preference key, and cache path intentionally retain their established values. Renaming the package does not break those existing contracts.
 
 ## Package layout
 
