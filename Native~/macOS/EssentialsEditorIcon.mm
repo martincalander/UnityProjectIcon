@@ -1,6 +1,13 @@
 #import <Cocoa/Cocoa.h>
 #import <dispatch/dispatch.h>
 #import <objc/runtime.h>
+#include <stdint.h>
+
+enum EssentialsEditorIconMode : int32_t
+{
+    EssentialsEditorIconModeBadge = 0,
+    EssentialsEditorIconModeReplacement = 1
+};
 
 static NSImage *s_pinnedApplicationIcon = nil;
 static NSMutableArray *s_notificationObserverTokens = nil;
@@ -103,6 +110,29 @@ static NSImage *EssentialsEditorIconCreateBadgedApplicationIcon(NSImage *badgeIm
     return compositeImage;
 }
 
+static NSImage *EssentialsEditorIconCreateReplacementApplicationIcon(NSImage *sourceImage)
+{
+    if (sourceImage == nil)
+        return nil;
+
+    const CGFloat canvasSize = 1024.0;
+    NSImage *replacementImage = [[NSImage alloc] initWithSize:NSMakeSize(canvasSize, canvasSize)];
+    [replacementImage lockFocus];
+
+    NSGraphicsContext *context = [NSGraphicsContext currentContext];
+    [context setImageInterpolation:NSImageInterpolationHigh];
+
+    NSRect fullRect = NSMakeRect(0.0, 0.0, canvasSize, canvasSize);
+    [sourceImage drawInRect:fullRect
+                   fromRect:NSZeroRect
+                  operation:NSCompositingOperationCopy
+                   fraction:1.0];
+
+    [replacementImage unlockFocus];
+    [replacementImage setTemplate:NO];
+    return replacementImage;
+}
+
 static void EssentialsEditorIconApplyPinnedApplicationIconOnMainThread(void)
 {
     if (s_pinnedApplicationIcon == nil)
@@ -169,17 +199,31 @@ static void EssentialsEditorIconRemoveNotificationObserversOnMainThread(void)
     s_notificationObserverTokens = nil;
 }
 
-static int EssentialsEditorIconSetApplicationIconOnMainThread(NSString *path)
+static int EssentialsEditorIconSetApplicationIconOnMainThread(
+    NSString *path,
+    EssentialsEditorIconMode mode)
 {
-    NSImage *badgeImage = [[NSImage alloc] initWithContentsOfFile:path];
-    if (badgeImage == nil)
+    NSImage *sourceImage = [[NSImage alloc] initWithContentsOfFile:path];
+    if (sourceImage == nil)
         return 0;
 
-    NSImage *badgedApplicationIcon = EssentialsEditorIconCreateBadgedApplicationIcon(badgeImage);
-    if (badgedApplicationIcon == nil)
+    NSImage *applicationIcon = nil;
+    switch (mode)
+    {
+        case EssentialsEditorIconModeBadge:
+            applicationIcon = EssentialsEditorIconCreateBadgedApplicationIcon(sourceImage);
+            break;
+        case EssentialsEditorIconModeReplacement:
+            applicationIcon = EssentialsEditorIconCreateReplacementApplicationIcon(sourceImage);
+            break;
+        default:
+            return 0;
+    }
+
+    if (applicationIcon == nil)
         return 0;
 
-    s_pinnedApplicationIcon = badgedApplicationIcon;
+    s_pinnedApplicationIcon = applicationIcon;
     EssentialsEditorIconInstallApplicationIconHookOnMainThread();
     EssentialsEditorIconInstallNotificationObserversOnMainThread();
     EssentialsEditorIconApplyPinnedApplicationIconOnMainThread();
@@ -187,7 +231,9 @@ static int EssentialsEditorIconSetApplicationIconOnMainThread(NSString *path)
     return 1;
 }
 
-extern "C" int EssentialsEditorIconSetApplicationIcon(const char *utf8Path)
+extern "C" int EssentialsEditorIconSetApplicationIconWithMode(
+    const char *utf8Path,
+    int32_t rawMode)
 {
     @autoreleasepool
     {
@@ -198,20 +244,28 @@ extern "C" int EssentialsEditorIconSetApplicationIcon(const char *utf8Path)
         if (path == nil)
             return 0;
 
+        EssentialsEditorIconMode mode = static_cast<EssentialsEditorIconMode>(rawMode);
         __block int result = 0;
         if ([NSThread isMainThread])
         {
-            result = EssentialsEditorIconSetApplicationIconOnMainThread(path);
+            result = EssentialsEditorIconSetApplicationIconOnMainThread(path, mode);
         }
         else
         {
             dispatch_sync(dispatch_get_main_queue(), ^{
-                result = EssentialsEditorIconSetApplicationIconOnMainThread(path);
+                result = EssentialsEditorIconSetApplicationIconOnMainThread(path, mode);
             });
         }
 
         return result;
     }
+}
+
+extern "C" int EssentialsEditorIconSetApplicationIcon(const char *utf8Path)
+{
+    return EssentialsEditorIconSetApplicationIconWithMode(
+        utf8Path,
+        EssentialsEditorIconModeBadge);
 }
 
 extern "C" void EssentialsEditorIconResetApplicationIcon()

@@ -5,15 +5,39 @@ using UnityEngine;
 
 namespace Essentials.EditorIcon.Editor
 {
+    internal enum EditorIconMode
+    {
+        Badge = 0,
+        IconReplacement = 1
+    }
+
     internal static class EditorIconPreferences
     {
         internal const string AutoApplyPlayerIconKey = "Essentials.EditorIcon.AutoApplyPlayerIcon";
         internal const bool AutoApplyPlayerIconDefaultValue = true;
+        internal const string ApplicationIconModeKey = "Essentials.EditorIcon.ApplicationIconMode";
+        internal const EditorIconMode ApplicationIconModeDefaultValue = EditorIconMode.Badge;
 
         internal static bool AutoApplyPlayerIcon
         {
             get => EditorPrefs.GetBool(AutoApplyPlayerIconKey, AutoApplyPlayerIconDefaultValue);
             set => EditorPrefs.SetBool(AutoApplyPlayerIconKey, value);
+        }
+
+        internal static EditorIconMode ApplicationIconMode
+        {
+            get
+            {
+                int value = EditorPrefs.GetInt(ApplicationIconModeKey, (int)ApplicationIconModeDefaultValue);
+                return value == (int)EditorIconMode.IconReplacement
+                    ? EditorIconMode.IconReplacement
+                    : EditorIconMode.Badge;
+            }
+            set => EditorPrefs.SetInt(
+                ApplicationIconModeKey,
+                value == EditorIconMode.IconReplacement
+                    ? (int)EditorIconMode.IconReplacement
+                    : (int)EditorIconMode.Badge);
         }
     }
 
@@ -22,8 +46,12 @@ namespace Essentials.EditorIcon.Editor
         internal const string SettingsPath = "Preferences/Essentials/Editor Icon";
 
         static readonly GUIContent AutoApplyPlayerIconContent = new GUIContent(
-            "Auto Apply Player Icon Badge",
-            "On macOS, automatically badges the Unity Editor application icon with the active build target's Player icon.");
+            "Auto Apply Player Icon",
+            "On supported platforms, automatically applies the active build target's Player icon to the running Unity Editor.");
+
+        static readonly GUIContent ApplicationIconModeContent = new GUIContent(
+            "Appearance",
+            "Choose whether the Player icon appears as a badge over Unity's icon or replaces the Unity icon.");
 
         [SettingsProvider]
         internal static SettingsProvider CreateProvider()
@@ -40,7 +68,11 @@ namespace Essentials.EditorIcon.Editor
                     "icon",
                     "player",
                     "badge",
+                    "replacement",
+                    "appearance",
                     "macos",
+                    "windows",
+                    "linux",
                     "auto apply"
                 }
             };
@@ -55,9 +87,19 @@ namespace Essentials.EditorIcon.Editor
             if (EditorGUI.EndChangeCheck())
                 EditorIconApplier.AutoApplyEnabled = autoApplyPlayerIcon;
 
+            using (new EditorGUI.DisabledScope(!autoApplyPlayerIcon))
+            {
+                EditorGUI.BeginChangeCheck();
+                var applicationIconMode = (EditorIconMode)EditorGUILayout.EnumPopup(
+                    ApplicationIconModeContent,
+                    EditorIconApplier.ApplicationIconMode);
+                if (EditorGUI.EndChangeCheck())
+                    EditorIconApplier.ApplicationIconMode = applicationIconMode;
+            }
+
             EditorGUILayout.HelpBox(
-                "Editor icon badging is applied to the current Unity Editor process on macOS. It does not modify the Unity installation, project icon assets, or Player builds.",
-                MessageType.Info);
+                EditorIconNative.PlatformSupportMessage,
+                EditorIconNative.IsSupported ? MessageType.Info : MessageType.Warning);
         }
     }
 }

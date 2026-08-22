@@ -21,6 +21,8 @@ namespace Essentials.EditorIcon.Editor
         static bool s_applyScheduled;
         static bool s_forceNextApply;
         static bool s_autoApplyWasEnabled;
+        static bool s_hasLastAppliedIcon;
+        static EditorIconMode s_lastAppliedMode;
 #if UNITY_6000_0_OR_NEWER
         static UnityEngine.EntityId s_lastAppliedIconId;
 #else
@@ -151,11 +153,36 @@ namespace Essentials.EditorIcon.Editor
             set => EditorIconPreferences.AutoApplyPlayerIcon = value;
         }
 
+        internal static EditorIconMode ApplicationIconMode
+        {
+            get => EditorIconPreferences.ApplicationIconMode;
+            set
+            {
+                EditorIconMode previousMode = EditorIconPreferences.ApplicationIconMode;
+                EditorIconPreferences.ApplicationIconMode = value;
+                EditorIconMode currentMode = EditorIconPreferences.ApplicationIconMode;
+                if (currentMode == previousMode)
+                    return;
+
+                ClearScheduledApplyState();
+#if UNITY_EDITOR_OSX
+                if (AutoApplyEnabled)
+                {
+                    StartFastReapplyWindow();
+                    ScheduleApply(force: true);
+                    TryApplyPlayerIconSilently(force: true);
+                }
+#endif
+            }
+        }
+
         static void ClearScheduledApplyState()
         {
             s_applyScheduled = false;
             s_forceNextApply = false;
+            s_hasLastAppliedIcon = false;
             s_lastAppliedIconId = default;
+            s_lastAppliedMode = default;
         }
 
         static void TryApplyPlayerIconSilently(bool force)
@@ -175,7 +202,11 @@ namespace Essentials.EditorIcon.Editor
             }
 
             var iconId = GetIconId(icon);
-            if (!force && iconId == s_lastAppliedIconId)
+            EditorIconMode applicationIconMode = ApplicationIconMode;
+            if (!force &&
+                s_hasLastAppliedIcon &&
+                iconId == s_lastAppliedIconId &&
+                applicationIconMode == s_lastAppliedMode)
             {
                 error = null;
                 return true;
@@ -184,10 +215,12 @@ namespace Essentials.EditorIcon.Editor
             if (!TryGetIconImagePath(icon, out string iconPath, out error))
                 return false;
 
-            if (!EditorIconNative.TrySetApplicationIcon(iconPath, out error))
+            if (!EditorIconNative.TrySetApplicationIcon(iconPath, applicationIconMode, out error))
                 return false;
 
             s_lastAppliedIconId = iconId;
+            s_lastAppliedMode = applicationIconMode;
+            s_hasLastAppliedIcon = true;
             return true;
         }
 
