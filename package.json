@@ -5,9 +5,9 @@
   "description": "Badges or replaces the running macOS Unity Editor icon with the active project's Player icon.",
   "unity": "2021.3",
   "unityRelease": "0f1",
-  "documentationUrl": "https://github.com/martincalander/com.martincalander.projecticon/blob/main/README.md",
-  "changelogUrl": "https://github.com/martincalander/com.martincalander.projecticon/blob/main/CHANGELOG.md",
-  "licensesUrl": "https://github.com/martincalander/com.martincalander.projecticon/blob/main/LICENSE.md",
+  "documentationUrl": "https://github.com/martincalander/UnityProjectIcon/blob/main/README.md",
+  "changelogUrl": "https://github.com/martincalander/UnityProjectIcon/blob/main/CHANGELOG.md",
+  "licensesUrl": "https://github.com/martincalander/UnityProjectIcon/blob/main/LICENSE.md",
   "license": "Proprietary License",
   "keywords": [
     "unity",
@@ -26,6 +26,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/martincalander/com.martincalander.projecticon.git"
+    "url": "https://github.com/martincalander/UnityProjectIcon.git"
   }
 }
