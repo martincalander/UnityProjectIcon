@@ -6,8 +6,16 @@ All notable changes to this package are documented in this file.
 
 ### Changed
 
-- Moved the repository to Martin Calander's personal GitHub account and renamed the package from `com.essentials.projecticon` to `com.martincalander.projecticon`, while preserving its managed, native, preference, and Unity asset compatibility identities.
+- Moved the repository to Martin Calander's personal GitHub account and renamed
+  the package from `com.essentials.projecticon` to
+  `com.martincalander.projecticon`, while preserving its managed, native,
+  preference, and Unity asset compatibility identities.
+- Renamed the GitHub repository from `com.martincalander.projecticon` to
+  `UnityProjectIcon` without changing the package ID or installation path.
 - Renamed the user Preferences entry from **Editor Icon** to **Project Icon** while preserving the existing `EditorPrefs` keys.
+- Added focused user, compatibility, troubleshooting, and native-maintainer
+  guides, including the default Auto Apply behavior, icon fallback order, and
+  macOS-only support boundary.
 
 ## [0.3.0] - 2026-08-22
 

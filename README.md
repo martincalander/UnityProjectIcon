@@ -1,31 +1,53 @@
 # Project Icon
 
-`com.martincalander.projecticon` gives each macOS Unity Editor project a recognizable Dock and application-switcher icon. The active Player icon can appear as a badge over Unity's icon or replace it completely.
+Tell your open Unity projects apart at a glance.
 
-The package changes only the running Editor process. It does not modify the Unity installation, project icon assets, or Player builds.
+<p align="center">
+  <img alt="UPM minimum 2021.3.0f1" src="https://img.shields.io/badge/UPM%20minimum-2021.3.0f1-222C37?logo=unity&logoColor=white">
+  <img alt="macOS icon support" src="https://img.shields.io/badge/icon%20support-macOS-111?logo=apple&logoColor=white">
+  <img alt="Editor-only package" src="https://img.shields.io/badge/scope-Editor%20only-555">
+</p>
 
-## Requirements
+Project Icon borrows a Player icon from the current project and applies it to
+the running Unity Editor on macOS. Use a small badge over Unity's icon or
+replace the icon completely; either way, the right project is easier to spot in
+the Dock and application switcher.
 
-- Unity 2021.3 or newer.
-- macOS 10.13 or newer on Intel, or macOS 11 or newer on Apple silicon.
+It changes only the current Editor process. The Unity installation, project
+assets, and Player builds are left alone.
 
-## Platform support
+## Highlights
 
-| Unity Editor platform | Status | Behavior |
+- Starts automatically on macOS; Auto Apply defaults on when no earlier
+  preference exists.
+- Offers **Badge** and **Icon Replacement** appearances; Badge is the first-run
+  default.
+- Reapplies after startup, focus changes, and project changes because Unity can
+  restore its own icon during normal Editor use.
+- Uses a checked-in universal native bundle for Intel and Apple silicon Macs.
+- Loads and saves settings on Windows and Linux without making a native icon
+  call.
+
+## Requirements and Platform Support
+
+| Environment | Status | Notes |
 | --- | --- | --- |
-| macOS | Supported | Badge and Icon Replacement modes update the current Editor process. |
-| Windows | Not supported | The package loads and saves preferences, but does not change Editor icons. |
-| Linux (X11, XWayland, or Wayland) | Not supported | The package loads and saves preferences, but does not change Editor icons. |
+| Unity `2021.3.0f1` | UPM minimum | Eligibility floor, not a full validation matrix |
+| macOS on Intel | Icon support | macOS 10.13 or newer |
+| macOS on Apple silicon | Icon support | macOS 11 or newer |
+| Windows | Settings only | No native icon call |
+| Linux | Settings only | No native icon call |
+| Player/runtime | Not used | Every package assembly is Editor-only |
 
-Windows needs a separate, tested implementation for its window icons and taskbar overlays. Project Icon does not ship that backend, so it does not call `WM_SETICON` or the Windows taskbar API and makes no icon changes on Windows.
-
-Linux cannot provide the same reliable cross-desktop behavior through one integration. X11's [`_NET_WM_ICON`](https://specifications.freedesktop.org/wm/latest-single/#idm45159979263616) is only a per-window hint that a window manager or desktop shell may ignore. Native Wayland icon updates require Unity's own toplevel protocol object, which Unity does not expose to Editor packages. Project Icon therefore makes no icon changes on Linux rather than claiming partial support that may not appear in the GNOME or KDE dock/taskbar.
-
-The managed Editor assembly compiles on Windows and Linux so the package can remain installed in cross-platform projects. Compilation does not imply icon-application support. The native bundle is imported for the macOS Editor only, and the Preferences page shows an explicit warning on unsupported platforms.
+See [Compatibility](Documentation~/compatibility.md) for the native and
+cross-platform boundaries.
 
 ## Installation
 
-Install the private repository as an embedded package:
+Both installation methods require Git and credentials that can read this
+private repository.
+
+Add it as an editable submodule:
 
 ```bash
 git submodule add -b main \
@@ -33,7 +55,7 @@ git submodule add -b main \
   Packages/com.martincalander.projecticon
 ```
 
-Or add the authenticated Git dependency to `Packages/manifest.json`:
+Or add it as a read-only Git dependency in `Packages/manifest.json`:
 
 ```json
 {
@@ -43,43 +65,56 @@ Or add the authenticated Git dependency to `Packages/manifest.json`:
 }
 ```
 
-## Usage
+The Git dependency follows the mutable `main` branch. A committed submodule
+gitlink already pins the exact package commit checked out in the parent project.
 
-Assign an application icon in Unity's Player settings, then open **Preferences > Essentials > Project Icon**. Enable **Auto Apply Player Icon** and choose an **Appearance**:
+## Quick Start
 
-- **Badge** composites the Player icon over Unity's icon. This remains the default for existing users.
-- **Icon Replacement** uses the Player icon as the complete Editor application icon.
+1. Assign an application icon in Player Settings. The active build target's
+   first assigned icon is preferred.
+2. Open **Preferences > Essentials > Project Icon**, verify Auto Apply, and
+   choose the appearance you want. Auto Apply defaults on when no earlier
+   preference exists.
+3. Turn off **Auto Apply Player Icon** whenever you want Unity's normal
+   application icon back.
 
-Both choices persist as personal `EditorPrefs` settings. The existing preference keys retain their established names, so changing the Preferences entry to **Project Icon** does not reset user choices.
+There is no manual Apply command. The package reapplies after startup, project
+changes, focus changes, and periodic maintenance.
 
-On macOS, the package applies appearance changes immediately and reapplies the selected icon after project and Editor focus changes because Unity can restore its default application icon during normal Editor activity. Disabling auto-apply resets the icon.
+## Appearance
 
-To disable the assembly without removing an umbrella package that depends on it, define `ESSENTIALS_DISABLE_PROJECT_ICON`. The existing `ESSENTIALS_DISABLE_EDITOR_ICON` and `ESSENTIALS_DISABLE_ALL` symbols remain supported for compatibility.
+- **Badge** places the Player icon in the upper-left of Unity's icon.
+- **Icon Replacement** uses the Player icon across the complete application
+  icon.
 
-## Native bundle
+If the active build target has no assigned icon, Project Icon falls back to the
+Unknown target group and then to the first icon found in another target group.
+If no Player icon exists anywhere, the current process icon is left as-is. Turn
+off Auto Apply to reset a previously applied custom icon.
 
-The distributable universal bundle is committed at `Editor/Plugins/macOS/EssentialsEditorIcon.bundle`, so installing the package does not require Xcode or command-line developer tools. Its stable native contract is:
+## Compatibility and Opt-Outs
 
-- Bundle identifier: `com.essentials.editoricon.native`
-- Architectures: `x86_64` and `arm64`
-- Entry points: `EssentialsEditorIconSetApplicationIcon`, `EssentialsEditorIconSetApplicationIconWithMode`, and `EssentialsEditorIconResetApplicationIcon`
+Use `ESSENTIALS_DISABLE_PROJECT_ICON` to disable the managed product and test
+assemblies without removing the package. The native bundle remains installed.
+The established `ESSENTIALS_DISABLE_EDITOR_ICON` and `ESSENTIALS_DISABLE_ALL`
+symbols have the same effect.
 
-Native source is intentionally hidden from Unity under `Native~/macOS`. Rebuild and validate the checked-in bundle on macOS with:
+Turn off Auto Apply before removing or compiling out the package so the current
+Editor process resets its icon.
 
-```bash
-./Native~/macOS/build.sh
-```
+The managed assembly, native bundle, preference keys, cache path, exported
+entry points, and Unity asset GUIDs retain their established values.
 
-Commit the rebuilt executable and signature resources together. Preserve the bundle name, identifier, exported entry points, architecture set, and Unity asset GUID because the managed bridge and existing projects depend on those identities.
+## Documentation
 
-The native `EssentialsEditorIcon` names, managed `Essentials.EditorIcon.*` assembly and namespace identities, preference key, and cache path intentionally retain their established values. Renaming the package does not break those existing contracts.
-
-## Package layout
-
-- `Editor/` contains the managed Editor assembly and macOS native bundle.
-- `Native~/macOS/` contains the Objective-C++ source and reproducible build script.
-- `Tests/Editor/` contains preference, legacy-menu, package identity, and native importer contract tests.
+- [Start here](Documentation~/index.md)
+- [User guide](Documentation~/user-guide.md)
+- [Compatibility](Documentation~/compatibility.md)
+- [Troubleshooting](Documentation~/troubleshooting.md)
+- [Native bundle notes](Documentation~/native-bundle.md)
+- [Changelog](CHANGELOG.md)
 
 ## License
 
-This package is proprietary. See `LICENSE.md` for the applicable terms.
+This package is proprietary. See [LICENSE.md](LICENSE.md) for the applicable
+terms.
