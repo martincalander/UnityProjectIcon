@@ -9,16 +9,16 @@ namespace Essentials.Tests.Editor.EditorIcon
 {
     public sealed class EditorIconPackageContractTests
     {
-        const string PackageName = "com.essentials.projecticon";
+        const string PackageName = "com.martincalander.projecticon";
         const string NativeBundlePath =
-            "Packages/com.essentials.projecticon/Editor/Plugins/macOS/EssentialsEditorIcon.bundle";
+            "Packages/com.martincalander.projecticon/Editor/Plugins/macOS/EssentialsEditorIcon.bundle";
         const string NativeBundleGuid = "061098808649b4ba88a30729526dbde4";
         const BindingFlags AnyStatic = BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic;
 
         [Test]
         public void Package_UsesProjectIconIdentity()
         {
-            PackageInfo package = PackageInfo.FindForAssetPath("Packages/com.essentials.projecticon/package.json");
+            PackageInfo package = PackageInfo.FindForAssetPath("Packages/com.martincalander.projecticon/package.json");
 
             Assert.That(package, Is.Not.Null);
             Assert.That(package.name, Is.EqualTo(PackageName));
@@ -30,7 +30,7 @@ namespace Essentials.Tests.Editor.EditorIcon
         [TestCase("Tests/Editor/Essentials.EditorIcon.Editor.Tests.asmdef")]
         public void Assemblies_SupportProjectIconAndLegacyDisableSymbols(string relativePath)
         {
-            PackageInfo package = PackageInfo.FindForAssetPath("Packages/com.essentials.projecticon/package.json");
+            PackageInfo package = PackageInfo.FindForAssetPath("Packages/com.martincalander.projecticon/package.json");
             Assert.That(package, Is.Not.Null);
 
             string json = File.ReadAllText(Path.Combine(package.resolvedPath, relativePath));

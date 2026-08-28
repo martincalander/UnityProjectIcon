@@ -1,6 +1,6 @@
 # Project Icon
 
-`com.essentials.projecticon` gives each macOS Unity Editor project a recognizable Dock and application-switcher icon. The active Player icon can appear as a badge over Unity's icon or replace it completely.
+`com.martincalander.projecticon` gives each macOS Unity Editor project a recognizable Dock and application-switcher icon. The active Player icon can appear as a badge over Unity's icon or replace it completely.
 
 The package changes only the running Editor process. It does not modify the Unity installation, project icon assets, or Player builds.
 
@@ -29,8 +29,8 @@ Install the private repository as an embedded package:
 
 ```bash
 git submodule add -b main \
-  https://github.com/EssentialsForUnity/com.essentials.projecticon.git \
-  Packages/com.essentials.projecticon
+  https://github.com/martincalander/com.martincalander.projecticon.git \
+  Packages/com.martincalander.projecticon
 ```
 
 Or add the authenticated Git dependency to `Packages/manifest.json`:
@@ -38,7 +38,7 @@ Or add the authenticated Git dependency to `Packages/manifest.json`:
 ```json
 {
   "dependencies": {
-    "com.essentials.projecticon": "https://github.com/EssentialsForUnity/com.essentials.projecticon.git"
+    "com.martincalander.projecticon": "https://github.com/martincalander/com.martincalander.projecticon.git"
   }
 }
 ```

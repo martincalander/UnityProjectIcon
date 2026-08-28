@@ -6,6 +6,7 @@ All notable changes to this package are documented in this file.
 
 ### Changed
 
+- Moved the repository to Martin Calander's personal GitHub account and renamed the package from `com.essentials.projecticon` to `com.martincalander.projecticon`, while preserving its managed, native, preference, and Unity asset compatibility identities.
 - Renamed the user Preferences entry from **Editor Icon** to **Project Icon** while preserving the existing `EditorPrefs` keys.
 
 ## [0.3.0] - 2026-08-22
