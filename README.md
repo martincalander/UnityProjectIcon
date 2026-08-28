@@ -29,7 +29,7 @@ Install the private repository as an embedded package:
 
 ```bash
 git submodule add -b main \
-  https://github.com/martincalander/com.martincalander.projecticon.git \
+  https://github.com/martincalander/UnityProjectIcon.git \
   Packages/com.martincalander.projecticon
 ```
 
@@ -38,7 +38,7 @@ Or add the authenticated Git dependency to `Packages/manifest.json`:
 ```json
 {
   "dependencies": {
-    "com.martincalander.projecticon": "https://github.com/martincalander/com.martincalander.projecticon.git"
+    "com.martincalander.projecticon": "https://github.com/martincalander/UnityProjectIcon.git"
   }
 }
 ```
