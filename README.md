@@ -8,6 +8,10 @@ Tell your open Unity projects apart at a glance.
   <img alt="Editor-only package" src="https://img.shields.io/badge/scope-Editor%20only-555">
 </p>
 
+> [!WARNING]
+> **Under development.** This package has not been publicly released yet and
+> may change without notice.
+
 Project Icon borrows a Player icon from the current project and applies it to
 the running Unity Editor on macOS. Use a small badge over Unity's icon or
 replace the icon completely; either way, the right project is easier to spot in
