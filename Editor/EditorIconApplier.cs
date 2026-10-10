@@ -5,8 +5,11 @@ using UnityEngine;
 
 namespace Essentials.EditorIcon.Editor
 {
-    [InitializeOnLoad]
-    internal static class EditorIconApplier
+#if UNITY_6000_5_OR_NEWER
+    // Icon timers and cached state belong to the Editor session and must survive Play mode.
+    [Unity.Scripting.LifecycleManagement.NoAutoStaticsCleanup]
+#endif
+    internal static partial class EditorIconApplier
     {
         const string CacheDirectory = "Library/Essentials/EditorIcon";
         const double StartupForceReapplyDurationSeconds = 120d;
@@ -23,14 +26,26 @@ namespace Essentials.EditorIcon.Editor
         static bool s_autoApplyWasEnabled;
         static bool s_hasLastAppliedIcon;
         static EditorIconMode s_lastAppliedMode;
-#if UNITY_6000_0_OR_NEWER
+#if UNITY_6000_2_OR_NEWER
         static UnityEngine.EntityId s_lastAppliedIconId;
 #else
         static int s_lastAppliedIconId;
 #endif
+#if UNITY_EDITOR_OSX && !UNITY_2022_3_OR_NEWER
+        static bool s_editorHadFocus = UnityEditorInternal.InternalEditorUtility.isApplicationActive;
+#endif
 
-        static EditorIconApplier()
+#if UNITY_6000_5_OR_NEWER
+        [Unity.Scripting.LifecycleManagement.OnCodeInitializing]
+#else
+        [InitializeOnLoadMethod]
+#endif
+        internal static void Initialize()
         {
+            Cleanup();
+#if !UNITY_6000_5_OR_NEWER
+            AssemblyReloadEvents.beforeAssemblyReload += Cleanup;
+#endif
 #if UNITY_EDITOR_OSX
             s_autoApplyWasEnabled = AutoApplyEnabled;
             if (s_autoApplyWasEnabled)
@@ -39,18 +54,34 @@ namespace Essentials.EditorIcon.Editor
                 ScheduleApply(force: true);
             }
 
-            EditorApplication.delayCall -= ScheduleForcedApply;
-            EditorApplication.delayCall -= ResetIconIfAutoApplyDisabled;
-            EditorApplication.projectChanged -= ScheduleForcedApply;
-            EditorApplication.focusChanged -= OnEditorFocusChanged;
-            EditorApplication.update -= ReapplyAfterDelay;
-
             EditorApplication.delayCall += ScheduleForcedApply;
             EditorApplication.delayCall += ResetIconIfAutoApplyDisabled;
             EditorApplication.projectChanged += ScheduleForcedApply;
+#if UNITY_2022_3_OR_NEWER
             EditorApplication.focusChanged += OnEditorFocusChanged;
+#endif
             EditorApplication.update += ReapplyAfterDelay;
 #endif
+        }
+
+#if UNITY_6000_5_OR_NEWER
+        [Unity.Scripting.LifecycleManagement.OnCodeUnloading]
+#endif
+        internal static void Cleanup()
+        {
+#if !UNITY_6000_5_OR_NEWER
+            AssemblyReloadEvents.beforeAssemblyReload -= Cleanup;
+#endif
+#if UNITY_EDITOR_OSX
+            EditorApplication.delayCall -= ScheduleForcedApply;
+            EditorApplication.delayCall -= ResetIconIfAutoApplyDisabled;
+            EditorApplication.projectChanged -= ScheduleForcedApply;
+#if UNITY_2022_3_OR_NEWER
+            EditorApplication.focusChanged -= OnEditorFocusChanged;
+#endif
+            EditorApplication.update -= ReapplyAfterDelay;
+#endif
+            ClearScheduledApplyState();
         }
 
         static void ScheduleForcedApply()
@@ -106,6 +137,16 @@ namespace Essentials.EditorIcon.Editor
 
         static void ReapplyAfterDelay()
         {
+#if UNITY_EDITOR_OSX && !UNITY_2022_3_OR_NEWER
+            // Older Editors keep focusChanged internal, so detect transitions during the existing update.
+            bool editorHasFocus = UnityEditorInternal.InternalEditorUtility.isApplicationActive;
+            if (editorHasFocus != s_editorHadFocus)
+            {
+                s_editorHadFocus = editorHasFocus;
+                OnEditorFocusChanged(editorHasFocus);
+            }
+#endif
+
             bool autoApplyEnabled = AutoApplyEnabled;
             if (!autoApplyEnabled)
             {
@@ -224,7 +265,7 @@ namespace Essentials.EditorIcon.Editor
             return true;
         }
 
-#if UNITY_6000_0_OR_NEWER
+#if UNITY_6000_2_OR_NEWER
         static UnityEngine.EntityId GetIconId(Texture2D icon)
         {
             return icon.GetEntityId();

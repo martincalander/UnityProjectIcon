@@ -14,6 +14,44 @@ Essentials.EditorIcon.Editor
 
 It contains no runtime code and exposes no public API.
 
+The source selects APIs by Editor version:
+
+- Unity 2021.3 through 2022.2 polls application focus during the existing Editor
+  update callback. Unity 2022.3 and newer uses the public focus-change event.
+- Versions before Unity 6.2 use integer instance IDs for the icon cache. Unity
+  6.2 and newer uses entity IDs.
+- Unity 6.5 and newer explicitly preserves icon scheduling state when entering
+  or leaving Play Mode without domain reload.
+
+### Play Mode lifecycle
+
+Domain reload can be disabled. Icon scheduling and cached icon identity belong
+to the Editor session and persist across Play sessions. On Unity 6.5 and newer,
+`OnCodeInitializing` and `OnCodeUnloading` register and release the Editor
+callbacks. Older Editors use `InitializeOnLoadMethod` and
+`AssemblyReloadEvents.beforeAssemblyReload`. Repeated initialization retains
+one update callback, and unloading removes pending work without resetting the
+native icon between code loads.
+
+See Unity's [code lifecycle guidance](https://docs.unity.com/en-us/engine/7000.0/manual/programming-environment/code-reload-serialization/code-reload/code-lifecycle).
+
+On 2026-10-10, all 18 package tests passed in Unity `7000.0.0a8` on macOS,
+with no failures or skips. This includes three Play sessions without domain
+reload and repeated callback setup/cleanup. The older Editor results below
+predate these lifecycle changes.
+
+### Verified Editors
+
+On 2026-10-08, all 16 EditMode tests passed with no failures or skips on macOS
+Apple silicon in `2021.3.10f1`, `2022.3.62f3`, `6000.0.68f1`, `6000.5.10f1`,
+`6000.7.0b2`, and `7000.0.0a8`. These tests include applying and resetting both
+native icon modes, loading the package icon texture, and checking plugin import
+settings. They do not establish coverage for every patch release or host OS.
+
+The native bundle importer retains serialization version 2 so Unity 2021.3 and
+2022.3 can read its macOS Editor settings. Preserve that format and its GUID
+when changing plugin settings, then validate in both an older Editor and Unity 7.
+
 ## Platforms
 
 | Editor platform | Support | Notes |

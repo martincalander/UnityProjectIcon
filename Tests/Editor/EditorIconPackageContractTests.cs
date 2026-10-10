@@ -24,6 +24,8 @@ namespace Essentials.Tests.Editor.EditorIcon
             Assert.That(package.name, Is.EqualTo(PackageName));
             Assert.That(package.version, Is.EqualTo("0.3.0"));
             Assert.That(package.displayName, Is.EqualTo("Project Icon"));
+            Assert.That(AssetDatabase.LoadAssetAtPath<UnityEngine.Texture2D>(
+                $"Packages/{PackageName}/EssentialsIcon.png"), Is.Not.Null);
         }
 
         [TestCase("Editor/Essentials.EditorIcon.Editor.asmdef")]

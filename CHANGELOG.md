@@ -4,8 +4,22 @@ All notable changes to this package are documented in this file.
 
 ## [Unreleased]
 
+### Fixed
+
+- Restored compilation on Unity 6.0 and 6.1 by using integer instance IDs until
+  the public entity ID API is available in Unity 6.2.
+- Restored macOS compilation on Unity 2021.3 and early 2022 releases by polling
+  application focus, using the public focus event from Unity 2022.3 onward.
+- Restored native plugin loading on Unity 2021.3 and 2022.3 by saving the
+  importer in the older plugin format without changing its GUID.
+
 ### Changed
 
+- Paired icon callback registration with code-unload cleanup and added tests
+  for repeated Play sessions with domain reload disabled.
+
+- Explicitly preserve Editor icon scheduling and cached state across Play Mode
+  transitions under Unity's newer static lifecycle system.
 - Moved the repository to Martin Calander's personal GitHub account and renamed
   the package from `com.essentials.projecticon` to
   `com.martincalander.projecticon`, while preserving its managed, native,
