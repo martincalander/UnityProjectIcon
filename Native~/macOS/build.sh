@@ -16,8 +16,8 @@ trap cleanup EXIT
 
 mkdir -p "$EXECUTABLE_DIR" "$BUILD_DIR"
 
-clang++ -bundle -fobjc-arc -framework Cocoa -arch x86_64 -mmacosx-version-min=10.13 "$SOURCE" -o "$BUILD_DIR/ProjectIcon-x86_64"
-clang++ -bundle -fobjc-arc -framework Cocoa -arch arm64 -mmacosx-version-min=11.0 "$SOURCE" -o "$BUILD_DIR/ProjectIcon-arm64"
+clang++ -bundle -O2 -Wall -Wextra -fobjc-arc -framework Cocoa -arch x86_64 -mmacosx-version-min=10.13 "$SOURCE" -o "$BUILD_DIR/ProjectIcon-x86_64"
+clang++ -bundle -O2 -Wall -Wextra -fobjc-arc -framework Cocoa -arch arm64 -mmacosx-version-min=11.0 "$SOURCE" -o "$BUILD_DIR/ProjectIcon-arm64"
 lipo -create "$BUILD_DIR/ProjectIcon-x86_64" "$BUILD_DIR/ProjectIcon-arm64" -output "$EXECUTABLE"
 lipo "$EXECUTABLE" -verify_arch x86_64
 lipo "$EXECUTABLE" -verify_arch arm64

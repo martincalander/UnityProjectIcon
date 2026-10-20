@@ -48,8 +48,7 @@ cross-platform boundaries.
 
 ## Installation
 
-Both installation methods require Git and credentials that can read this
-private repository.
+Both installation methods require Git.
 
 Add it as an editable submodule:
 

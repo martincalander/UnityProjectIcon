@@ -40,7 +40,18 @@ predate these lifecycle changes.
 
 ### Verified Editors
 
-On 2026-10-20, Unity `7000.0.0a10` passed all 17 package tests on macOS Apple
+The 2026-10-20 performance and stability audit passed all 25 package tests in
+Unity `7000.0.0a11` and Unity `6000.7.0b2` on macOS Apple silicon, with graphics
+enabled and no failures or skips. These runs cover PNG reuse and invalidation,
+grayscale textures, GPU readback, both native icon modes, and Play Mode
+lifecycle behavior. The Unity 7 Editor was restarted to load the rebuilt bundle.
+The standalone native suite passed on arm64 and x86_64 under Rosetta, including
+coalesced retries and reset cancellation. Both slices and strict code signing
+were verified. Physical Intel hardware and older macOS versions were not tested.
+The current Apple SDK warns about libc++ support for the existing Intel macOS
+10.13 deployment target. Unity 2021.3 and 2022.3 were not rerun for this audit.
+
+Earlier on 2026-10-20, Unity `7000.0.0a10` passed all 17 package tests on macOS Apple
 silicon, including texture-source PNG fallback and three Play sessions without
 domain reload. The rebuilt universal bundle passed separate native cache,
 invalidation, pinning, exception recovery, reset, ABI, architecture, and signing

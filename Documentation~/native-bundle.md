@@ -28,13 +28,14 @@ Run the build and validation script on macOS:
 ```
 
 The script uses the developer tools available on the machine; compiler and SDK
-versions are not pinned. It builds `x86_64` and `arm64` slices, combines them
+versions are not pinned. It builds optimized `x86_64` and `arm64` slices, combines them
 with `lipo`, checks the exported symbols, and applies an ad-hoc signature when
 `codesign` is available.
 
 Run `bash Native~/macOS/test.sh` after rebuilding. It loads the built bundle in
 a separate AppKit process and checks image reuse, source and appearance changes,
-missing files, pinning, reset, native exception recovery, and both set-icon entry points. Add
+missing files, pinning, reset, native exception recovery, coalesced retry bursts,
+and both set-icon entry points. Add
 `--benchmark-only` to time 40 repeated applies of an unchanged replacement icon.
 
 ## Native Contract
@@ -67,7 +68,9 @@ pinned image and removes those observers.
 
 Repeated applies reuse the composed image while its source path, appearance,
 and file metadata are unchanged. Replacing or modifying the source invalidates
-that cache. Immediate and deferred reapply still run on cache hits.
+that cache. Immediate reapply still runs on cache hits. Bursts of notifications
+and applies share one pending set of three deferred retries. Reset cancels that
+set, including when another icon is applied before the old callbacks run.
 
 AppKit exceptions are contained at native entry points and deferred callbacks.
 A failed icon update restores the previous pinned image and cache state.

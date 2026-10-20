@@ -13,9 +13,11 @@ static BOOL s_throwNextSetter;
 static BOOL s_throwNextResetSetter;
 static BOOL s_throwNextChangedSetter;
 static BOOL s_throwNextDraw;
+static unsigned s_setterCalls;
 
 static void ObserveApplicationIcon(id application, SEL selector, NSImage *image)
 {
+    ++s_setterCalls;
     if (s_throwNextSetter || (s_throwNextResetSetter && image == nil) ||
         (s_throwNextChangedSetter && image != s_submittedIcon))
     {
@@ -54,6 +56,22 @@ static void RunOnBackground(void (^action)(void))
     while (dispatch_group_wait(group, DISPATCH_TIME_NOW) != 0)
     {
         Require(deadline.timeIntervalSinceNow > 0, "Background native call must complete.");
+        [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.01]];
+    }
+}
+
+static void DrainDeferredIconWork()
+{
+    // A run-loop deadline can expire between callbacks on slower or translated processes.
+    // Wait for a main-queue marker scheduled after the icon's final retry deadline instead.
+    __block BOOL complete = NO;
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        complete = YES;
+    });
+    NSDate *deadline = [NSDate dateWithTimeIntervalSinceNow:5];
+    while (!complete)
+    {
+        Require(deadline.timeIntervalSinceNow > 0, "Deferred native callbacks must complete.");
         [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.01]];
     }
 }
@@ -177,7 +195,7 @@ int main(int argc, const char *argv[])
                 [[NSNotificationCenter defaultCenter] postNotificationName:NSApplicationDidBecomeActiveNotification object:NSApp];
                 Require(!s_throwNextSetter, "Notification reapply contains setter exceptions.");
                 s_throwNextSetter = YES;
-                [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.35]];
+                DrainDeferredIconWork();
                 Require(!s_throwNextSetter, "Deferred reapply contains setter exceptions.");
 
                 Require(apply(path.fileSystemRepresentation, mode) == 1, "Restore source before reset.");
@@ -208,7 +226,31 @@ int main(int argc, const char *argv[])
             NSApp.applicationIconImage = external;
             Require(s_submittedIcon == external, "A failed first apply leaves the hook unpinned.");
             Require(applyBadge(path.fileSystemRepresentation) == 1, "Badge entry point applies an icon.");
-            puts("Native cache, invalidation, pinning, exception recovery, reset and ABI checks passed.");
+
+            reset();
+            unsigned beforeBurst = s_setterCalls;
+            for (int i = 0; i < 20; i++)
+                Require(apply(path.fileSystemRepresentation, 1) == 1, "Apply during a burst.");
+            unsigned afterBurst = s_setterCalls;
+            Require(afterBurst - beforeBurst == 20, "Every explicit apply still submits immediately.");
+            DrainDeferredIconWork();
+            Require(s_setterCalls - afterBurst == 3, "A burst shares one set of deferred retries.");
+
+            beforeBurst = s_setterCalls;
+            for (int i = 0; i < 20; i++)
+                [[NSNotificationCenter defaultCenter] postNotificationName:NSApplicationDidBecomeActiveNotification object:NSApp];
+            afterBurst = s_setterCalls;
+            Require(afterBurst - beforeBurst == 20, "Notifications still submit immediately.");
+            DrainDeferredIconWork();
+            Require(s_setterCalls - afterBurst == 3, "Notification bursts share deferred retries.");
+
+            Require(apply(path.fileSystemRepresentation, 1) == 1, "Schedule retries before reset.");
+            reset();
+            Require(apply(path.fileSystemRepresentation, 0) == 1, "Schedule a new retry generation.");
+            afterBurst = s_setterCalls;
+            DrainDeferredIconWork();
+            Require(s_setterCalls - afterBurst == 3, "Reset cancels retries from the earlier generation.");
+            puts("Native cache, invalidation, pinning, exception recovery, coalesced retries, reset and ABI checks passed.");
         }
 
         reset();

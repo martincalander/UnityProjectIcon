@@ -18,6 +18,8 @@ static BOOL s_hasPinnedIconFileStatus = NO;
 static NSMutableArray *s_notificationObserverTokens = nil;
 static void (*s_originalSetApplicationIconImage)(id, SEL, NSImage *) = nullptr;
 static BOOL s_applicationIconHookInstalled = NO;
+static BOOL s_deferredReapplyPending = NO;
+static uint64_t s_deferredReapplyGeneration = 0;
 
 static void ProjectIconSetApplicationIconImageUsingOriginal(NSImage *image)
 {
@@ -169,18 +171,25 @@ static BOOL ProjectIconApplyPinnedApplicationIconOnMainThread(void)
 
 static void ProjectIconApplyPinnedApplicationIconDeferred(void)
 {
-    if (s_pinnedApplicationIcon == nil)
+    if (s_pinnedApplicationIcon == nil || s_deferredReapplyPending)
         return;
 
+    s_deferredReapplyPending = YES;
+    uint64_t generation = s_deferredReapplyGeneration;
     dispatch_async(dispatch_get_main_queue(), ^{
-        ProjectIconApplyPinnedApplicationIconOnMainThread();
+        if (generation == s_deferredReapplyGeneration)
+            ProjectIconApplyPinnedApplicationIconOnMainThread();
     });
 
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.05 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        ProjectIconApplyPinnedApplicationIconOnMainThread();
+        if (generation == s_deferredReapplyGeneration)
+            ProjectIconApplyPinnedApplicationIconOnMainThread();
     });
 
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.25 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        if (generation != s_deferredReapplyGeneration)
+            return;
+        s_deferredReapplyPending = NO;
         ProjectIconApplyPinnedApplicationIconOnMainThread();
     });
 }
@@ -412,6 +421,8 @@ extern "C" void ProjectIconResetApplicationIcon()
                 s_pinnedApplicationIcon = nil;
                 s_pinnedIconPath = nil;
                 s_hasPinnedIconFileStatus = NO;
+                s_deferredReapplyPending = NO;
+                ++s_deferredReapplyGeneration;
                 ProjectIconRemoveNotificationObserversOnMainThread();
                 ProjectIconSetApplicationIconImageUsingOriginal(nil);
             }

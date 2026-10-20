@@ -22,6 +22,10 @@ Library/com.martincalander.projecticon/ProjectIcon.png
 ```
 
 That cache belongs to the local project Library and is not a source asset.
+Unchanged textures reuse their PNG copy. Texture updates, project changes,
+deleting the copy, or overwriting it trigger regeneration. Unreadable textures
+need a graphics device for conversion; ordinary source image files can be used
+without that conversion.
 
 ## Configure the Appearance
 

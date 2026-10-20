@@ -6,6 +6,10 @@ All notable changes to this package are documented in this file.
 
 ### Fixed
 
+- Resolve icon files in Git and registry package caches before converting their
+  textures, and avoid unsupported PNG encodes for unreadable textures.
+- Reject missing textures and report when texture conversion needs an
+  unavailable graphics device.
 - Retry with a readable PNG when AppKit cannot decode the Player texture's
   source file, including serialized Texture2D assets.
 - Contain native AppKit exceptions during icon application, reset and deferred
@@ -20,6 +24,14 @@ All notable changes to this package are documented in this file.
 
 ### Changed
 
+- Reuse generated PNG copies until their texture changes or the cache file is
+  deleted or overwritten, avoiding repeated readback, encoding and native
+  composition during icon retries.
+- Coalesce native notification and apply bursts into one pending set of deferred
+  retries, and cancel pending retries when resetting the icon.
+- Build the native bundle with compiler optimization enabled.
+- Remove the duplicate general-icon lookup when a build target has no assigned
+  Player icon.
 - Standardized managed assemblies and namespaces, native symbols and bundle,
   preference keys, cache paths, package artwork filename, and Preferences
   navigation on Project Icon. Existing Unity asset GUIDs are preserved.
