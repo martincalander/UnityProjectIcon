@@ -16,7 +16,9 @@ The hidden UPM development folder contains:
 ```text
 Native~/macOS/
 ├── EssentialsEditorIcon.mm
-└── build.sh
+├── build.sh
+├── test.sh
+└── tests.mm
 ```
 
 Run the build and validation script on macOS:
@@ -29,6 +31,11 @@ The script uses the developer tools available on the machine; compiler and SDK
 versions are not pinned. It builds `x86_64` and `arm64` slices, combines them
 with `lipo`, checks the exported symbols, and applies an ad-hoc signature when
 `codesign` is available.
+
+Run `bash Native~/macOS/test.sh` after rebuilding. It loads the built bundle in
+a separate AppKit process and checks image reuse, source and appearance changes,
+missing files, pinning, reset, native exception recovery, and both set-icon entry points. Add
+`--benchmark-only` to time 40 repeated applies of an unchanged replacement icon.
 
 ## Stable Native Contract
 
@@ -57,6 +64,14 @@ The bundle replaces AppKit's application-icon setter with a guarded
 `class_replaceMethod` hook. While an icon is pinned, notification observers
 reapply it when the application or a window changes state. Reset clears the
 pinned image and removes those observers.
+
+Repeated applies reuse the composed image while its source path, appearance,
+and file metadata are unchanged. Replacing or modifying the source invalidates
+that cache. Immediate and deferred reapply still run on cache hits.
+
+AppKit exceptions are contained at native entry points and deferred callbacks.
+A failed icon update restores the previous pinned image and cache state.
+Image composition releases its graphics context even when drawing fails.
 
 The method hook remains installed after reset, but behaves as a pass-through
 when no image is pinned. Keep that lifecycle intact when changing the native

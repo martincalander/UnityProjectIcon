@@ -40,6 +40,16 @@ namespace Essentials.EditorIcon.Editor
             EditorIconMode applicationIconMode,
             out string error)
         {
+            return TrySetApplicationIcon(imagePath, applicationIconMode, out error, out _);
+        }
+
+        internal static bool TrySetApplicationIcon(
+            string imagePath,
+            EditorIconMode applicationIconMode,
+            out string error,
+            out bool imageRejected)
+        {
+            imageRejected = false;
 #if UNITY_EDITOR_OSX
             if (string.IsNullOrEmpty(imagePath))
             {
@@ -70,7 +80,8 @@ namespace Essentials.EditorIcon.Editor
                     return true;
                 }
 
-                error = "The native macOS plugin could not load the icon image or rejected the icon mode.";
+                imageRejected = true;
+                error = "The native macOS plugin could not apply the icon image or rejected the icon mode.";
                 return false;
             }
             catch (Exception exception) when (exception is DllNotFoundException ||

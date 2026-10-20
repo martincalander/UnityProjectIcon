@@ -6,6 +6,11 @@ All notable changes to this package are documented in this file.
 
 ### Fixed
 
+- Retry with a readable PNG when AppKit cannot decode the Player texture's
+  source file, including serialized Texture2D assets.
+- Contain native AppKit exceptions during icon application, reset and deferred
+  callbacks, and restore the previous pinned icon after a failed update.
+- Fixed native bundle architecture validation with the current macOS `lipo` tool.
 - Restored compilation on Unity 6.0 and 6.1 by using integer instance IDs until
   the public entity ID API is available in Unity 6.2.
 - Restored macOS compilation on Unity 2021.3 and early 2022 releases by polling
@@ -14,6 +19,11 @@ All notable changes to this package are documented in this file.
   importer in the older plugin format without changing its GUID.
 
 ### Changed
+
+- Reuse the composed macOS icon for unchanged files during startup, focus and
+  maintenance reapply, avoiding repeated image decoding and rendering.
+- Removed unreachable managed icon-cache and scheduling state, and consolidated
+  redundant package tests.
 
 - Paired icon callback registration with code-unload cleanup and added tests
   for repeated Play sessions with domain reload disabled.

@@ -18,15 +18,13 @@ The source selects APIs by Editor version:
 
 - Unity 2021.3 through 2022.2 polls application focus during the existing Editor
   update callback. Unity 2022.3 and newer uses the public focus-change event.
-- Versions before Unity 6.2 use integer instance IDs for the icon cache. Unity
-  6.2 and newer uses entity IDs.
 - Unity 6.5 and newer explicitly preserves icon scheduling state when entering
   or leaving Play Mode without domain reload.
 
 ### Play Mode lifecycle
 
-Domain reload can be disabled. Icon scheduling and cached icon identity belong
-to the Editor session and persist across Play sessions. On Unity 6.5 and newer,
+Domain reload can be disabled. Icon reapply timers belong to the Editor session
+and persist across Play sessions. On Unity 6.5 and newer,
 `OnCodeInitializing` and `OnCodeUnloading` register and release the Editor
 callbacks. Older Editors use `InitializeOnLoadMethod` and
 `AssemblyReloadEvents.beforeAssemblyReload`. Repeated initialization retains
@@ -41,6 +39,14 @@ reload and repeated callback setup/cleanup. The older Editor results below
 predate these lifecycle changes.
 
 ### Verified Editors
+
+On 2026-10-20, Unity `7000.0.0a10` passed all 17 package tests on macOS Apple
+silicon, including texture-source PNG fallback and three Play sessions without
+domain reload. The rebuilt universal bundle passed separate native cache,
+invalidation, pinning, exception recovery, reset, ABI, architecture, and signing
+checks. The running Editor retained its previously loaded native library;
+the separate native process verified the new binary. Intel execution and older
+Editor versions were not rerun for this pass.
 
 On 2026-10-08, all 16 EditMode tests passed with no failures or skips on macOS
 Apple silicon in `2021.3.10f1`, `2022.3.62f3`, `6000.0.68f1`, `6000.5.10f1`,

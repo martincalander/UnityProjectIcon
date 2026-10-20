@@ -18,19 +18,13 @@ namespace Essentials.EditorIcon.Editor
         const double FocusForceReapplyIntervalSeconds = 0.25d;
         const double MaintenanceForceReapplyIntervalSeconds = 30d;
 
+        static readonly BuildTargetGroup[] s_buildTargetGroups =
+            (BuildTargetGroup[])Enum.GetValues(typeof(BuildTargetGroup));
+
         static double s_lastApplyTime = -MaintenanceForceReapplyIntervalSeconds;
         static double s_forceReapplyUntilTime;
         static double s_fastReapplyUntilTime;
-        static bool s_applyScheduled;
-        static bool s_forceNextApply;
         static bool s_autoApplyWasEnabled;
-        static bool s_hasLastAppliedIcon;
-        static EditorIconMode s_lastAppliedMode;
-#if UNITY_6000_2_OR_NEWER
-        static UnityEngine.EntityId s_lastAppliedIconId;
-#else
-        static int s_lastAppliedIconId;
-#endif
 #if UNITY_EDITOR_OSX && !UNITY_2022_3_OR_NEWER
         static bool s_editorHadFocus = UnityEditorInternal.InternalEditorUtility.isApplicationActive;
 #endif
@@ -49,10 +43,7 @@ namespace Essentials.EditorIcon.Editor
 #if UNITY_EDITOR_OSX
             s_autoApplyWasEnabled = AutoApplyEnabled;
             if (s_autoApplyWasEnabled)
-            {
                 StartForceReapplyWindow();
-                ScheduleApply(force: true);
-            }
 
             EditorApplication.delayCall += ScheduleForcedApply;
             EditorApplication.delayCall += ResetIconIfAutoApplyDisabled;
@@ -81,7 +72,6 @@ namespace Essentials.EditorIcon.Editor
 #endif
             EditorApplication.update -= ReapplyAfterDelay;
 #endif
-            ClearScheduledApplyState();
         }
 
         static void ScheduleForcedApply()
@@ -90,7 +80,6 @@ namespace Essentials.EditorIcon.Editor
                 return;
 
             StartForceReapplyWindow();
-            ScheduleApply(force: true);
         }
 
         static void ResetIconIfAutoApplyDisabled()
@@ -99,7 +88,6 @@ namespace Essentials.EditorIcon.Editor
                 return;
 
             EditorIconNative.TryResetApplicationIcon(out _);
-            ClearScheduledApplyState();
         }
 
         static void OnEditorFocusChanged(bool hasFocus)
@@ -108,17 +96,7 @@ namespace Essentials.EditorIcon.Editor
                 return;
 
             StartFastReapplyWindow();
-            ScheduleApply(force: true);
-            TryApplyPlayerIconSilently(force: true);
-        }
-
-        static void ScheduleApply(bool force)
-        {
-            if (!AutoApplyEnabled)
-                return;
-
-            s_applyScheduled = true;
-            s_forceNextApply |= force;
+            TryApplyPlayerIconSilently();
         }
 
         static void StartForceReapplyWindow()
@@ -151,10 +129,7 @@ namespace Essentials.EditorIcon.Editor
             if (!autoApplyEnabled)
             {
                 if (s_autoApplyWasEnabled)
-                {
                     EditorIconNative.TryResetApplicationIcon(out _);
-                    ClearScheduledApplyState();
-                }
 
                 s_autoApplyWasEnabled = false;
                 return;
@@ -164,7 +139,6 @@ namespace Essentials.EditorIcon.Editor
             {
                 s_autoApplyWasEnabled = true;
                 StartForceReapplyWindow();
-                ScheduleApply(force: true);
             }
 
             double now = EditorApplication.timeSinceStartup;
@@ -176,16 +150,10 @@ namespace Essentials.EditorIcon.Editor
                 ? StartupForceReapplyIntervalSeconds
                 : MaintenanceForceReapplyIntervalSeconds;
 
-            if (!s_applyScheduled && now - s_lastApplyTime < interval)
-                return;
-
             if (now - s_lastApplyTime < interval)
                 return;
 
-            bool force = s_forceNextApply || inFastForceWindow || inStartupForceWindow || !s_applyScheduled;
-            s_applyScheduled = false;
-            s_forceNextApply = false;
-            TryApplyPlayerIconSilently(force);
+            TryApplyPlayerIconSilently();
         }
 
         internal static bool AutoApplyEnabled
@@ -205,33 +173,22 @@ namespace Essentials.EditorIcon.Editor
                 if (currentMode == previousMode)
                     return;
 
-                ClearScheduledApplyState();
 #if UNITY_EDITOR_OSX
                 if (AutoApplyEnabled)
                 {
                     StartFastReapplyWindow();
-                    ScheduleApply(force: true);
-                    TryApplyPlayerIconSilently(force: true);
+                    TryApplyPlayerIconSilently();
                 }
 #endif
             }
         }
 
-        static void ClearScheduledApplyState()
+        static void TryApplyPlayerIconSilently()
         {
-            s_applyScheduled = false;
-            s_forceNextApply = false;
-            s_hasLastAppliedIcon = false;
-            s_lastAppliedIconId = default;
-            s_lastAppliedMode = default;
+            TryApplyPlayerIcon(out _);
         }
 
-        static void TryApplyPlayerIconSilently(bool force)
-        {
-            TryApplyPlayerIcon(force, out _);
-        }
-
-        static bool TryApplyPlayerIcon(bool force, out string error)
+        static bool TryApplyPlayerIcon(out string error)
         {
             s_lastApplyTime = EditorApplication.timeSinceStartup;
 
@@ -242,40 +199,24 @@ namespace Essentials.EditorIcon.Editor
                 return false;
             }
 
-            var iconId = GetIconId(icon);
-            EditorIconMode applicationIconMode = ApplicationIconMode;
-            if (!force &&
-                s_hasLastAppliedIcon &&
-                iconId == s_lastAppliedIconId &&
-                applicationIconMode == s_lastAppliedMode)
-            {
-                error = null;
+            return TryApplyIcon(icon, ApplicationIconMode, out error);
+        }
+
+        internal static bool TryApplyIcon(Texture2D icon, EditorIconMode mode, out string error)
+        {
+            if (!TryGetIconImagePath(icon, out string iconPath, out bool isSourceFile, out error))
+                return false;
+
+            if (EditorIconNative.TrySetApplicationIcon(iconPath, mode, out error, out bool imageRejected))
                 return true;
-            }
 
-            if (!TryGetIconImagePath(icon, out string iconPath, out error))
+            // Unity can import textures whose source files AppKit cannot decode, such as .asset files.
+            // Missing native libraries cannot recover by converting the texture.
+            if (!isSourceFile || !imageRejected || !TryWriteReadableIconCopy(icon, out iconPath, out error))
                 return false;
 
-            if (!EditorIconNative.TrySetApplicationIcon(iconPath, applicationIconMode, out error))
-                return false;
-
-            s_lastAppliedIconId = iconId;
-            s_lastAppliedMode = applicationIconMode;
-            s_hasLastAppliedIcon = true;
-            return true;
+            return EditorIconNative.TrySetApplicationIcon(iconPath, mode, out error);
         }
-
-#if UNITY_6000_2_OR_NEWER
-        static UnityEngine.EntityId GetIconId(Texture2D icon)
-        {
-            return icon.GetEntityId();
-        }
-#else
-        static int GetIconId(Texture2D icon)
-        {
-            return icon.GetInstanceID();
-        }
-#endif
 
         static Texture2D GetCurrentPlayerIcon()
         {
@@ -288,7 +229,7 @@ namespace Essentials.EditorIcon.Editor
             if (icon != null)
                 return icon;
 
-            foreach (BuildTargetGroup targetGroup in (BuildTargetGroup[])Enum.GetValues(typeof(BuildTargetGroup)))
+            foreach (BuildTargetGroup targetGroup in s_buildTargetGroups)
             {
                 if (targetGroup == buildTargetGroup || targetGroup == BuildTargetGroup.Unknown)
                     continue;
@@ -331,8 +272,10 @@ namespace Essentials.EditorIcon.Editor
             return null;
         }
 
-        static bool TryGetIconImagePath(Texture2D icon, out string iconPath, out string error)
+        static bool TryGetIconImagePath(
+            Texture2D icon, out string iconPath, out bool isSourceFile, out string error)
         {
+            isSourceFile = false;
             string assetPath = AssetDatabase.GetAssetPath(icon);
             if (!string.IsNullOrEmpty(assetPath))
             {
@@ -340,6 +283,7 @@ namespace Essentials.EditorIcon.Editor
                 if (File.Exists(fullPath))
                 {
                     iconPath = fullPath;
+                    isSourceFile = true;
                     error = null;
                     return true;
                 }

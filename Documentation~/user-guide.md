@@ -14,8 +14,8 @@ That can include an icon applied earlier in the session. Turn off Auto Apply to
 reset it.
 
 When the source icon is a normal asset file, the package passes that file to the
-native bundle. If Unity exposes only an in-memory texture, the package writes a
-readable copy to:
+native bundle. If AppKit cannot decode that file, or Unity exposes only an
+in-memory texture, the package writes a readable PNG copy to:
 
 ```text
 Library/Essentials/EditorIcon/EditorIcon.png
