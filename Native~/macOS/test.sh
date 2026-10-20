@@ -8,5 +8,5 @@ trap 'rm -rf "$TEST_DIR"' EXIT
 
 clang++ -fobjc-arc -framework Cocoa "$SCRIPT_DIR/tests.mm" -o "$TEST_DIR/native-tests"
 "$TEST_DIR/native-tests" \
-  "$PACKAGE_DIR/Editor/Plugins/macOS/EssentialsEditorIcon.bundle/Contents/MacOS/EssentialsEditorIcon" \
-  "$PACKAGE_DIR/EssentialsIcon.png" "$@"
+  "$PACKAGE_DIR/Editor/Plugins/macOS/ProjectIcon.bundle/Contents/MacOS/ProjectIcon" \
+  "$PACKAGE_DIR/ProjectIcon.png" "$@"

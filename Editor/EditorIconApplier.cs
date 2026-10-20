@@ -3,7 +3,7 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 
-namespace Essentials.EditorIcon.Editor
+namespace ProjectIcon.Editor
 {
 #if UNITY_6000_5_OR_NEWER
     // Icon timers and cached state belong to the Editor session and must survive Play mode.
@@ -11,7 +11,7 @@ namespace Essentials.EditorIcon.Editor
 #endif
     internal static partial class EditorIconApplier
     {
-        const string CacheDirectory = "Library/Essentials/EditorIcon";
+        const string CacheDirectory = "Library/com.martincalander.projecticon";
         const double StartupForceReapplyDurationSeconds = 120d;
         const double StartupForceReapplyIntervalSeconds = 2d;
         const double FocusForceReapplyDurationSeconds = 6d;
@@ -299,7 +299,7 @@ namespace Essentials.EditorIcon.Editor
                 string directory = GetProjectRelativeFullPath(CacheDirectory);
                 Directory.CreateDirectory(directory);
 
-                iconPath = Path.Combine(directory, "EditorIcon.png");
+                iconPath = Path.Combine(directory, "ProjectIcon.png");
                 byte[] pngBytes = TryEncodeTexture(icon);
                 File.WriteAllBytes(iconPath, pngBytes);
                 error = null;

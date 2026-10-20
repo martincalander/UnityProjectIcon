@@ -18,14 +18,14 @@ native bundle. If AppKit cannot decode that file, or Unity exposes only an
 in-memory texture, the package writes a readable PNG copy to:
 
 ```text
-Library/Essentials/EditorIcon/EditorIcon.png
+Library/com.martincalander.projecticon/ProjectIcon.png
 ```
 
 That cache belongs to the local project Library and is not a source asset.
 
 ## Configure the Appearance
 
-Open **Preferences > Essentials > Project Icon**.
+Open **Preferences > Project Icon**.
 
 ### Auto Apply Player Icon
 
@@ -54,8 +54,8 @@ Editor remains open.
 
 The settings are stored in the operating-system user's Unity `EditorPrefs`:
 
-- `Essentials.EditorIcon.AutoApplyPlayerIcon`
-- `Essentials.EditorIcon.ApplicationIconMode`
+- `com.martincalander.projecticon.AutoApplyPlayerIcon`
+- `com.martincalander.projecticon.ApplicationIconMode`
 
 They are user-global rather than project files. Choosing Icon Replacement in
 one project therefore becomes the preferred mode when another project opens
@@ -63,8 +63,7 @@ under the same user account.
 
 ## Reset to Unity's Icon
 
-Turn off **Auto Apply Player Icon**. There is intentionally no legacy
-**Tools > Essentials > Editor Icon** menu and no manual Apply or Reset command.
+Turn off **Auto Apply Player Icon**. There is no manual Apply or Reset command.
 
 Re-enable Auto Apply to use the current project's selected Player icon again.
 Turn Auto Apply off before removing the package or adding a compile-disable

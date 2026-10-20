@@ -1,6 +1,6 @@
 {
-  "name": "Essentials.EditorIcon.Editor",
-  "rootNamespace": "Essentials.EditorIcon.Editor",
+  "name": "ProjectIcon.Editor",
+  "rootNamespace": "ProjectIcon.Editor",
   "references": [],
   "includePlatforms": [
     "Editor"
@@ -11,9 +11,7 @@
   "precompiledReferences": [],
   "autoReferenced": false,
   "defineConstraints": [
-    "!ESSENTIALS_DISABLE_ALL",
-    "!ESSENTIALS_DISABLE_PROJECT_ICON",
-    "!ESSENTIALS_DISABLE_EDITOR_ICON"
+    "!PROJECT_ICON_DISABLE_ALL"
   ],
   "versionDefines": [],
   "noEngineReferences": false

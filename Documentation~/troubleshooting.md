@@ -6,7 +6,7 @@ Check the basics first:
 
 1. Confirm the Editor is running on macOS.
 2. Assign at least one application icon in Player Settings.
-3. Open **Preferences > Essentials > Project Icon** and confirm **Auto Apply
+3. Open **Preferences > Project Icon** and confirm **Auto Apply
    Player Icon** is on.
 4. Bring the Editor back into focus and allow a moment for the next apply pass.
 
@@ -34,7 +34,7 @@ If it continues reverting, confirm Auto Apply is still enabled and that the
 native bundle is present at:
 
 ```text
-Editor/Plugins/macOS/EssentialsEditorIcon.bundle
+Editor/Plugins/macOS/ProjectIcon.bundle
 ```
 
 ## The Preference Changed in Another Project
@@ -55,7 +55,7 @@ The package normally reads the icon asset directly. If it needs a readable
 copy, it writes:
 
 ```text
-Library/Essentials/EditorIcon/EditorIcon.png
+Library/com.martincalander.projecticon/ProjectIcon.png
 ```
 
 Check that the project Library is writable. Deleting that generated file is

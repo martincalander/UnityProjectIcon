@@ -1,8 +1,8 @@
-using Essentials.EditorIcon.Editor;
+using ProjectIcon.Editor;
 using NUnit.Framework;
 using UnityEditor;
 
-namespace Essentials.Tests.Editor.EditorIcon
+namespace ProjectIcon.Editor.Tests
 {
     public sealed class EditorIconPreferencesTests
     {
@@ -41,12 +41,12 @@ namespace Essentials.Tests.Editor.EditorIcon
         }
 
         [Test]
-        public void SettingsProvider_IsUserScopedUnderEssentials()
+        public void SettingsProvider_IsUserScopedUnderProjectIcon()
         {
             SettingsProvider provider = EditorIconPreferencesProvider.CreateProvider();
 
             Assert.That(provider, Is.Not.Null);
-            Assert.That(provider.settingsPath, Is.EqualTo("Preferences/Essentials/Project Icon"));
+            Assert.That(provider.settingsPath, Is.EqualTo("Preferences/Project Icon"));
             Assert.That(provider.label, Is.EqualTo("Project Icon"));
             Assert.That(provider.scope, Is.EqualTo(SettingsScope.User));
         }

@@ -4,7 +4,7 @@ Normal package use does not require native developer tools. A universal bundle
 is already checked in at:
 
 ```text
-Editor/Plugins/macOS/EssentialsEditorIcon.bundle
+Editor/Plugins/macOS/ProjectIcon.bundle
 ```
 
 This page is for maintainers changing the Objective-C++ bridge.
@@ -15,7 +15,7 @@ The hidden UPM development folder contains:
 
 ```text
 Native~/macOS/
-├── EssentialsEditorIcon.mm
+├── ProjectIcon.mm
 ├── build.sh
 ├── test.sh
 └── tests.mm
@@ -37,13 +37,13 @@ a separate AppKit process and checks image reuse, source and appearance changes,
 missing files, pinning, reset, native exception recovery, and both set-icon entry points. Add
 `--benchmark-only` to time 40 repeated applies of an unchanged replacement icon.
 
-## Stable Native Contract
+## Native Contract
 
 | Contract | Value |
 | --- | --- |
-| Bundle name | `EssentialsEditorIcon.bundle` |
-| Executable | `EssentialsEditorIcon` |
-| Bundle identifier | `com.essentials.editoricon.native` |
+| Bundle name | `ProjectIcon.bundle` |
+| Executable | `ProjectIcon` |
+| Bundle identifier | `com.martincalander.projecticon.native` |
 | Architectures | `x86_64` and `arm64` |
 | Intel deployment target | macOS 10.13 |
 | Apple silicon deployment target | macOS 11 |
@@ -51,12 +51,12 @@ missing files, pinning, reset, native exception recovery, and both set-icon entr
 The managed bridge depends on these exported entry points:
 
 ```text
-EssentialsEditorIconSetApplicationIcon
-EssentialsEditorIconSetApplicationIconWithMode
-EssentialsEditorIconResetApplicationIcon
+ProjectIconSetApplicationIcon
+ProjectIconSetApplicationIconWithMode
+ProjectIconResetApplicationIcon
 ```
 
-The legacy set-icon entry point remains part of the compatibility contract.
+The single-argument set-icon entry point applies Badge mode.
 
 ## AppKit Integration
 

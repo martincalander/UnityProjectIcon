@@ -9,7 +9,7 @@ release.
 The product code has one dependency-free Editor assembly:
 
 ```text
-Essentials.EditorIcon.Editor
+ProjectIcon.Editor
 ```
 
 It contains no runtime code and exposes no public API.
@@ -76,34 +76,30 @@ Player plugin and is not included as a Windows or Linux binary.
 
 ## Compile Symbols
 
-Any of these symbols disables the managed product and test assemblies:
+This symbol disables the managed product and test assemblies:
 
-- `ESSENTIALS_DISABLE_PROJECT_ICON`
-- `ESSENTIALS_DISABLE_EDITOR_ICON`
-- `ESSENTIALS_DISABLE_ALL`
-
-`ESSENTIALS_DISABLE_EDITOR_ICON` is the established compatibility symbol from
-the earlier package identity.
+- `PROJECT_ICON_DISABLE_ALL`
 
 The native macOS bundle has no define constraint and remains installed. Turn
 off Auto Apply before adding a symbol so the current process resets its icon.
 
-## Preserved Identities
+## Package Identities
 
-The standalone package keeps the integration identities that existing projects
-already use:
+The package uses these integration identities:
 
 | Contract | Value |
 | --- | --- |
-| Managed assembly | `Essentials.EditorIcon.Editor` |
-| Managed namespace | `Essentials.EditorIcon.Editor` |
-| Native bundle | `EssentialsEditorIcon.bundle` |
-| Bundle identifier | `com.essentials.editoricon.native` |
-| Cache directory | `Library/Essentials/EditorIcon` |
-| Preference prefix | `Essentials.EditorIcon` |
+| Managed assembly | `ProjectIcon.Editor` |
+| Managed namespace | `ProjectIcon.Editor` |
+| Native bundle | `ProjectIcon.bundle` |
+| Bundle identifier | `com.martincalander.projecticon.native` |
+| Cache directory | `Library/com.martincalander.projecticon` |
+| Preference prefix | `com.martincalander.projecticon` |
 
 The package ID is `com.martincalander.projecticon`. Repository naming does not
-change that package identity.
+change that package identity. Unity asset GUIDs remain unchanged. The current
+preference keys start with their defaults when upgrading from an earlier
+package identity.
 
 See [Native bundle notes](native-bundle.md) for the exported ABI and rebuild
 workflow.

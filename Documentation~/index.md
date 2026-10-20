@@ -14,7 +14,7 @@ assets, or Player builds.
 - [Changelog](../CHANGELOG.md)
 
 After installation, assign an application icon in Player Settings, then verify
-the user-global options under **Preferences > Essentials > Project Icon**.
+the user-global options under **Preferences > Project Icon**.
 
 The package has no runtime assembly or scene component. Windows and Linux load
 and save the settings but make no native icon call.

@@ -2,7 +2,7 @@ using System;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace Essentials.EditorIcon.Editor
+namespace ProjectIcon.Editor
 {
     internal static class EditorIconNative
     {
@@ -11,15 +11,15 @@ namespace Essentials.EditorIcon.Editor
         internal const string PlatformSupportMessage =
             "Badge and Icon Replacement apply to the current Unity Editor process on macOS. They do not modify the Unity installation, project icon assets, or Player builds.";
 
-        const string PluginName = "EssentialsEditorIcon";
+        const string PluginName = "ProjectIcon";
 
-        [DllImport(PluginName, EntryPoint = "EssentialsEditorIconSetApplicationIcon")]
-        static extern int SetApplicationIconLegacy(IntPtr utf8Path);
+        [DllImport(PluginName, EntryPoint = "ProjectIconSetApplicationIcon")]
+        static extern int SetApplicationIconBadge(IntPtr utf8Path);
 
-        [DllImport(PluginName, EntryPoint = "EssentialsEditorIconSetApplicationIconWithMode")]
+        [DllImport(PluginName, EntryPoint = "ProjectIconSetApplicationIconWithMode")]
         static extern int SetApplicationIconWithMode(IntPtr utf8Path, int mode);
 
-        [DllImport(PluginName, EntryPoint = "EssentialsEditorIconResetApplicationIcon")]
+        [DllImport(PluginName, EntryPoint = "ProjectIconResetApplicationIcon")]
         static extern void ResetApplicationIcon();
 #elif UNITY_EDITOR_WIN
         internal const bool IsSupported = false;
@@ -71,7 +71,7 @@ namespace Essentials.EditorIcon.Editor
                 }
                 catch (EntryPointNotFoundException) when (applicationIconMode == EditorIconMode.Badge)
                 {
-                    result = SetApplicationIconLegacy(pathPointer);
+                    result = SetApplicationIconBadge(pathPointer);
                 }
 
                 if (result == 1)

@@ -76,7 +76,7 @@ gitlink already pins the exact package commit checked out in the parent project.
 
 1. Assign an application icon in Player Settings. The active build target's
    first assigned icon is preferred.
-2. Open **Preferences > Essentials > Project Icon**, verify Auto Apply, and
+2. Open **Preferences > Project Icon**, verify Auto Apply, and
    choose the appearance you want. Auto Apply defaults on when no earlier
    preference exists.
 3. Turn off **Auto Apply Player Icon** whenever you want Unity's normal
@@ -98,16 +98,16 @@ off Auto Apply to reset a previously applied custom icon.
 
 ## Compatibility and Opt-Outs
 
-Use `ESSENTIALS_DISABLE_PROJECT_ICON` to disable the managed product and test
+Use `PROJECT_ICON_DISABLE_ALL` to disable the managed product and test
 assemblies without removing the package. The native bundle remains installed.
-The established `ESSENTIALS_DISABLE_EDITOR_ICON` and `ESSENTIALS_DISABLE_ALL`
-symbols have the same effect.
 
 Turn off Auto Apply before removing or compiling out the package so the current
 Editor process resets its icon.
 
-The managed assembly, native bundle, preference keys, cache path, exported
-entry points, and Unity asset GUIDs retain their established values.
+The managed assembly, native bundle, preference keys, cache path, and exported
+entry points use the Project Icon identity. Existing Unity asset GUIDs are
+preserved. Preferences use new keys and start with their default values after
+upgrading from an earlier package identity.
 
 ## Documentation
 

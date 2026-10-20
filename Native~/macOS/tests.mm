@@ -77,10 +77,10 @@ int main(int argc, const char *argv[])
         class_replaceMethod([NSImage class], draw, (IMP)ObserveImageDraw, method_getTypeEncoding(drawMethod));
         void *library = dlopen(argv[1], RTLD_NOW | RTLD_LOCAL);
         Require(library != nullptr, dlerror());
-        auto apply = (int (*)(const char *, int32_t))dlsym(library, "EssentialsEditorIconSetApplicationIconWithMode");
-        auto legacyApply = (int (*)(const char *))dlsym(library, "EssentialsEditorIconSetApplicationIcon");
-        auto reset = (void (*)())dlsym(library, "EssentialsEditorIconResetApplicationIcon");
-        Require(apply && legacyApply && reset, "All supported entry points must be exported.");
+        auto apply = (int (*)(const char *, int32_t))dlsym(library, "ProjectIconSetApplicationIconWithMode");
+        auto applyBadge = (int (*)(const char *))dlsym(library, "ProjectIconSetApplicationIcon");
+        auto reset = (void (*)())dlsym(library, "ProjectIconResetApplicationIcon");
+        Require(apply && applyBadge && reset, "All supported entry points must be exported.");
 
         NSFileManager *files = [NSFileManager defaultManager];
         NSString *directory = [NSTemporaryDirectory() stringByAppendingPathComponent:NSUUID.UUID.UUIDString];
@@ -207,7 +207,7 @@ int main(int argc, const char *argv[])
             NSImage *external = [[NSImage alloc] initWithSize:NSMakeSize(8, 8)];
             NSApp.applicationIconImage = external;
             Require(s_submittedIcon == external, "A failed first apply leaves the hook unpinned.");
-            Require(legacyApply(path.fileSystemRepresentation) == 1, "Legacy badge entry point still works.");
+            Require(applyBadge(path.fileSystemRepresentation) == 1, "Badge entry point applies an icon.");
             puts("Native cache, invalidation, pinning, exception recovery, reset and ABI checks passed.");
         }
 

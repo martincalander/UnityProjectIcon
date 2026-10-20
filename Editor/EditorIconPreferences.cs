@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-namespace Essentials.EditorIcon.Editor
+namespace ProjectIcon.Editor
 {
     internal enum EditorIconMode
     {
@@ -13,9 +13,9 @@ namespace Essentials.EditorIcon.Editor
 
     internal static class EditorIconPreferences
     {
-        internal const string AutoApplyPlayerIconKey = "Essentials.EditorIcon.AutoApplyPlayerIcon";
+        internal const string AutoApplyPlayerIconKey = "com.martincalander.projecticon.AutoApplyPlayerIcon";
         internal const bool AutoApplyPlayerIconDefaultValue = true;
-        internal const string ApplicationIconModeKey = "Essentials.EditorIcon.ApplicationIconMode";
+        internal const string ApplicationIconModeKey = "com.martincalander.projecticon.ApplicationIconMode";
         internal const EditorIconMode ApplicationIconModeDefaultValue = EditorIconMode.Badge;
 
         internal static bool AutoApplyPlayerIcon
@@ -43,7 +43,7 @@ namespace Essentials.EditorIcon.Editor
 
     internal static class EditorIconPreferencesProvider
     {
-        internal const string SettingsPath = "Preferences/Essentials/Project Icon";
+        internal const string SettingsPath = "Preferences/Project Icon";
 
         static readonly GUIContent AutoApplyPlayerIconContent = new GUIContent(
             "Auto Apply Player Icon",
@@ -62,7 +62,6 @@ namespace Essentials.EditorIcon.Editor
                 guiHandler = DrawGui,
                 keywords = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
                 {
-                    "essentials",
                     "editor",
                     "project",
                     "icon",

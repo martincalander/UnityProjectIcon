@@ -4,22 +4,22 @@
 #include <stdint.h>
 #include <sys/stat.h>
 
-enum EssentialsEditorIconMode : int32_t
+enum ProjectIconMode : int32_t
 {
-    EssentialsEditorIconModeBadge = 0,
-    EssentialsEditorIconModeReplacement = 1
+    ProjectIconModeBadge = 0,
+    ProjectIconModeReplacement = 1
 };
 
 static NSImage *s_pinnedApplicationIcon = nil;
 static NSString *s_pinnedIconPath = nil;
-static EssentialsEditorIconMode s_pinnedIconMode;
+static ProjectIconMode s_pinnedIconMode;
 static struct stat s_pinnedIconFileStatus;
 static BOOL s_hasPinnedIconFileStatus = NO;
 static NSMutableArray *s_notificationObserverTokens = nil;
 static void (*s_originalSetApplicationIconImage)(id, SEL, NSImage *) = nullptr;
 static BOOL s_applicationIconHookInstalled = NO;
 
-static void EssentialsEditorIconSetApplicationIconImageUsingOriginal(NSImage *image)
+static void ProjectIconSetApplicationIconImageUsingOriginal(NSImage *image)
 {
     NSApplication *application = [NSApplication sharedApplication];
     SEL selector = @selector(setApplicationIconImage:);
@@ -33,7 +33,7 @@ static void EssentialsEditorIconSetApplicationIconImageUsingOriginal(NSImage *im
     [application setApplicationIconImage:image];
 }
 
-static void EssentialsEditorIconSetApplicationIconImageHook(id self, SEL selector, NSImage *image)
+static void ProjectIconSetApplicationIconImageHook(id self, SEL selector, NSImage *image)
 {
     if (s_originalSetApplicationIconImage == nullptr)
         return;
@@ -52,7 +52,7 @@ static void EssentialsEditorIconSetApplicationIconImageHook(id self, SEL selecto
     }
 }
 
-static void EssentialsEditorIconInstallApplicationIconHookOnMainThread(void)
+static void ProjectIconInstallApplicationIconHookOnMainThread(void)
 {
     if (s_applicationIconHookInstalled)
         return;
@@ -66,11 +66,11 @@ static void EssentialsEditorIconInstallApplicationIconHookOnMainThread(void)
 
     s_originalSetApplicationIconImage = (void (*)(id, SEL, NSImage *))class_getMethodImplementation(applicationClass, selector);
     const char *typeEncoding = method_getTypeEncoding(method);
-    class_replaceMethod(applicationClass, selector, (IMP)EssentialsEditorIconSetApplicationIconImageHook, typeEncoding);
+    class_replaceMethod(applicationClass, selector, (IMP)ProjectIconSetApplicationIconImageHook, typeEncoding);
     s_applicationIconHookInstalled = YES;
 }
 
-static NSImage *EssentialsEditorIconCreateDefaultApplicationIcon(void)
+static NSImage *ProjectIconCreateDefaultApplicationIcon(void)
 {
     NSString *bundlePath = [[NSBundle mainBundle] bundlePath];
     if ([bundlePath length] > 0)
@@ -83,9 +83,9 @@ static NSImage *EssentialsEditorIconCreateDefaultApplicationIcon(void)
     return [[NSApplication sharedApplication] applicationIconImage];
 }
 
-static NSImage *EssentialsEditorIconCreateBadgedApplicationIcon(NSImage *badgeImage)
+static NSImage *ProjectIconCreateBadgedApplicationIcon(NSImage *badgeImage)
 {
-    NSImage *baseImage = EssentialsEditorIconCreateDefaultApplicationIcon();
+    NSImage *baseImage = ProjectIconCreateDefaultApplicationIcon();
     if (baseImage == nil || badgeImage == nil)
         return nil;
 
@@ -126,7 +126,7 @@ static NSImage *EssentialsEditorIconCreateBadgedApplicationIcon(NSImage *badgeIm
     return compositeImage;
 }
 
-static NSImage *EssentialsEditorIconCreateReplacementApplicationIcon(NSImage *sourceImage)
+static NSImage *ProjectIconCreateReplacementApplicationIcon(NSImage *sourceImage)
 {
     if (sourceImage == nil)
         return nil;
@@ -153,12 +153,12 @@ static NSImage *EssentialsEditorIconCreateReplacementApplicationIcon(NSImage *so
     return replacementImage;
 }
 
-static BOOL EssentialsEditorIconApplyPinnedApplicationIconOnMainThread(void)
+static BOOL ProjectIconApplyPinnedApplicationIconOnMainThread(void)
 {
     @try
     {
         if (s_pinnedApplicationIcon != nil)
-            EssentialsEditorIconSetApplicationIconImageUsingOriginal(s_pinnedApplicationIcon);
+            ProjectIconSetApplicationIconImageUsingOriginal(s_pinnedApplicationIcon);
         return YES;
     }
     @catch (__unused NSException *exception)
@@ -167,36 +167,36 @@ static BOOL EssentialsEditorIconApplyPinnedApplicationIconOnMainThread(void)
     }
 }
 
-static void EssentialsEditorIconApplyPinnedApplicationIconDeferred(void)
+static void ProjectIconApplyPinnedApplicationIconDeferred(void)
 {
     if (s_pinnedApplicationIcon == nil)
         return;
 
     dispatch_async(dispatch_get_main_queue(), ^{
-        EssentialsEditorIconApplyPinnedApplicationIconOnMainThread();
+        ProjectIconApplyPinnedApplicationIconOnMainThread();
     });
 
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.05 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        EssentialsEditorIconApplyPinnedApplicationIconOnMainThread();
+        ProjectIconApplyPinnedApplicationIconOnMainThread();
     });
 
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.25 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        EssentialsEditorIconApplyPinnedApplicationIconOnMainThread();
+        ProjectIconApplyPinnedApplicationIconOnMainThread();
     });
 }
 
-static void EssentialsEditorIconAddNotificationObserver(NSMutableArray *tokens, NSString *name, id object)
+static void ProjectIconAddNotificationObserver(NSMutableArray *tokens, NSString *name, id object)
 {
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
     id token = [center addObserverForName:name object:object queue:[NSOperationQueue mainQueue] usingBlock:^(__unused NSNotification *notification) {
-        EssentialsEditorIconApplyPinnedApplicationIconOnMainThread();
-        EssentialsEditorIconApplyPinnedApplicationIconDeferred();
+        ProjectIconApplyPinnedApplicationIconOnMainThread();
+        ProjectIconApplyPinnedApplicationIconDeferred();
     }];
 
     [tokens addObject:token];
 }
 
-static void EssentialsEditorIconRemoveNotificationObservers(NSMutableArray *tokens)
+static void ProjectIconRemoveNotificationObservers(NSMutableArray *tokens)
 {
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
     for (id token in tokens)
@@ -212,7 +212,7 @@ static void EssentialsEditorIconRemoveNotificationObservers(NSMutableArray *toke
     [tokens removeAllObjects];
 }
 
-static void EssentialsEditorIconInstallNotificationObserversOnMainThread(void)
+static void ProjectIconInstallNotificationObserversOnMainThread(void)
 {
     if (s_notificationObserverTokens != nil)
         return;
@@ -221,28 +221,28 @@ static void EssentialsEditorIconInstallNotificationObserversOnMainThread(void)
     @try
     {
         NSApplication *application = [NSApplication sharedApplication];
-        EssentialsEditorIconAddNotificationObserver(tokens, NSApplicationWillBecomeActiveNotification, application);
-        EssentialsEditorIconAddNotificationObserver(tokens, NSApplicationDidBecomeActiveNotification, application);
-        EssentialsEditorIconAddNotificationObserver(tokens, NSApplicationWillResignActiveNotification, application);
-        EssentialsEditorIconAddNotificationObserver(tokens, NSApplicationDidResignActiveNotification, application);
-        EssentialsEditorIconAddNotificationObserver(tokens, NSWindowDidBecomeKeyNotification, nil);
-        EssentialsEditorIconAddNotificationObserver(tokens, NSWindowDidBecomeMainNotification, nil);
+        ProjectIconAddNotificationObserver(tokens, NSApplicationWillBecomeActiveNotification, application);
+        ProjectIconAddNotificationObserver(tokens, NSApplicationDidBecomeActiveNotification, application);
+        ProjectIconAddNotificationObserver(tokens, NSApplicationWillResignActiveNotification, application);
+        ProjectIconAddNotificationObserver(tokens, NSApplicationDidResignActiveNotification, application);
+        ProjectIconAddNotificationObserver(tokens, NSWindowDidBecomeKeyNotification, nil);
+        ProjectIconAddNotificationObserver(tokens, NSWindowDidBecomeMainNotification, nil);
         s_notificationObserverTokens = tokens;
     }
     @catch (NSException *exception)
     {
-        EssentialsEditorIconRemoveNotificationObservers(tokens);
+        ProjectIconRemoveNotificationObservers(tokens);
         @throw exception;
     }
 }
 
-static void EssentialsEditorIconRemoveNotificationObserversOnMainThread(void)
+static void ProjectIconRemoveNotificationObserversOnMainThread(void)
 {
-    EssentialsEditorIconRemoveNotificationObservers(s_notificationObserverTokens);
+    ProjectIconRemoveNotificationObservers(s_notificationObserverTokens);
     s_notificationObserverTokens = nil;
 }
 
-static BOOL EssentialsEditorIconFileStatusMatches(const struct stat &left, const struct stat &right)
+static BOOL ProjectIconFileStatusMatches(const struct stat &left, const struct stat &right)
 {
     return left.st_dev == right.st_dev &&
         left.st_ino == right.st_ino &&
@@ -253,13 +253,13 @@ static BOOL EssentialsEditorIconFileStatusMatches(const struct stat &left, const
         left.st_ctimespec.tv_nsec == right.st_ctimespec.tv_nsec;
 }
 
-static int EssentialsEditorIconSetApplicationIconOnMainThread(
+static int ProjectIconSetApplicationIconOnMainThread(
     NSString *path,
-    EssentialsEditorIconMode mode)
+    ProjectIconMode mode)
 {
     NSImage *previousPinnedIcon = s_pinnedApplicationIcon;
     NSString *previousPath = s_pinnedIconPath;
-    EssentialsEditorIconMode previousMode = s_pinnedIconMode;
+    ProjectIconMode previousMode = s_pinnedIconMode;
     struct stat previousFileStatus = s_pinnedIconFileStatus;
     BOOL previousHasFileStatus = s_hasPinnedIconFileStatus;
     BOOL hadObservers = s_notificationObserverTokens != nil;
@@ -272,10 +272,10 @@ static int EssentialsEditorIconSetApplicationIconOnMainThread(
         s_pinnedIconFileStatus = previousFileStatus;
         s_hasPinnedIconFileStatus = previousHasFileStatus;
         if (!hadObservers)
-            EssentialsEditorIconRemoveNotificationObserversOnMainThread();
+            ProjectIconRemoveNotificationObserversOnMainThread();
         @try
         {
-            EssentialsEditorIconSetApplicationIconImageUsingOriginal(previousApplicationIcon);
+            ProjectIconSetApplicationIconImageUsingOriginal(previousApplicationIcon);
         }
         @catch (__unused NSException *exception)
         {
@@ -291,11 +291,11 @@ static int EssentialsEditorIconSetApplicationIconOnMainThread(
             hasFileStatus &&
             s_pinnedIconMode == mode &&
             [s_pinnedIconPath isEqualToString:path] &&
-            EssentialsEditorIconFileStatusMatches(s_pinnedIconFileStatus, fileStatus))
+            ProjectIconFileStatusMatches(s_pinnedIconFileStatus, fileStatus))
         {
-            if (!EssentialsEditorIconApplyPinnedApplicationIconOnMainThread())
+            if (!ProjectIconApplyPinnedApplicationIconOnMainThread())
                 return 0;
-            EssentialsEditorIconApplyPinnedApplicationIconDeferred();
+            ProjectIconApplyPinnedApplicationIconDeferred();
             return 1;
         }
 
@@ -306,11 +306,11 @@ static int EssentialsEditorIconSetApplicationIconOnMainThread(
         NSImage *applicationIcon = nil;
         switch (mode)
         {
-            case EssentialsEditorIconModeBadge:
-                applicationIcon = EssentialsEditorIconCreateBadgedApplicationIcon(sourceImage);
+            case ProjectIconModeBadge:
+                applicationIcon = ProjectIconCreateBadgedApplicationIcon(sourceImage);
                 break;
-            case EssentialsEditorIconModeReplacement:
-                applicationIcon = EssentialsEditorIconCreateReplacementApplicationIcon(sourceImage);
+            case ProjectIconModeReplacement:
+                applicationIcon = ProjectIconCreateReplacementApplicationIcon(sourceImage);
                 break;
             default:
                 return 0;
@@ -323,7 +323,7 @@ static int EssentialsEditorIconSetApplicationIconOnMainThread(
         struct stat composedFileStatus;
         BOOL hasStableFileStatus = hasFileStatus &&
             stat([path fileSystemRepresentation], &composedFileStatus) == 0 &&
-            EssentialsEditorIconFileStatusMatches(fileStatus, composedFileStatus);
+            ProjectIconFileStatusMatches(fileStatus, composedFileStatus);
 
         previousApplicationIcon = previousPinnedIcon != nil
             ? previousPinnedIcon
@@ -335,14 +335,14 @@ static int EssentialsEditorIconSetApplicationIconOnMainThread(
         s_hasPinnedIconFileStatus = hasStableFileStatus;
         if (hasStableFileStatus)
             s_pinnedIconFileStatus = composedFileStatus;
-        EssentialsEditorIconInstallApplicationIconHookOnMainThread();
-        EssentialsEditorIconInstallNotificationObserversOnMainThread();
-        if (!EssentialsEditorIconApplyPinnedApplicationIconOnMainThread())
+        ProjectIconInstallApplicationIconHookOnMainThread();
+        ProjectIconInstallNotificationObserversOnMainThread();
+        if (!ProjectIconApplyPinnedApplicationIconOnMainThread())
         {
             restorePreviousState();
             return 0;
         }
-        EssentialsEditorIconApplyPinnedApplicationIconDeferred();
+        ProjectIconApplyPinnedApplicationIconDeferred();
         return 1;
     }
     @catch (__unused NSException *exception)
@@ -353,7 +353,7 @@ static int EssentialsEditorIconSetApplicationIconOnMainThread(
     }
 }
 
-extern "C" int EssentialsEditorIconSetApplicationIconWithMode(
+extern "C" int ProjectIconSetApplicationIconWithMode(
     const char *utf8Path,
     int32_t rawMode)
 {
@@ -362,20 +362,20 @@ extern "C" int EssentialsEditorIconSetApplicationIconWithMode(
         @try
         {
             if (utf8Path == nullptr || utf8Path[0] == '\0' ||
-                (rawMode != EssentialsEditorIconModeBadge && rawMode != EssentialsEditorIconModeReplacement))
+                (rawMode != ProjectIconModeBadge && rawMode != ProjectIconModeReplacement))
                 return 0;
 
             NSString *path = [NSString stringWithUTF8String:utf8Path];
             if (path == nil)
                 return 0;
 
-            EssentialsEditorIconMode mode = static_cast<EssentialsEditorIconMode>(rawMode);
+            ProjectIconMode mode = static_cast<ProjectIconMode>(rawMode);
             __block int result = 0;
             void (^apply)(void) = ^{
                 // Catch on the main thread itself, including dispatch_sync callers.
                 @try
                 {
-                    result = EssentialsEditorIconSetApplicationIconOnMainThread(path, mode);
+                    result = ProjectIconSetApplicationIconOnMainThread(path, mode);
                 }
                 @catch (__unused NSException *exception)
                 {
@@ -395,14 +395,14 @@ extern "C" int EssentialsEditorIconSetApplicationIconWithMode(
     }
 }
 
-extern "C" int EssentialsEditorIconSetApplicationIcon(const char *utf8Path)
+extern "C" int ProjectIconSetApplicationIcon(const char *utf8Path)
 {
-    return EssentialsEditorIconSetApplicationIconWithMode(
+    return ProjectIconSetApplicationIconWithMode(
         utf8Path,
-        EssentialsEditorIconModeBadge);
+        ProjectIconModeBadge);
 }
 
-extern "C" void EssentialsEditorIconResetApplicationIcon()
+extern "C" void ProjectIconResetApplicationIcon()
 {
     @autoreleasepool
     {
@@ -412,8 +412,8 @@ extern "C" void EssentialsEditorIconResetApplicationIcon()
                 s_pinnedApplicationIcon = nil;
                 s_pinnedIconPath = nil;
                 s_hasPinnedIconFileStatus = NO;
-                EssentialsEditorIconRemoveNotificationObserversOnMainThread();
-                EssentialsEditorIconSetApplicationIconImageUsingOriginal(nil);
+                ProjectIconRemoveNotificationObserversOnMainThread();
+                ProjectIconSetApplicationIconImageUsingOriginal(nil);
             }
             @catch (__unused NSException *exception)
             {

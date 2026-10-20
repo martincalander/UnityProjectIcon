@@ -1,11 +1,11 @@
 using System.Collections;
 using System.Linq;
-using Essentials.EditorIcon.Editor;
+using ProjectIcon.Editor;
 using NUnit.Framework;
 using UnityEditor;
 using UnityEngine.TestTools;
 
-namespace Essentials.Tests.Editor.EditorIcon
+namespace ProjectIcon.Editor.Tests
 {
     public sealed class EditorIconLifecycleTests
     {
