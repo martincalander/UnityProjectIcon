@@ -25,6 +25,7 @@ namespace ProjectIcon.Editor
         static double s_lastApplyTime = -MaintenanceForceReapplyIntervalSeconds;
         static double s_forceReapplyUntilTime;
         static double s_fastReapplyUntilTime;
+        static bool s_applyRequested;
         static bool s_autoApplyWasEnabled;
         static Texture2D s_readableIconSource;
         static uint s_readableIconUpdateCount;
@@ -52,9 +53,8 @@ namespace ProjectIcon.Editor
             if (s_autoApplyWasEnabled)
                 StartForceReapplyWindow();
 
-            EditorApplication.delayCall += ScheduleForcedApply;
             EditorApplication.delayCall += ResetIconIfAutoApplyDisabled;
-            EditorApplication.projectChanged += ScheduleForcedApply;
+            EditorApplication.projectChanged += OnProjectChanged;
 #if UNITY_2022_3_OR_NEWER
             EditorApplication.focusChanged += OnEditorFocusChanged;
 #endif
@@ -71,9 +71,8 @@ namespace ProjectIcon.Editor
             AssemblyReloadEvents.beforeAssemblyReload -= Cleanup;
 #endif
 #if UNITY_EDITOR_OSX
-            EditorApplication.delayCall -= ScheduleForcedApply;
             EditorApplication.delayCall -= ResetIconIfAutoApplyDisabled;
-            EditorApplication.projectChanged -= ScheduleForcedApply;
+            EditorApplication.projectChanged -= OnProjectChanged;
 #if UNITY_2022_3_OR_NEWER
             EditorApplication.focusChanged -= OnEditorFocusChanged;
 #endif
@@ -81,18 +80,17 @@ namespace ProjectIcon.Editor
 #endif
         }
 
-        static void ScheduleForcedApply()
+        static void OnProjectChanged()
         {
-            s_readableIconSource = null;
-            if (!AutoApplyEnabled)
-                return;
-
-            StartForceReapplyWindow();
+            // Any asset change can reassign the Player icon. Reapply once on the next update;
+            // the PNG cache already detects changed textures and copies.
+            s_applyRequested = AutoApplyEnabled;
         }
 
         static void ResetIconIfAutoApplyDisabled()
         {
-            if (AutoApplyEnabled)
+            // Only reset an icon this package applied earlier in the Editor session.
+            if (AutoApplyEnabled || !EditorIconNative.AppliedThisSession)
                 return;
 
             EditorIconNative.TryResetApplicationIcon(out _);
@@ -158,7 +156,7 @@ namespace ProjectIcon.Editor
                 ? StartupForceReapplyIntervalSeconds
                 : MaintenanceForceReapplyIntervalSeconds;
 
-            if (now - s_lastApplyTime < interval)
+            if (!s_applyRequested && now - s_lastApplyTime < interval)
                 return;
 
             TryApplyPlayerIconSilently();
@@ -199,6 +197,7 @@ namespace ProjectIcon.Editor
         static bool TryApplyPlayerIcon(out string error)
         {
             s_lastApplyTime = EditorApplication.timeSinceStartup;
+            s_applyRequested = false;
 
             Texture2D icon = GetCurrentPlayerIcon();
             if (icon == null)

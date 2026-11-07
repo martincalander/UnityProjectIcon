@@ -1,9 +1,14 @@
 using System;
 using System.Runtime.InteropServices;
 using System.Text;
+using UnityEditor;
 
 namespace ProjectIcon.Editor
 {
+#if UNITY_6000_5_OR_NEWER
+    // Native availability belongs to the Editor session and must survive Play mode.
+    [Unity.Scripting.LifecycleManagement.NoAutoStaticsCleanup]
+#endif
     internal static class EditorIconNative
     {
 #if UNITY_EDITOR_OSX
@@ -12,6 +17,9 @@ namespace ProjectIcon.Editor
             "Badge and Icon Replacement apply to the current Unity Editor process on macOS. They do not modify the Unity installation, project icon assets, or Player builds.";
 
         const string PluginName = "ProjectIcon";
+
+        // A missing or incompatible bundle cannot recover until code reloads, so later calls skip probing it.
+        static string s_unavailableError;
 
         [DllImport(PluginName, EntryPoint = "ProjectIconSetApplicationIcon")]
         static extern int SetApplicationIconBadge(IntPtr utf8Path);
@@ -35,6 +43,10 @@ namespace ProjectIcon.Editor
             "Project Icon is not supported on this Unity Editor platform. Your preference is still saved for use on supported platforms.";
 #endif
 
+        const string AppliedSessionKey = "ProjectIcon.AppliedThisSession";
+
+        internal static bool AppliedThisSession => SessionState.GetBool(AppliedSessionKey, false);
+
         internal static bool TrySetApplicationIcon(
             string imagePath,
             EditorIconMode applicationIconMode,
@@ -57,6 +69,12 @@ namespace ProjectIcon.Editor
                 return false;
             }
 
+            if (s_unavailableError != null)
+            {
+                error = s_unavailableError;
+                return false;
+            }
+
             IntPtr pathPointer = IntPtr.Zero;
             try
             {
@@ -76,6 +94,7 @@ namespace ProjectIcon.Editor
 
                 if (result == 1)
                 {
+                    SessionState.SetBool(AppliedSessionKey, true);
                     error = null;
                     return true;
                 }
@@ -88,7 +107,7 @@ namespace ProjectIcon.Editor
                                               exception is EntryPointNotFoundException ||
                                               exception is BadImageFormatException)
             {
-                error = exception.Message;
+                error = s_unavailableError = exception.Message;
                 return false;
             }
             finally
@@ -105,9 +124,16 @@ namespace ProjectIcon.Editor
         internal static bool TryResetApplicationIcon(out string error)
         {
 #if UNITY_EDITOR_OSX
+            if (s_unavailableError != null)
+            {
+                error = s_unavailableError;
+                return false;
+            }
+
             try
             {
                 ResetApplicationIcon();
+                SessionState.SetBool(AppliedSessionKey, false);
                 error = null;
                 return true;
             }
@@ -115,7 +141,7 @@ namespace ProjectIcon.Editor
                                               exception is EntryPointNotFoundException ||
                                               exception is BadImageFormatException)
             {
-                error = exception.Message;
+                error = s_unavailableError = exception.Message;
                 return false;
             }
 #else

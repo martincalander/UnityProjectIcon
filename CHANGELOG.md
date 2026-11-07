@@ -6,6 +6,12 @@ All notable changes to this package are documented in this file.
 
 ### Fixed
 
+- Reapply the icon once after a project change instead of restarting the
+  two-minute startup retry window on every asset save, and keep the PNG cache.
+- Stop probing a missing or incompatible native bundle on every retry until code
+  reloads.
+- Reset the application icon at load only when Project Icon applied one earlier
+  in the Editor session, leaving other tools' icons alone.
 - Resolve icon files in Git and registry package caches before converting their
   textures, and avoid unsupported PNG encodes for unreadable textures.
 - Reject missing textures and report when texture conversion needs an

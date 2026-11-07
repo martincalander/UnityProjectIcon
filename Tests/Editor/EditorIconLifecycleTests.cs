@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Linq;
+using System.Reflection;
 using ProjectIcon.Editor;
 using NUnit.Framework;
 using UnityEditor;
@@ -43,6 +44,20 @@ namespace ProjectIcon.Editor.Tests
 
             EditorIconApplier.Initialize();
             AssertUpdateCallbackCount();
+        }
+
+        [Test]
+        public void ProjectChange_DoesNotExtendTheStartupRetryWindow()
+        {
+            const BindingFlags flags = BindingFlags.Static | BindingFlags.NonPublic;
+            FieldInfo window = typeof(EditorIconApplier).GetField("s_forceReapplyUntilTime", flags);
+            MethodInfo onProjectChanged = typeof(EditorIconApplier).GetMethod("OnProjectChanged", flags);
+            Assert.That(window, Is.Not.Null);
+            Assert.That(onProjectChanged, Is.Not.Null);
+
+            object before = window.GetValue(null);
+            onProjectChanged.Invoke(null, null);
+            Assert.That(window.GetValue(null), Is.EqualTo(before));
         }
 
         [UnityTest]
