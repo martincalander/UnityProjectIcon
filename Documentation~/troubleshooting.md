@@ -21,8 +21,8 @@ present.
 
 Within a target group, the first assigned Application or general icon is used.
 
-If every Player icon is removed, Project Icon leaves the current process icon
-as-is rather than resetting it. Turn off Auto Apply to restore Unity's icon.
+If every Player icon is removed, Project Icon resets its previously applied
+icon on the next check. It leaves icons owned by other tools alone.
 
 ## The Icon Returns to Unity's Default
 
@@ -73,6 +73,6 @@ entry points, architectures, and Unity asset GUID.
 
 ## The Icon Remained After Removing or Disabling the Package
 
-There is no unload hook after the managed assembly has gone. Turn off Auto Apply
-before removing the package or adding a compile-disable symbol. If that is no
-longer possible, restart Unity to restore the normal process icon.
+Current versions reset their owned icon when Unity unloads the managed code.
+Allow the package removal or script compilation to finish. If an older version
+left an icon pinned, restart Unity to restore the normal process icon.

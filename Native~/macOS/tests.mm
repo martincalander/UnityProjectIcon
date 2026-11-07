@@ -118,6 +118,29 @@ int main(int argc, const char *argv[])
         }
         else
         {
+            Require(apply(nullptr, 0) == 0, "Null paths are rejected.");
+            Require(apply("", 0) == 0, "Empty paths are rejected.");
+            const char invalidUtf8[] = {'/', (char)0xff, '\0'};
+            Require(apply(invalidUtf8, 0) == 0, "Invalid UTF-8 paths are rejected.");
+            Require(apply(path.fileSystemRepresentation, -1) == 0, "Negative modes are rejected.");
+            Require(apply(directory.fileSystemRepresentation, 0) == 0, "Directories are rejected.");
+
+            NSString *unicodePath = [directory stringByAppendingPathComponent:@"Projekt blå 日本語 🌿.png"];
+            Require([png writeToFile:unicodePath atomically:YES], "Create a Unicode source path.");
+            Require(apply(unicodePath.fileSystemRepresentation, 1) == 1, "Unicode paths are supported.");
+            NSImage *beforeInvalidImage = s_submittedIcon;
+            NSString *invalidImage = [directory stringByAppendingPathComponent:@"corrupt.png"];
+            Require([[png subdataWithRange:NSMakeRange(0, 16)] writeToFile:invalidImage atomically:YES],
+                    "Create a truncated PNG.");
+            Require(apply(invalidImage.fileSystemRepresentation, 1) == 0, "Truncated images are rejected.");
+            Require(s_submittedIcon == beforeInvalidImage, "Corrupt input preserves the current icon.");
+            Require([[NSData data] writeToFile:invalidImage atomically:YES], "Create an empty image.");
+            Require(apply(invalidImage.fileSystemRepresentation, 1) == 0, "Empty image files are rejected.");
+            Require(s_submittedIcon == beforeInvalidImage, "Empty input preserves the current icon.");
+            reset();
+            reset();
+            Require(s_submittedIcon == nil, "Repeated resets are safe.");
+
             for (int mode = 0; mode <= 1; mode++)
             {
                 reset();

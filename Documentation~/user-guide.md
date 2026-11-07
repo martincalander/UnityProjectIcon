@@ -9,9 +9,8 @@ Project Icon looks for the first assigned icon in this order:
 3. first icon found in another build-target group.
 
 Assigning an icon for the active target gives the least surprising result. If
-no Player icon is assigned anywhere, the current process icon is left as-is.
-That can include an icon applied earlier in the session. Turn off Auto Apply to
-reset it.
+no Player icon is assigned anywhere, an icon previously applied by Project Icon
+is reset on the next check. Icons owned by other tools are left alone.
 
 When the source icon is a normal asset file, the package passes that file to the
 native bundle. If AppKit cannot decode that file, or Unity exposes only an
@@ -23,9 +22,10 @@ Library/com.martincalander.projecticon/ProjectIcon.png
 
 That cache belongs to the local project Library and is not a source asset.
 Unchanged textures reuse their PNG copy. Texture updates, deleting the copy, or
-overwriting it trigger regeneration. Unreadable textures
-need a graphics device for conversion; ordinary source image files can be used
-without that conversion.
+overwriting it trigger regeneration. Unreadable, multichannel HDR, compressed,
+and two-channel RG textures need a graphics device for conversion; ordinary source
+image files can be used without that conversion. Two-channel conversion matches
+Unity's displayed colors instead of adding a blue channel during PNG encoding.
 
 ## Configure the Appearance
 
@@ -37,8 +37,9 @@ Auto Apply defaults on when no earlier preference exists. On macOS, the package
 applies the icon after load and keeps checking because Unity can restore its own
 application icon during normal Editor activity.
 
-Turning Auto Apply off resets the current process to Unity's normal icon on the
-next Editor update. It does not delete the Library cache.
+Turning Auto Apply off resets an icon owned by Project Icon on the next Editor
+update. Enabling it requests an apply on the next update, even if a maintenance
+check just ran. Neither action deletes the Library cache.
 
 ### Appearance
 
@@ -70,6 +71,6 @@ under the same user account.
 Turn off **Auto Apply Player Icon**. There is no manual Apply or Reset command.
 
 Re-enable Auto Apply to use the current project's selected Player icon again.
-Turn Auto Apply off before removing the package or adding a compile-disable
-symbol. If the assembly is removed during a reload while a custom icon remains,
-restart Unity to restore the normal process icon.
+Removing the package or adding the compile-disable symbol releases its callbacks,
+native notification observers, and pinned icon when Unity unloads the code.
+Ordinary script reloads reset the owned icon and reapply it after initialization.

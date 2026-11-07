@@ -92,16 +92,16 @@ changes, focus changes, and periodic maintenance.
 
 If the active build target has no assigned icon, Project Icon falls back to the
 Unknown target group and then to the first icon found in another target group.
-If no Player icon exists anywhere, the current process icon is left as-is. Turn
-off Auto Apply to reset a previously applied custom icon.
+If no Player icon exists anywhere, Project Icon resets an icon it previously
+applied. Icons owned by other tools are left alone.
 
 ## Compatibility and Opt-Outs
 
 Use `PROJECT_ICON_DISABLE_ALL` to disable the managed product and test
 assemblies without removing the package. The native bundle remains installed.
 
-Turn off Auto Apply before removing or compiling out the package so the current
-Editor process resets its icon.
+Removing or compiling out the package releases its callbacks and resets an icon
+it applied when Unity unloads the managed code.
 
 The managed assembly, native bundle, preference keys, cache path, and exported
 entry points use the Project Icon identity. Existing Unity asset GUIDs are

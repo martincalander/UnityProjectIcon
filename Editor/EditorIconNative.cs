@@ -69,6 +69,19 @@ namespace ProjectIcon.Editor
                 return false;
             }
 
+            if (imagePath.IndexOf('\0') >= 0)
+            {
+                error = "Icon path contains a null character.";
+                return false;
+            }
+
+            if (applicationIconMode != EditorIconMode.Badge &&
+                applicationIconMode != EditorIconMode.IconReplacement)
+            {
+                error = "The icon appearance is not supported.";
+                return false;
+            }
+
             if (s_unavailableError != null)
             {
                 error = s_unavailableError;

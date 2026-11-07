@@ -34,7 +34,8 @@ with `lipo`, checks the exported symbols, and applies an ad-hoc signature when
 
 Run `bash Native~/macOS/test.sh` after rebuilding. It loads the built bundle in
 a separate AppKit process and checks image reuse, source and appearance changes,
-missing files, pinning, reset, native exception recovery, coalesced retry bursts,
+missing and corrupt files, Unicode and malformed paths, invalid modes, pinning,
+reset, native exception recovery, coalesced retry bursts,
 and both set-icon entry points. Add
 `--benchmark-only` to time 40 repeated applies of an unchanged replacement icon.
 

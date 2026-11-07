@@ -146,6 +146,85 @@ namespace ProjectIcon.Editor.Tests
             Assert.That(File.ReadAllBytes(WriteReadableCopy(second)), Is.Not.EqualTo(original));
         }
 
+        [TestCase(TextureFormat.RGBAHalf)]
+        [TestCase(TextureFormat.RGBAFloat)]
+        [TestCase(TextureFormat.RGHalf)]
+        [TestCase(TextureFormat.RGFloat)]
+        [TestCase(TextureFormat.RG16)]
+        [TestCase(TextureFormat.RG32)]
+        [TestCase(TextureFormat.RGBA64)]
+        [TestCase(TextureFormat.RGB565)]
+        [TestCase(TextureFormat.ARGB4444)]
+        [TestCase(TextureFormat.RGBA4444)]
+        [TestCase(TextureFormat.ARGB32)]
+        [TestCase(TextureFormat.BGRA32)]
+        public void ReadableCopy_ColorFormatsPreserveGreen(TextureFormat format)
+        {
+            Texture2D texture = CreateTexture(Color.green, format);
+            Color pixel = ReadPixel(WriteReadableCopy(texture));
+            Assert.That(pixel.r, Is.LessThan(0.05f));
+            Assert.That(pixel.g, Is.GreaterThan(0.95f));
+            Assert.That(pixel.b, Is.LessThan(0.05f));
+        }
+
+        [TestCase(false)]
+        [TestCase(true)]
+        public void ReadableCopy_UnreadableMidtonesPreserveColorAlphaAndRenderState(bool srgbWrite)
+        {
+            var expected = new Color(0.3f, 0.5f, 0.7f, 0.4f);
+            Texture2D texture = CreateTexture(expected, readable: false);
+            bool previous = GL.sRGBWrite;
+            try
+            {
+                GL.sRGBWrite = srgbWrite;
+                Color actual = ReadPixel(WriteReadableCopy(texture));
+                Assert.That(GL.sRGBWrite, Is.EqualTo(srgbWrite));
+                Assert.That(actual.r, Is.EqualTo(expected.r).Within(0.02f));
+                Assert.That(actual.g, Is.EqualTo(expected.g).Within(0.02f));
+                Assert.That(actual.b, Is.EqualTo(expected.b).Within(0.02f));
+                Assert.That(actual.a, Is.EqualTo(expected.a).Within(0.02f));
+            }
+            finally
+            {
+                GL.sRGBWrite = previous;
+            }
+        }
+
+        [Test]
+        public void ReadableCopy_BlockedCacheDirectoryReturnsErrorAndRecovers()
+        {
+            Texture2D texture = CreateTexture(Color.red);
+            string path = WriteReadableCopy(texture);
+            string directory = Path.GetDirectoryName(path);
+            string backup = directory + "." + Guid.NewGuid().ToString("N");
+            Directory.Move(directory, backup);
+            try
+            {
+                File.WriteAllText(directory, "Not a directory");
+                Assert.That(EditorIconApplier.TryWriteReadableIconCopy(texture,
+                    out string failedPath, out string error), Is.False);
+                Assert.That(failedPath, Is.Null);
+                Assert.That(error, Does.StartWith("Could not prepare the Player icon image"));
+            }
+            finally
+            {
+                File.Delete(directory);
+                Directory.Move(backup, directory);
+            }
+            Assert.That(WriteReadableCopy(texture), Is.EqualTo(path));
+        }
+
+        [Test]
+        public void ReadableCopy_DestroyedTextureReturnsErrorWithoutThrowing()
+        {
+            Texture2D texture = CreateTexture(Color.red);
+            UnityEngine.Object.DestroyImmediate(texture);
+            Assert.That(EditorIconApplier.TryWriteReadableIconCopy(texture,
+                out string path, out string error), Is.False);
+            Assert.That(path, Is.Null);
+            Assert.That(error, Is.Not.Empty);
+        }
+
         [Test]
         public void ReadableCopy_UnreadableTextureUsesGpuWithoutChangingActiveTarget()
         {

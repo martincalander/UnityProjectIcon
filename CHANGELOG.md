@@ -6,6 +6,18 @@ All notable changes to this package are documented in this file.
 
 ### Fixed
 
+- Apply on the next update after enabling Auto Apply or initializing, even when
+  the last maintenance check was recent.
+- Reset only icons owned by Project Icon when disabling Auto Apply, removing the
+  last Player icon, or unloading the managed code. Release pending callbacks,
+  native observers, and the cached texture reference on unload.
+- Continue to general icons when a target rejects the application-icon lookup,
+  and avoid duplicate queries for aliased build targets or the Unknown target.
+- Reject invalid native modes and null characters in paths before image loading
+  or texture conversion.
+- Convert RG16 and RG32 textures through the GPU so PNG fallback matches Unity's
+  displayed colors instead of filling the missing blue channel with white.
+
 - Reapply the icon once after a project change instead of restarting the
   two-minute startup retry window on every asset save, and keep the PNG cache.
 - Stop probing a missing or incompatible native bundle on every retry until code

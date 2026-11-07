@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering;
@@ -20,7 +21,7 @@ namespace ProjectIcon.Editor
         const double MaintenanceForceReapplyIntervalSeconds = 30d;
 
         static readonly BuildTargetGroup[] s_buildTargetGroups =
-            (BuildTargetGroup[])Enum.GetValues(typeof(BuildTargetGroup));
+            ((BuildTargetGroup[])Enum.GetValues(typeof(BuildTargetGroup))).Distinct().ToArray();
 
         static double s_lastApplyTime = -MaintenanceForceReapplyIntervalSeconds;
         static double s_forceReapplyUntilTime;
@@ -50,6 +51,7 @@ namespace ProjectIcon.Editor
 #endif
 #if UNITY_EDITOR_OSX
             s_autoApplyWasEnabled = AutoApplyEnabled;
+            s_applyRequested = s_autoApplyWasEnabled;
             if (s_autoApplyWasEnabled)
                 StartForceReapplyWindow();
 
@@ -77,7 +79,10 @@ namespace ProjectIcon.Editor
             EditorApplication.focusChanged -= OnEditorFocusChanged;
 #endif
             EditorApplication.update -= ReapplyAfterDelay;
+            ResetOwnedIcon();
 #endif
+            s_applyRequested = false;
+            s_readableIconSource = null;
         }
 
         static void OnProjectChanged()
@@ -93,7 +98,13 @@ namespace ProjectIcon.Editor
             if (AutoApplyEnabled || !EditorIconNative.AppliedThisSession)
                 return;
 
-            EditorIconNative.TryResetApplicationIcon(out _);
+            ResetOwnedIcon();
+        }
+
+        static void ResetOwnedIcon()
+        {
+            if (EditorIconNative.AppliedThisSession)
+                EditorIconNative.TryResetApplicationIcon(out _);
         }
 
         static void OnEditorFocusChanged(bool hasFocus)
@@ -135,15 +146,17 @@ namespace ProjectIcon.Editor
             if (!autoApplyEnabled)
             {
                 if (s_autoApplyWasEnabled)
-                    EditorIconNative.TryResetApplicationIcon(out _);
+                    ResetOwnedIcon();
 
                 s_autoApplyWasEnabled = false;
+                s_applyRequested = false;
                 return;
             }
 
             if (!s_autoApplyWasEnabled)
             {
                 s_autoApplyWasEnabled = true;
+                s_applyRequested = true;
                 StartForceReapplyWindow();
             }
 
@@ -200,8 +213,14 @@ namespace ProjectIcon.Editor
             s_applyRequested = false;
 
             Texture2D icon = GetCurrentPlayerIcon();
+            return TryApplyPlayerIcon(icon, out error);
+        }
+
+        internal static bool TryApplyPlayerIcon(Texture2D icon, out string error)
+        {
             if (icon == null)
             {
+                ResetOwnedIcon();
                 error = "No Player icon is assigned for this project.";
                 return false;
             }
@@ -217,6 +236,16 @@ namespace ProjectIcon.Editor
                 return false;
             }
 
+#if !UNITY_EDITOR_OSX
+            error = EditorIconNative.PlatformSupportMessage;
+            return false;
+#else
+            if (mode != EditorIconMode.Badge && mode != EditorIconMode.IconReplacement)
+            {
+                error = "The icon appearance is not supported.";
+                return false;
+            }
+
             if (!TryGetIconImagePath(icon, out string iconPath, out bool isSourceFile, out error))
                 return false;
 
@@ -229,25 +258,37 @@ namespace ProjectIcon.Editor
                 return false;
 
             return EditorIconNative.TrySetApplicationIcon(iconPath, mode, out error);
+#endif
         }
 
         static Texture2D GetCurrentPlayerIcon()
         {
             BuildTargetGroup buildTargetGroup = BuildPipeline.GetBuildTargetGroup(EditorUserBuildSettings.activeBuildTarget);
-            Texture2D icon = GetFirstIconForBuildTargetGroup(buildTargetGroup);
+#pragma warning disable 618
+            return GetCurrentPlayerIcon(buildTargetGroup, PlayerSettings.GetIconsForTargetGroup);
+#pragma warning restore 618
+        }
+
+        internal static Texture2D GetCurrentPlayerIcon(
+            BuildTargetGroup buildTargetGroup, Func<BuildTargetGroup, IconKind, Texture2D[]> getIcons)
+        {
+            Texture2D icon = GetFirstIconForBuildTargetGroup(buildTargetGroup, getIcons);
             if (icon != null)
                 return icon;
 
-            icon = GetFirstIconForBuildTargetGroup(BuildTargetGroup.Unknown);
-            if (icon != null)
-                return icon;
+            if (buildTargetGroup != BuildTargetGroup.Unknown)
+            {
+                icon = GetFirstIconForBuildTargetGroup(BuildTargetGroup.Unknown, getIcons);
+                if (icon != null)
+                    return icon;
+            }
 
             foreach (BuildTargetGroup targetGroup in s_buildTargetGroups)
             {
                 if (targetGroup == buildTargetGroup || targetGroup == BuildTargetGroup.Unknown)
                     continue;
 
-                icon = GetFirstIconForBuildTargetGroup(targetGroup);
+                icon = GetFirstIconForBuildTargetGroup(targetGroup, getIcons);
                 if (icon != null)
                     return icon;
             }
@@ -255,19 +296,24 @@ namespace ProjectIcon.Editor
             return null;
         }
 
-        static Texture2D GetFirstIconForBuildTargetGroup(BuildTargetGroup buildTargetGroup)
+        static Texture2D GetFirstIconForBuildTargetGroup(
+            BuildTargetGroup buildTargetGroup, Func<BuildTargetGroup, IconKind, Texture2D[]> getIcons)
         {
-#pragma warning disable 618
+            return GetFirstIcon(buildTargetGroup, IconKind.Application, getIcons) ??
+                   GetFirstIcon(buildTargetGroup, IconKind.Any, getIcons);
+        }
+
+        static Texture2D GetFirstIcon(BuildTargetGroup group, IconKind kind,
+            Func<BuildTargetGroup, IconKind, Texture2D[]> getIcons)
+        {
             try
             {
-                return FirstAssignedIcon(PlayerSettings.GetIconsForTargetGroup(buildTargetGroup, IconKind.Application)) ??
-                       FirstAssignedIcon(PlayerSettings.GetIconsForTargetGroup(buildTargetGroup, IconKind.Any));
+                return FirstAssignedIcon(getIcons(group, kind));
             }
             catch
             {
                 return null;
             }
-#pragma warning restore 618
         }
 
         static Texture2D FirstAssignedIcon(Texture2D[] icons)
@@ -384,8 +430,12 @@ namespace ProjectIcon.Editor
             bool isHdr = format == TextureFormat.RGBAHalf || format == TextureFormat.RGBAFloat ||
                 format == TextureFormat.RGHalf || format == TextureFormat.RGFloat ||
                 format == TextureFormat.RGB9e5Float;
+            // Direct PNG encoding fills the missing blue channel with white for these formats.
+            // GPU conversion matches how Unity displays the texture, with blue set to zero.
+            bool isTwoChannel = format == TextureFormat.RG16 || format == TextureFormat.RG32;
             // Single-channel RHalf and RFloat are supported grayscale PNG inputs.
-            if (icon.isReadable && !isHdr && !GraphicsFormatUtility.IsCompressedFormat(icon.graphicsFormat))
+            if (icon.isReadable && !isHdr && !isTwoChannel &&
+                !GraphicsFormatUtility.IsCompressedFormat(icon.graphicsFormat))
             {
                 try
                 {

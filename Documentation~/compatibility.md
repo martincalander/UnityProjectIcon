@@ -28,8 +28,10 @@ and persist across Play sessions. On Unity 6.5 and newer,
 `OnCodeInitializing` and `OnCodeUnloading` register and release the Editor
 callbacks. Older Editors use `InitializeOnLoadMethod` and
 `AssemblyReloadEvents.beforeAssemblyReload`. Repeated initialization retains
-one update callback, and unloading removes pending work without resetting the
-native icon between code loads.
+one update callback. Unloading cancels pending work, releases the cached texture
+reference, and resets the owned native icon and notification observers. The next
+initialization requests an apply on the next Editor update. Play sessions without
+domain reload retain the Editor-session callbacks and cache.
 
 See Unity's [code lifecycle guidance](https://docs.unity.com/en-us/engine/7000.0/manual/programming-environment/code-reload-serialization/code-reload/code-lifecycle).
 
@@ -39,6 +41,23 @@ reload and repeated callback setup/cleanup. The older Editor results below
 predate these lifecycle changes.
 
 ### Verified Editors
+
+The 2026-11-07 stability audit passed all 58 package tests in Unity
+`7000.0.0a16` on macOS `27.2` (`26B123`), Apple silicon, with graphics enabled
+and no failures or skips. Unity CLI `1.0.0-beta.16` drove compilation and tests
+through Pipeline `0.10.0-exp.1`. Coverage includes icon lookup fallback and empty
+projects, callback ownership, preference transitions, PNG cache recovery,
+grayscale, HDR and two-channel textures, color and alpha preservation, both
+native modes, and three Play sessions without domain reload. Temporarily compiling out both managed
+assemblies also released the owned native icon; restoring them compiled cleanly.
+
+The expanded standalone native suite passed on arm64 and x86_64 under Rosetta,
+including Unicode paths, malformed input, corrupt files, exception recovery,
+cache invalidation, and deferred retry cancellation. The existing universal
+bundle and strict code signature were verified without rebuilding the binary.
+Only Unity `7000.0.0a16` is installed on this machine. Older Editors, Windows,
+Linux, physical Intel hardware, and older macOS releases were not rerun in this
+audit; the results below are historical evidence for earlier source versions.
 
 The 2026-10-20 performance and stability audit passed all 25 package tests in
 Unity `7000.0.0a11` and Unity `6000.7.0b2` on macOS Apple silicon, with graphics
@@ -91,8 +110,9 @@ This symbol disables the managed product and test assemblies:
 
 - `PROJECT_ICON_DISABLE_ALL`
 
-The native macOS bundle has no define constraint and remains installed. Turn
-off Auto Apply before adding a symbol so the current process resets its icon.
+The native macOS bundle has no define constraint and remains installed. Code
+unload resets an icon owned by Project Icon and releases its native observers.
+The native setter hook remains a pass-through until the process exits.
 
 ## Package Identities
 
