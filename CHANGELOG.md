@@ -21,8 +21,8 @@ All notable changes to this package are documented in this file.
 - Contain native AppKit exceptions during icon application, reset and deferred
   callbacks, and restore the previous pinned icon after a failed update.
 - Fixed native bundle architecture validation with the current macOS `lipo` tool.
-- Restored compilation on Unity 6.0 and 6.1 by using integer instance IDs until
-  the public entity ID API is available in Unity 6.2.
+- Restored compilation on Unity 6.0 and 6.1, which lack the public entity ID
+  API, by no longer tracking applied icons by object ID.
 - Restored macOS compilation on Unity 2021.3 and early 2022 releases by polling
   application focus, using the public focus event from Unity 2022.3 onward.
 - Restored native plugin loading on Unity 2021.3 and 2022.3 by saving the
