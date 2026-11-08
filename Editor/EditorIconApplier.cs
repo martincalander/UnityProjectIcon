@@ -21,7 +21,27 @@ namespace ProjectIcon.Editor
         const double MaintenanceForceReapplyIntervalSeconds = 30d;
 
         static readonly BuildTargetGroup[] s_buildTargetGroups =
-            ((BuildTargetGroup[])Enum.GetValues(typeof(BuildTargetGroup))).Distinct().ToArray();
+            ((BuildTargetGroup[])Enum.GetValues(typeof(BuildTargetGroup))).Distinct()
+                .Where(IsQueryableBuildTargetGroup).ToArray();
+
+        static bool IsQueryableBuildTargetGroup(BuildTargetGroup group)
+        {
+#if UNITY_6000_0_OR_NEWER
+            // Unity's icon API first maps the group to a NamedBuildTarget. Reject obsolete
+            // enum values once instead of throwing on every fallback scan.
+            try
+            {
+                UnityEditor.Build.NamedBuildTarget.FromBuildTargetGroup(group);
+                return true;
+            }
+            catch (ArgumentException)
+            {
+                return false;
+            }
+#else
+            return true;
+#endif
+        }
 
         static double s_lastApplyTime = -MaintenanceForceReapplyIntervalSeconds;
         static double s_forceReapplyUntilTime;

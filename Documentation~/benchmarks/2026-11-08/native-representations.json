@@ -1,0 +1,1426 @@
+[
+  {
+    "representations": [
+      {
+        "bitsPerPixel": 64,
+        "bitsPerComponent": 16,
+        "width": 2048,
+        "mode": 0,
+        "height": 2048
+      },
+      {
+        "bitsPerPixel": 64,
+        "bitsPerComponent": 16,
+        "width": 2048,
+        "mode": 1,
+        "height": 2048
+      }
+    ],
+    "burst100TotalSetterCalls": 103,
+    "measurements": [
+      {
+        "sampleMicroseconds": [
+          35455.183399999994,
+          34745.808399999994,
+          34870.6,
+          34843.308399999994,
+          35880.191600000006,
+          35264.9084,
+          36816.575,
+          35295.9418,
+          34917.333399999996
+        ],
+        "maxMicroseconds": 36816.575,
+        "setterCallsPerOperation": 1,
+        "minMicroseconds": 34745.808399999994,
+        "iterations": 5,
+        "name": "warm.mode0",
+        "medianMicroseconds": 35264.9084
+      },
+      {
+        "sampleMicroseconds": [
+          63302.291,
+          63986.917,
+          63284.834,
+          63189.625,
+          63473.834,
+          63609.083,
+          64697.125,
+          62258.291,
+          62240.208
+        ],
+        "maxMicroseconds": 64697.125,
+        "setterCallsPerOperation": 1,
+        "minMicroseconds": 62240.208,
+        "iterations": 1,
+        "name": "cold.mode0",
+        "medianMicroseconds": 63302.291
+      },
+      {
+        "sampleMicroseconds": [
+          360368.083,
+          359147.625,
+          392298.5,
+          432590.042,
+          384058.042,
+          397675.916,
+          385486.666,
+          377491.333,
+          382386.291
+        ],
+        "maxMicroseconds": 432590.042,
+        "setterCallsPerOperation": 10,
+        "minMicroseconds": 359147.625,
+        "iterations": 1,
+        "name": "notification-burst10.mode0",
+        "medianMicroseconds": 384058.042
+      },
+      {
+        "sampleMicroseconds": [
+          36478.6166,
+          37563.0916,
+          38886.0334,
+          37666.225,
+          37593.7082,
+          37991.2668,
+          37790.8332,
+          37541.808399999994,
+          38976.5
+        ],
+        "maxMicroseconds": 38976.5,
+        "setterCallsPerOperation": 1,
+        "minMicroseconds": 36478.6166,
+        "iterations": 5,
+        "name": "warm.mode1",
+        "medianMicroseconds": 37666.225
+      },
+      {
+        "sampleMicroseconds": [
+          66352.792,
+          65710.292,
+          68568.417,
+          66401.875,
+          70122.916,
+          65738.416,
+          68282.25,
+          64518.917,
+          65145.166
+        ],
+        "maxMicroseconds": 70122.916,
+        "setterCallsPerOperation": 1,
+        "minMicroseconds": 64518.917,
+        "iterations": 1,
+        "name": "cold.mode1",
+        "medianMicroseconds": 66352.792
+      },
+      {
+        "sampleMicroseconds": [
+          396808.5,
+          411972.167,
+          398790.542,
+          438181.75,
+          421585.458,
+          406667.75,
+          408433.5,
+          399227.459,
+          388773.417
+        ],
+        "maxMicroseconds": 438181.75,
+        "setterCallsPerOperation": 10,
+        "minMicroseconds": 388773.417,
+        "iterations": 1,
+        "name": "notification-burst10.mode1",
+        "medianMicroseconds": 406667.75
+      },
+      {
+        "sampleMicroseconds": [
+          12.564580000000001,
+          11.93417,
+          12.18,
+          12.49667,
+          12.812090000000001,
+          12.46166,
+          13.00709,
+          12.68,
+          12.650419999999999
+        ],
+        "maxMicroseconds": 13.00709,
+        "setterCallsPerOperation": 0,
+        "minMicroseconds": 11.93417,
+        "iterations": 100,
+        "name": "missing-source",
+        "medianMicroseconds": 12.564580000000001
+      },
+      {
+        "sampleMicroseconds": [
+          89.16041,
+          83.59084000000001,
+          88.03084000000001,
+          82.115,
+          90.98416999999999,
+          102.8725,
+          82.04625,
+          88.17667,
+          81.46416
+        ],
+        "maxMicroseconds": 102.8725,
+        "setterCallsPerOperation": 0,
+        "minMicroseconds": 81.46416,
+        "iterations": 100,
+        "name": "corrupt-source",
+        "medianMicroseconds": 88.03084000000001
+      }
+    ],
+    "operatingSystem": "Version 27.2 (Build 26B123)",
+    "variant": "shipped",
+    "peakResidentBytes": 378503168,
+    "repetition": 1,
+    "binaryBytes": 107216
+  },
+  {
+    "representations": [
+      {
+        "bitsPerPixel": 64,
+        "bitsPerComponent": 16,
+        "width": 2048,
+        "mode": 0,
+        "height": 2048
+      },
+      {
+        "bitsPerPixel": 64,
+        "bitsPerComponent": 16,
+        "width": 2048,
+        "mode": 1,
+        "height": 2048
+      }
+    ],
+    "burst100TotalSetterCalls": 103,
+    "measurements": [
+      {
+        "sampleMicroseconds": [
+          40446.8,
+          40630.5,
+          42483.5334,
+          41939.8666,
+          40591.025,
+          45189.4666,
+          50271.166600000004,
+          67396.4916,
+          44941.325
+        ],
+        "maxMicroseconds": 67396.4916,
+        "setterCallsPerOperation": 1,
+        "minMicroseconds": 40446.8,
+        "iterations": 5,
+        "name": "warm.mode0",
+        "medianMicroseconds": 42483.5334
+      },
+      {
+        "sampleMicroseconds": [
+          77189.833,
+          82842.125,
+          87231.084,
+          101496.083,
+          88179.792,
+          83641.916,
+          98211.75,
+          84521.834,
+          83538.541
+        ],
+        "maxMicroseconds": 101496.083,
+        "setterCallsPerOperation": 1,
+        "minMicroseconds": 77189.833,
+        "iterations": 1,
+        "name": "cold.mode0",
+        "medianMicroseconds": 84521.834
+      },
+      {
+        "sampleMicroseconds": [
+          444565.417,
+          407998.333,
+          420106.166,
+          378374.334,
+          411652.833,
+          406472.917,
+          411715.833,
+          422142.292,
+          377568.125
+        ],
+        "maxMicroseconds": 444565.417,
+        "setterCallsPerOperation": 10,
+        "minMicroseconds": 377568.125,
+        "iterations": 1,
+        "name": "notification-burst10.mode0",
+        "medianMicroseconds": 411652.833
+      },
+      {
+        "sampleMicroseconds": [
+          43554.075,
+          42555.825,
+          38916.95,
+          38402.5168,
+          42852.6418,
+          57412.425,
+          41150.208399999996,
+          43329.85,
+          41933.1418
+        ],
+        "maxMicroseconds": 57412.425,
+        "setterCallsPerOperation": 1,
+        "minMicroseconds": 38402.5168,
+        "iterations": 5,
+        "name": "warm.mode1",
+        "medianMicroseconds": 42555.825
+      },
+      {
+        "sampleMicroseconds": [
+          74722.292,
+          70911.625,
+          82501,
+          76255.458,
+          78530.625,
+          76018.542,
+          70651.042,
+          75427.667,
+          93601.584
+        ],
+        "maxMicroseconds": 93601.584,
+        "setterCallsPerOperation": 1,
+        "minMicroseconds": 70651.042,
+        "iterations": 1,
+        "name": "cold.mode1",
+        "medianMicroseconds": 76018.542
+      },
+      {
+        "sampleMicroseconds": [
+          522804.833,
+          452442.958,
+          447432.625,
+          463548.667,
+          475556.917,
+          655240.041,
+          558132.75,
+          462120.667,
+          772272
+        ],
+        "maxMicroseconds": 772272,
+        "setterCallsPerOperation": 10,
+        "minMicroseconds": 447432.625,
+        "iterations": 1,
+        "name": "notification-burst10.mode1",
+        "medianMicroseconds": 475556.917
+      },
+      {
+        "sampleMicroseconds": [
+          20.2,
+          16.135,
+          31.24917,
+          15.6175,
+          17.50875,
+          37.7825,
+          56.24084,
+          52.88125,
+          55.352079999999994
+        ],
+        "maxMicroseconds": 56.24084,
+        "setterCallsPerOperation": 0,
+        "minMicroseconds": 15.6175,
+        "iterations": 100,
+        "name": "missing-source",
+        "medianMicroseconds": 31.24917
+      },
+      {
+        "sampleMicroseconds": [
+          100.45834,
+          104.80291,
+          124.00917,
+          147.5475,
+          179.94792,
+          109.06541999999999,
+          216.3175,
+          189.54584,
+          151.35333
+        ],
+        "maxMicroseconds": 216.3175,
+        "setterCallsPerOperation": 0,
+        "minMicroseconds": 100.45834,
+        "iterations": 100,
+        "name": "corrupt-source",
+        "medianMicroseconds": 147.5475
+      }
+    ],
+    "operatingSystem": "Version 27.2 (Build 26B123)",
+    "variant": "bitmap-representation",
+    "peakResidentBytes": 369213440,
+    "repetition": 1,
+    "binaryBytes": 58448
+  },
+  {
+    "representations": [
+      {
+        "bitsPerPixel": 64,
+        "bitsPerComponent": 16,
+        "width": 2048,
+        "mode": 0,
+        "height": 2048
+      },
+      {
+        "bitsPerPixel": 64,
+        "bitsPerComponent": 16,
+        "width": 2048,
+        "mode": 1,
+        "height": 2048
+      }
+    ],
+    "burst100TotalSetterCalls": 103,
+    "measurements": [
+      {
+        "sampleMicroseconds": [
+          41146.333399999996,
+          41865.1,
+          40166.1084,
+          40895.725,
+          40220.075,
+          39913.2584,
+          38978.7,
+          38169.3666,
+          38387.558399999994
+        ],
+        "maxMicroseconds": 41865.1,
+        "setterCallsPerOperation": 1,
+        "minMicroseconds": 38169.3666,
+        "iterations": 5,
+        "name": "warm.mode0",
+        "medianMicroseconds": 40166.1084
+      },
+      {
+        "sampleMicroseconds": [
+          138784.541,
+          137008.459,
+          136170.042,
+          133215.667,
+          139101.792,
+          139537.167,
+          158058.875,
+          134260.541,
+          139614.417
+        ],
+        "maxMicroseconds": 158058.875,
+        "setterCallsPerOperation": 1,
+        "minMicroseconds": 133215.667,
+        "iterations": 1,
+        "name": "cold.mode0",
+        "medianMicroseconds": 138784.541
+      },
+      {
+        "sampleMicroseconds": [
+          396208.209,
+          390913.417,
+          416550.959,
+          385524.542,
+          388848.166,
+          392317.708,
+          386602.125,
+          373521.25,
+          378366.333
+        ],
+        "maxMicroseconds": 416550.959,
+        "setterCallsPerOperation": 10,
+        "minMicroseconds": 373521.25,
+        "iterations": 1,
+        "name": "notification-burst10.mode0",
+        "medianMicroseconds": 388848.166
+      },
+      {
+        "sampleMicroseconds": [
+          37127.95,
+          38783.8416,
+          37085.875,
+          37774.6166,
+          38284.0418,
+          40706.6084,
+          41293.566600000006,
+          40710.85,
+          40213.425
+        ],
+        "maxMicroseconds": 41293.566600000006,
+        "setterCallsPerOperation": 1,
+        "minMicroseconds": 37085.875,
+        "iterations": 5,
+        "name": "warm.mode1",
+        "medianMicroseconds": 38783.8416
+      },
+      {
+        "sampleMicroseconds": [
+          128317.417,
+          123278.583,
+          127971.292,
+          128443.958,
+          126988.416,
+          130038,
+          134747.333,
+          129846.833,
+          130481.542
+        ],
+        "maxMicroseconds": 134747.333,
+        "setterCallsPerOperation": 1,
+        "minMicroseconds": 123278.583,
+        "iterations": 1,
+        "name": "cold.mode1",
+        "medianMicroseconds": 128443.958
+      },
+      {
+        "sampleMicroseconds": [
+          414056.958,
+          407325.666,
+          408621.25,
+          408374.458,
+          421708,
+          401440.125,
+          410550.167,
+          390858.125,
+          401546.917
+        ],
+        "maxMicroseconds": 421708,
+        "setterCallsPerOperation": 10,
+        "minMicroseconds": 390858.125,
+        "iterations": 1,
+        "name": "notification-burst10.mode1",
+        "medianMicroseconds": 408374.458
+      },
+      {
+        "sampleMicroseconds": [
+          14.345,
+          13.87417,
+          14.375419999999998,
+          11.236669999999998,
+          10.99375,
+          10.982090000000001,
+          10.9575,
+          11.08,
+          11.01708
+        ],
+        "maxMicroseconds": 14.375419999999998,
+        "setterCallsPerOperation": 0,
+        "minMicroseconds": 10.9575,
+        "iterations": 100,
+        "name": "missing-source",
+        "medianMicroseconds": 11.08
+      },
+      {
+        "sampleMicroseconds": [
+          69.87959,
+          68.48542,
+          70.53208,
+          68.4075,
+          69.42166,
+          68.005,
+          69.645,
+          74.8675,
+          70.38792000000001
+        ],
+        "maxMicroseconds": 74.8675,
+        "setterCallsPerOperation": 0,
+        "minMicroseconds": 68.005,
+        "iterations": 100,
+        "name": "corrupt-source",
+        "medianMicroseconds": 69.645
+      }
+    ],
+    "operatingSystem": "Version 27.2 (Build 26B123)",
+    "variant": "tiff-representation",
+    "peakResidentBytes": 1383759872,
+    "repetition": 1,
+    "binaryBytes": 58392
+  },
+  {
+    "representations": [
+      {
+        "bitsPerPixel": 32,
+        "bitsPerComponent": 8,
+        "width": 2048,
+        "mode": 0,
+        "height": 2048
+      },
+      {
+        "bitsPerPixel": 32,
+        "bitsPerComponent": 8,
+        "width": 2048,
+        "mode": 1,
+        "height": 2048
+      }
+    ],
+    "burst100TotalSetterCalls": 103,
+    "measurements": [
+      {
+        "sampleMicroseconds": [
+          42347.6416,
+          41230.625,
+          40758.7334,
+          40475.1,
+          39161.3668,
+          39247.6918,
+          38198.7584,
+          38688.575,
+          38229.2
+        ],
+        "maxMicroseconds": 42347.6416,
+        "setterCallsPerOperation": 1,
+        "minMicroseconds": 38198.7584,
+        "iterations": 5,
+        "name": "warm.mode0",
+        "medianMicroseconds": 39247.6918
+      },
+      {
+        "sampleMicroseconds": [
+          109049.584,
+          106102.541,
+          106440.542,
+          111192.459,
+          109058.875,
+          107064.625,
+          103599,
+          103557,
+          108609.417
+        ],
+        "maxMicroseconds": 111192.459,
+        "setterCallsPerOperation": 1,
+        "minMicroseconds": 103557,
+        "iterations": 1,
+        "name": "cold.mode0",
+        "medianMicroseconds": 107064.625
+      },
+      {
+        "sampleMicroseconds": [
+          394174.291,
+          394961.5,
+          388395.875,
+          392008.458,
+          392190.042,
+          386463.458,
+          375472.208,
+          378809.417,
+          399304.042
+        ],
+        "maxMicroseconds": 399304.042,
+        "setterCallsPerOperation": 10,
+        "minMicroseconds": 375472.208,
+        "iterations": 1,
+        "name": "notification-burst10.mode0",
+        "medianMicroseconds": 392008.458
+      },
+      {
+        "sampleMicroseconds": [
+          41727.066600000006,
+          42227.4,
+          42003,
+          41333.4668,
+          41928.291600000004,
+          41850.975,
+          41559.7834,
+          44008.308399999994,
+          44707.6668
+        ],
+        "maxMicroseconds": 44707.6668,
+        "setterCallsPerOperation": 1,
+        "minMicroseconds": 41333.4668,
+        "iterations": 5,
+        "name": "warm.mode1",
+        "medianMicroseconds": 41928.291600000004
+      },
+      {
+        "sampleMicroseconds": [
+          102615.208,
+          101298.166,
+          101178.042,
+          105593.792,
+          106123.25,
+          104059.583,
+          102004.958,
+          104261.791,
+          106721.666
+        ],
+        "maxMicroseconds": 106721.666,
+        "setterCallsPerOperation": 1,
+        "minMicroseconds": 101178.042,
+        "iterations": 1,
+        "name": "cold.mode1",
+        "medianMicroseconds": 104059.583
+      },
+      {
+        "sampleMicroseconds": [
+          405944.917,
+          412635.709,
+          398164.834,
+          435215.125,
+          400795.209,
+          406130.042,
+          402881.5,
+          405814.625,
+          404835.084
+        ],
+        "maxMicroseconds": 435215.125,
+        "setterCallsPerOperation": 10,
+        "minMicroseconds": 398164.834,
+        "iterations": 1,
+        "name": "notification-burst10.mode1",
+        "medianMicroseconds": 405814.625
+      },
+      {
+        "sampleMicroseconds": [
+          12.65084,
+          11.87709,
+          11.78833,
+          11.77209,
+          11.715,
+          11.31791,
+          10.8575,
+          12.29958,
+          11.72583
+        ],
+        "maxMicroseconds": 12.65084,
+        "setterCallsPerOperation": 0,
+        "minMicroseconds": 10.8575,
+        "iterations": 100,
+        "name": "missing-source",
+        "medianMicroseconds": 11.77209
+      },
+      {
+        "sampleMicroseconds": [
+          73.7475,
+          74.18167,
+          76.43459,
+          88.60125,
+          69.02458,
+          71.40959,
+          70.43916,
+          73.20457999999999,
+          82.05583
+        ],
+        "maxMicroseconds": 88.60125,
+        "setterCallsPerOperation": 0,
+        "minMicroseconds": 69.02458,
+        "iterations": 100,
+        "name": "corrupt-source",
+        "medianMicroseconds": 73.7475
+      }
+    ],
+    "operatingSystem": "Version 27.2 (Build 26B123)",
+    "variant": "rgba8-representation",
+    "peakResidentBytes": 717930496,
+    "repetition": 1,
+    "binaryBytes": 59128
+  },
+  {
+    "representations": [
+      {
+        "bitsPerPixel": 32,
+        "bitsPerComponent": 8,
+        "width": 2048,
+        "mode": 0,
+        "height": 2048
+      },
+      {
+        "bitsPerPixel": 32,
+        "bitsPerComponent": 8,
+        "width": 2048,
+        "mode": 1,
+        "height": 2048
+      }
+    ],
+    "burst100TotalSetterCalls": 103,
+    "measurements": [
+      {
+        "sampleMicroseconds": [
+          39861.933399999994,
+          39882.35,
+          41524.725,
+          40636.8332,
+          40383.683399999994,
+          40021.3916,
+          38593.0334,
+          40493.4418,
+          40626.25
+        ],
+        "maxMicroseconds": 41524.725,
+        "setterCallsPerOperation": 1,
+        "minMicroseconds": 38593.0334,
+        "iterations": 5,
+        "name": "warm.mode0",
+        "medianMicroseconds": 40383.683399999994
+      },
+      {
+        "sampleMicroseconds": [
+          108369.375,
+          107143.375,
+          106107.959,
+          105405.666,
+          109552,
+          106819.458,
+          106971.208,
+          110958,
+          113340.084
+        ],
+        "maxMicroseconds": 113340.084,
+        "setterCallsPerOperation": 1,
+        "minMicroseconds": 105405.666,
+        "iterations": 1,
+        "name": "cold.mode0",
+        "medianMicroseconds": 107143.375
+      },
+      {
+        "sampleMicroseconds": [
+          394304.916,
+          393101.666,
+          398116.125,
+          395672.792,
+          400682.083,
+          398488.416,
+          401651.167,
+          403452.334,
+          410599.75
+        ],
+        "maxMicroseconds": 410599.75,
+        "setterCallsPerOperation": 10,
+        "minMicroseconds": 393101.666,
+        "iterations": 1,
+        "name": "notification-burst10.mode0",
+        "medianMicroseconds": 398488.416
+      },
+      {
+        "sampleMicroseconds": [
+          41271.941600000006,
+          47227.4,
+          39811.075,
+          39760.6,
+          38428.925,
+          39534.1,
+          38974.4418,
+          39538.5582,
+          41260.6
+        ],
+        "maxMicroseconds": 47227.4,
+        "setterCallsPerOperation": 1,
+        "minMicroseconds": 38428.925,
+        "iterations": 5,
+        "name": "warm.mode1",
+        "medianMicroseconds": 39760.6
+      },
+      {
+        "sampleMicroseconds": [
+          105956.084,
+          105495.958,
+          101647.917,
+          100291.625,
+          101884,
+          102154.291,
+          100471.333,
+          101616.708,
+          99209.375
+        ],
+        "maxMicroseconds": 105956.084,
+        "setterCallsPerOperation": 1,
+        "minMicroseconds": 99209.375,
+        "iterations": 1,
+        "name": "cold.mode1",
+        "medianMicroseconds": 101647.917
+      },
+      {
+        "sampleMicroseconds": [
+          399234.708,
+          425037.042,
+          393170.042,
+          392249.875,
+          394238.792,
+          394336.167,
+          393875.792,
+          403110.916,
+          398926.125
+        ],
+        "maxMicroseconds": 425037.042,
+        "setterCallsPerOperation": 10,
+        "minMicroseconds": 392249.875,
+        "iterations": 1,
+        "name": "notification-burst10.mode1",
+        "medianMicroseconds": 394336.167
+      },
+      {
+        "sampleMicroseconds": [
+          12.4825,
+          11.2375,
+          10.947090000000001,
+          11.11042,
+          10.910419999999998,
+          11.013330000000002,
+          10.95875,
+          10.94875,
+          10.85666
+        ],
+        "maxMicroseconds": 12.4825,
+        "setterCallsPerOperation": 0,
+        "minMicroseconds": 10.85666,
+        "iterations": 100,
+        "name": "missing-source",
+        "medianMicroseconds": 10.95875
+      },
+      {
+        "sampleMicroseconds": [
+          84.57875,
+          81.75,
+          79.11125,
+          78.77291,
+          80.20582999999999,
+          81.67582999999999,
+          72.5175,
+          75.74875,
+          86.78625
+        ],
+        "maxMicroseconds": 86.78625,
+        "setterCallsPerOperation": 0,
+        "minMicroseconds": 72.5175,
+        "iterations": 100,
+        "name": "corrupt-source",
+        "medianMicroseconds": 80.20582999999999
+      }
+    ],
+    "operatingSystem": "Version 27.2 (Build 26B123)",
+    "variant": "rgba8-representation",
+    "peakResidentBytes": 718700544,
+    "repetition": 2,
+    "binaryBytes": 59128
+  },
+  {
+    "representations": [
+      {
+        "bitsPerPixel": 64,
+        "bitsPerComponent": 16,
+        "width": 2048,
+        "mode": 0,
+        "height": 2048
+      },
+      {
+        "bitsPerPixel": 64,
+        "bitsPerComponent": 16,
+        "width": 2048,
+        "mode": 1,
+        "height": 2048
+      }
+    ],
+    "burst100TotalSetterCalls": 103,
+    "measurements": [
+      {
+        "sampleMicroseconds": [
+          40267.9668,
+          40655.9418,
+          39940.166600000004,
+          39885.9666,
+          39713.075,
+          39373.041600000004,
+          39043.85,
+          39910.9668,
+          40368.8332
+        ],
+        "maxMicroseconds": 40655.9418,
+        "setterCallsPerOperation": 1,
+        "minMicroseconds": 39043.85,
+        "iterations": 5,
+        "name": "warm.mode0",
+        "medianMicroseconds": 39910.9668
+      },
+      {
+        "sampleMicroseconds": [
+          132317.708,
+          137491.291,
+          131795.959,
+          133901.333,
+          134357.833,
+          128519,
+          136644.125,
+          138115.333,
+          140237.709
+        ],
+        "maxMicroseconds": 140237.709,
+        "setterCallsPerOperation": 1,
+        "minMicroseconds": 128519,
+        "iterations": 1,
+        "name": "cold.mode0",
+        "medianMicroseconds": 134357.833
+      },
+      {
+        "sampleMicroseconds": [
+          407030.5,
+          412352.459,
+          403189.834,
+          401904.916,
+          403405.458,
+          398853.792,
+          404746.959,
+          400637.625,
+          408321.167
+        ],
+        "maxMicroseconds": 412352.459,
+        "setterCallsPerOperation": 10,
+        "minMicroseconds": 398853.792,
+        "iterations": 1,
+        "name": "notification-burst10.mode0",
+        "medianMicroseconds": 403405.458
+      },
+      {
+        "sampleMicroseconds": [
+          40574.95,
+          39823.8,
+          40017.6832,
+          39417.958399999996,
+          40437.7166,
+          41105.4834,
+          40365.816600000006,
+          40363.066600000006,
+          40413.35
+        ],
+        "maxMicroseconds": 41105.4834,
+        "setterCallsPerOperation": 1,
+        "minMicroseconds": 39417.958399999996,
+        "iterations": 5,
+        "name": "warm.mode1",
+        "medianMicroseconds": 40365.816600000006
+      },
+      {
+        "sampleMicroseconds": [
+          132249.834,
+          133068.125,
+          128866.75,
+          130695.625,
+          129051.417,
+          132666.333,
+          132034.916,
+          130629.209,
+          152506.541
+        ],
+        "maxMicroseconds": 152506.541,
+        "setterCallsPerOperation": 1,
+        "minMicroseconds": 128866.75,
+        "iterations": 1,
+        "name": "cold.mode1",
+        "medianMicroseconds": 132034.916
+      },
+      {
+        "sampleMicroseconds": [
+          409440.542,
+          409000.792,
+          411171.5,
+          416092.875,
+          411936,
+          414453.083,
+          412736.667,
+          404569.917,
+          409691.291
+        ],
+        "maxMicroseconds": 416092.875,
+        "setterCallsPerOperation": 10,
+        "minMicroseconds": 404569.917,
+        "iterations": 1,
+        "name": "notification-burst10.mode1",
+        "medianMicroseconds": 411171.5
+      },
+      {
+        "sampleMicroseconds": [
+          11.637080000000001,
+          11.255,
+          11.374590000000001,
+          12.0625,
+          11.299159999999999,
+          11.34042,
+          10.9725,
+          11.24708,
+          11.490419999999999
+        ],
+        "maxMicroseconds": 12.0625,
+        "setterCallsPerOperation": 0,
+        "minMicroseconds": 10.9725,
+        "iterations": 100,
+        "name": "missing-source",
+        "medianMicroseconds": 11.34042
+      },
+      {
+        "sampleMicroseconds": [
+          77.44625,
+          68.45042000000001,
+          67.06208,
+          75.3875,
+          74.13584,
+          73.78834,
+          70.67666,
+          71.31958,
+          74.58625
+        ],
+        "maxMicroseconds": 77.44625,
+        "setterCallsPerOperation": 0,
+        "minMicroseconds": 67.06208,
+        "iterations": 100,
+        "name": "corrupt-source",
+        "medianMicroseconds": 73.78834
+      }
+    ],
+    "operatingSystem": "Version 27.2 (Build 26B123)",
+    "variant": "tiff-representation",
+    "peakResidentBytes": 1381040128,
+    "repetition": 2,
+    "binaryBytes": 58392
+  },
+  {
+    "representations": [
+      {
+        "bitsPerPixel": 64,
+        "bitsPerComponent": 16,
+        "width": 2048,
+        "mode": 0,
+        "height": 2048
+      },
+      {
+        "bitsPerPixel": 64,
+        "bitsPerComponent": 16,
+        "width": 2048,
+        "mode": 1,
+        "height": 2048
+      }
+    ],
+    "burst100TotalSetterCalls": 103,
+    "measurements": [
+      {
+        "sampleMicroseconds": [
+          39287.9,
+          39822.1584,
+          40465.683399999994,
+          39642.9084,
+          39597.45,
+          40260.1,
+          39833.566600000006,
+          39729.2416,
+          38524.7334
+        ],
+        "maxMicroseconds": 40465.683399999994,
+        "setterCallsPerOperation": 1,
+        "minMicroseconds": 38524.7334,
+        "iterations": 5,
+        "name": "warm.mode0",
+        "medianMicroseconds": 39729.2416
+      },
+      {
+        "sampleMicroseconds": [
+          69181.333,
+          68654.291,
+          70929.916,
+          74685.125,
+          72682.458,
+          72561.25,
+          72654.666,
+          71436.458,
+          72377.875
+        ],
+        "maxMicroseconds": 74685.125,
+        "setterCallsPerOperation": 1,
+        "minMicroseconds": 68654.291,
+        "iterations": 1,
+        "name": "cold.mode0",
+        "medianMicroseconds": 72377.875
+      },
+      {
+        "sampleMicroseconds": [
+          399900.041,
+          394108.625,
+          399639.791,
+          388279.708,
+          388400.084,
+          396120.541,
+          396566.875,
+          388105.166,
+          400297.542
+        ],
+        "maxMicroseconds": 400297.542,
+        "setterCallsPerOperation": 10,
+        "minMicroseconds": 388105.166,
+        "iterations": 1,
+        "name": "notification-burst10.mode0",
+        "medianMicroseconds": 396120.541
+      },
+      {
+        "sampleMicroseconds": [
+          40400.708399999996,
+          39131.125,
+          40109.275,
+          39856.9084,
+          39601.1,
+          39358.5916,
+          38876.441600000006,
+          39962.0082,
+          40053.5084
+        ],
+        "maxMicroseconds": 40400.708399999996,
+        "setterCallsPerOperation": 1,
+        "minMicroseconds": 38876.441600000006,
+        "iterations": 5,
+        "name": "warm.mode1",
+        "medianMicroseconds": 39856.9084
+      },
+      {
+        "sampleMicroseconds": [
+          66060.25,
+          67761.75,
+          66896.791,
+          66401.208,
+          67301.625,
+          66994.792,
+          62667.292,
+          64042.833,
+          67809.917
+        ],
+        "maxMicroseconds": 67809.917,
+        "setterCallsPerOperation": 1,
+        "minMicroseconds": 62667.292,
+        "iterations": 1,
+        "name": "cold.mode1",
+        "medianMicroseconds": 66896.791
+      },
+      {
+        "sampleMicroseconds": [
+          377260,
+          384970.584,
+          375123.083,
+          408448.125,
+          405257.584,
+          440887.875,
+          397476.25,
+          396547.25,
+          401967.166
+        ],
+        "maxMicroseconds": 440887.875,
+        "setterCallsPerOperation": 10,
+        "minMicroseconds": 375123.083,
+        "iterations": 1,
+        "name": "notification-burst10.mode1",
+        "medianMicroseconds": 397476.25
+      },
+      {
+        "sampleMicroseconds": [
+          12.57667,
+          12.880419999999999,
+          12.01125,
+          11.629159999999999,
+          11.054580000000001,
+          11.17083,
+          11.700830000000002,
+          12.044580000000002,
+          12.15625
+        ],
+        "maxMicroseconds": 12.880419999999999,
+        "setterCallsPerOperation": 0,
+        "minMicroseconds": 11.054580000000001,
+        "iterations": 100,
+        "name": "missing-source",
+        "medianMicroseconds": 12.01125
+      },
+      {
+        "sampleMicroseconds": [
+          79.70334,
+          88.86333,
+          77.60583,
+          79.30875,
+          71.09707999999999,
+          73.30584,
+          81.50916000000001,
+          79.64542,
+          72.66666000000001
+        ],
+        "maxMicroseconds": 88.86333,
+        "setterCallsPerOperation": 0,
+        "minMicroseconds": 71.09707999999999,
+        "iterations": 100,
+        "name": "corrupt-source",
+        "medianMicroseconds": 79.30875
+      }
+    ],
+    "operatingSystem": "Version 27.2 (Build 26B123)",
+    "variant": "bitmap-representation",
+    "peakResidentBytes": 377667584,
+    "repetition": 2,
+    "binaryBytes": 58448
+  },
+  {
+    "representations": [
+      {
+        "bitsPerPixel": 64,
+        "bitsPerComponent": 16,
+        "width": 2048,
+        "mode": 0,
+        "height": 2048
+      },
+      {
+        "bitsPerPixel": 64,
+        "bitsPerComponent": 16,
+        "width": 2048,
+        "mode": 1,
+        "height": 2048
+      }
+    ],
+    "burst100TotalSetterCalls": 103,
+    "measurements": [
+      {
+        "sampleMicroseconds": [
+          41029.975,
+          40673.275,
+          41689.4666,
+          40282.3416,
+          39081.6084,
+          39375.7334,
+          38133.975,
+          40116.625,
+          40161.2
+        ],
+        "maxMicroseconds": 41689.4666,
+        "setterCallsPerOperation": 1,
+        "minMicroseconds": 38133.975,
+        "iterations": 5,
+        "name": "warm.mode0",
+        "medianMicroseconds": 40161.2
+      },
+      {
+        "sampleMicroseconds": [
+          73712.041,
+          71141.5,
+          71467.5,
+          72255.042,
+          71024.959,
+          70158.083,
+          71110.375,
+          69346.25,
+          71951.75
+        ],
+        "maxMicroseconds": 73712.041,
+        "setterCallsPerOperation": 1,
+        "minMicroseconds": 69346.25,
+        "iterations": 1,
+        "name": "cold.mode0",
+        "medianMicroseconds": 71141.5
+      },
+      {
+        "sampleMicroseconds": [
+          384548.958,
+          425393.166,
+          413778.375,
+          430716.166,
+          408985.5,
+          394921.916,
+          407768.916,
+          425818.875,
+          400143.375
+        ],
+        "maxMicroseconds": 430716.166,
+        "setterCallsPerOperation": 10,
+        "minMicroseconds": 384548.958,
+        "iterations": 1,
+        "name": "notification-burst10.mode0",
+        "medianMicroseconds": 408985.5
+      },
+      {
+        "sampleMicroseconds": [
+          44130,
+          39876.4,
+          40766.9418,
+          40554.9832,
+          40718.9668,
+          42455.8834,
+          41705.6418,
+          43619.6,
+          43325.416600000004
+        ],
+        "maxMicroseconds": 44130,
+        "setterCallsPerOperation": 1,
+        "minMicroseconds": 39876.4,
+        "iterations": 5,
+        "name": "warm.mode1",
+        "medianMicroseconds": 41705.6418
+      },
+      {
+        "sampleMicroseconds": [
+          67738.833,
+          70356,
+          72361.625,
+          67497.417,
+          69738.75,
+          68312.875,
+          69645.333,
+          75031.833,
+          75810.709
+        ],
+        "maxMicroseconds": 75810.709,
+        "setterCallsPerOperation": 1,
+        "minMicroseconds": 67497.417,
+        "iterations": 1,
+        "name": "cold.mode1",
+        "medianMicroseconds": 69738.75
+      },
+      {
+        "sampleMicroseconds": [
+          405743.083,
+          389406.375,
+          394099.334,
+          396054,
+          407108.792,
+          395761.625,
+          397481.584,
+          404627.375,
+          397800.333
+        ],
+        "maxMicroseconds": 407108.792,
+        "setterCallsPerOperation": 10,
+        "minMicroseconds": 389406.375,
+        "iterations": 1,
+        "name": "notification-burst10.mode1",
+        "medianMicroseconds": 397481.584
+      },
+      {
+        "sampleMicroseconds": [
+          12.26125,
+          11.839580000000002,
+          11.699580000000001,
+          11.449169999999999,
+          11.4475,
+          11.625419999999998,
+          10.89208,
+          10.8525,
+          10.781669999999998
+        ],
+        "maxMicroseconds": 12.26125,
+        "setterCallsPerOperation": 0,
+        "minMicroseconds": 10.781669999999998,
+        "iterations": 100,
+        "name": "missing-source",
+        "medianMicroseconds": 11.449169999999999
+      },
+      {
+        "sampleMicroseconds": [
+          72.33125,
+          68.25958,
+          69.50459,
+          69.7075,
+          70.19834,
+          83.96208,
+          79.20667,
+          71.31459,
+          78.2675
+        ],
+        "maxMicroseconds": 83.96208,
+        "setterCallsPerOperation": 0,
+        "minMicroseconds": 68.25958,
+        "iterations": 100,
+        "name": "corrupt-source",
+        "medianMicroseconds": 71.31459
+      }
+    ],
+    "operatingSystem": "Version 27.2 (Build 26B123)",
+    "variant": "shipped",
+    "peakResidentBytes": 378306560,
+    "repetition": 2,
+    "binaryBytes": 107216
+  }
+]

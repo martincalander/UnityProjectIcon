@@ -99,6 +99,36 @@ namespace ProjectIcon.Editor.Tests
             Assert.That(queried.Count, Is.GreaterThan(2));
         }
 
+#if UNITY_6000_0_OR_NEWER
+        [Test]
+        public void Selection_QueriesEveryRepresentableTargetAndSkipsRejectedEnumValues()
+        {
+            var queried = new HashSet<BuildTargetGroup>();
+            EditorIconApplier.GetCurrentPlayerIcon(BuildTargetGroup.Standalone, (group, kind) =>
+            {
+                queried.Add(group);
+                return Array.Empty<Texture2D>();
+            });
+
+            var representable = new HashSet<BuildTargetGroup>();
+            foreach (BuildTargetGroup group in Enum.GetValues(typeof(BuildTargetGroup)))
+            {
+                try
+                {
+                    UnityEditor.Build.NamedBuildTarget.FromBuildTargetGroup(group);
+                    representable.Add(group);
+                }
+                catch (ArgumentException)
+                {
+                    Assert.That(queried.Contains(group), Is.False,
+                        "Rejected enum values cannot have icons in this Editor.");
+                }
+            }
+            Assert.That(queried, Is.EquivalentTo(representable),
+                "Keep valid aliases and targets even when their build modules are not installed.");
+        }
+#endif
+
 #if UNITY_EDITOR_OSX
         [Test]
         public void AutoApply_EnablingAfterDisableAppliesOnTheNextUpdate()

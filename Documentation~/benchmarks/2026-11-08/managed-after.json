@@ -1,0 +1,676 @@
+{
+    "unity": "7000.0.0a16",
+    "operatingSystem": "Mac OS X 27.2.0",
+    "processor": "Apple M2 Max",
+    "graphics": "Metal: Apple M2 Max",
+    "runtime": ".NET 10.0.10-dev",
+    "batchMode": false,
+    "allocationCounterAvailable": true,
+    "measurements": [
+        {
+            "name": "scheduler.disabled",
+            "iterations": 100000,
+            "medianMicroseconds": 0.89838625,
+            "minMicroseconds": 0.85845583,
+            "maxMicroseconds": 0.92806333,
+            "medianBytes": 0.0,
+            "sampleMicroseconds": [
+                0.85845583,
+                0.89838625,
+                0.9240379200000001,
+                0.91461875,
+                0.92806333,
+                0.91022791,
+                0.87630542,
+                0.88974625,
+                0.8614466599999999
+            ]
+        },
+        {
+            "name": "scheduler.idle",
+            "iterations": 100000,
+            "medianMicroseconds": 0.99963625,
+            "minMicroseconds": 0.97329,
+            "maxMicroseconds": 1.02413375,
+            "medianBytes": 0.0,
+            "sampleMicroseconds": [
+                1.02413375,
+                0.99963625,
+                0.99642834,
+                1.00676875,
+                1.01829417,
+                0.97329,
+                0.98811625,
+                0.9964879099999999,
+                1.0204825
+            ]
+        },
+        {
+            "name": "preference.read",
+            "iterations": 100000,
+            "medianMicroseconds": 0.96487833,
+            "minMicroseconds": 0.9212025,
+            "maxMicroseconds": 0.97642792,
+            "medianBytes": 0.0,
+            "sampleMicroseconds": [
+                0.95839833,
+                0.95744375,
+                0.97642792,
+                0.96785292,
+                0.96903667,
+                0.96487833,
+                0.9212025,
+                0.96655709,
+                0.9573841599999999
+            ]
+        },
+        {
+            "name": "lookup.actual-project",
+            "iterations": 100,
+            "medianMicroseconds": 786.49625,
+            "minMicroseconds": 757.25417,
+            "maxMicroseconds": 937.75958,
+            "medianBytes": 349376.0,
+            "sampleMicroseconds": [
+                937.75958,
+                766.56292,
+                786.49625,
+                782.86833,
+                798.34625,
+                788.17333,
+                796.52792,
+                757.25417,
+                768.86875
+            ]
+        },
+        {
+            "name": "lookup.active.synthetic",
+            "iterations": 100000,
+            "medianMicroseconds": 0.01004167,
+            "minMicroseconds": 0.0098475,
+            "maxMicroseconds": 0.01093,
+            "medianBytes": 0.0,
+            "sampleMicroseconds": [
+                0.010842919999999999,
+                0.01093,
+                0.00997208,
+                0.01004458,
+                0.01007083,
+                0.009880410000000001,
+                0.009987079999999999,
+                0.01004167,
+                0.0098475
+            ]
+        },
+        {
+            "name": "lookup.general.synthetic",
+            "iterations": 100000,
+            "medianMicroseconds": 0.020987910000000002,
+            "minMicroseconds": 0.01704625,
+            "maxMicroseconds": 0.02138875,
+            "medianBytes": 0.0,
+            "sampleMicroseconds": [
+                0.01704625,
+                0.0171125,
+                0.0177275,
+                0.02068792,
+                0.02132417,
+                0.021287089999999998,
+                0.021329169999999998,
+                0.020987910000000002,
+                0.02138875
+            ]
+        },
+        {
+            "name": "lookup.empty.synthetic",
+            "iterations": 10000,
+            "medianMicroseconds": 0.11810830000000001,
+            "minMicroseconds": 0.11577080000000001,
+            "maxMicroseconds": 0.12549169999999998,
+            "medianBytes": 0.0,
+            "sampleMicroseconds": [
+                0.12549169999999998,
+                0.1207292,
+                0.1188875,
+                0.1184375,
+                0.116225,
+                0.11577080000000001,
+                0.1175125,
+                0.11810830000000001,
+                0.1175
+            ]
+        },
+        {
+            "name": "file.exists",
+            "iterations": 10000,
+            "medianMicroseconds": 3.0950208,
+            "minMicroseconds": 2.875375,
+            "maxMicroseconds": 3.197025,
+            "medianBytes": 208.0,
+            "sampleMicroseconds": [
+                2.9903291000000003,
+                2.9687334,
+                3.0252084,
+                3.0961792,
+                3.197025,
+                2.875375,
+                3.0950208,
+                3.09585,
+                3.1446875
+            ]
+        },
+        {
+            "name": "file.info",
+            "iterations": 10000,
+            "medianMicroseconds": 3.3010459,
+            "minMicroseconds": 3.043325,
+            "maxMicroseconds": 3.4476834000000003,
+            "medianBytes": 456.0,
+            "sampleMicroseconds": [
+                3.1627375,
+                3.4476834000000003,
+                3.3010459,
+                3.4138957999999997,
+                3.043325,
+                3.0854833999999998,
+                3.11045,
+                3.3203792,
+                3.3137
+            ]
+        },
+        {
+            "name": "path.utf8-manual",
+            "iterations": 10000,
+            "medianMicroseconds": 0.17743330000000002,
+            "minMicroseconds": 0.1699375,
+            "maxMicroseconds": 0.25264169999999997,
+            "medianBytes": 328.0,
+            "sampleMicroseconds": [
+                0.1699375,
+                0.1770166,
+                0.25264169999999997,
+                0.17743330000000002,
+                0.17542080000000002,
+                0.248175,
+                0.179675,
+                0.22654169999999998,
+                0.1720041
+            ]
+        },
+        {
+            "name": "native.warm.Badge",
+            "iterations": 5,
+            "medianMicroseconds": 36888.1,
+            "minMicroseconds": 35950.0,
+            "maxMicroseconds": 38623.3082,
+            "medianBytes": 328.0,
+            "sampleMicroseconds": [
+                38623.3082,
+                37497.9332,
+                37536.4918,
+                36888.1,
+                37404.625,
+                35950.0,
+                36340.683399999994,
+                36372.191600000006,
+                36239.6332
+            ]
+        },
+        {
+            "name": "candidate.utf8-marshaler.Badge",
+            "iterations": 5,
+            "medianMicroseconds": 36760.7584,
+            "minMicroseconds": 35273.225,
+            "maxMicroseconds": 37337.4,
+            "medianBytes": 0.0,
+            "sampleMicroseconds": [
+                35273.225,
+                36120.0334,
+                37337.4,
+                37071.316600000006,
+                36781.725,
+                36760.7584,
+                36937.166600000004,
+                35924.075,
+                35652.4
+            ]
+        },
+        {
+            "name": "native.warm.IconReplacement",
+            "iterations": 5,
+            "medianMicroseconds": 37457.275,
+            "minMicroseconds": 36490.1832,
+            "maxMicroseconds": 38785.933399999994,
+            "medianBytes": 328.0,
+            "sampleMicroseconds": [
+                37443.55,
+                37457.275,
+                38785.933399999994,
+                37741.2416,
+                37816.4668,
+                36940.3584,
+                37981.1416,
+                37245.816600000006,
+                36490.1832
+            ]
+        },
+        {
+            "name": "candidate.utf8-marshaler.IconReplacement",
+            "iterations": 5,
+            "medianMicroseconds": 36108.666600000004,
+            "minMicroseconds": 35469.85,
+            "maxMicroseconds": 37044.875,
+            "medianBytes": 0.0,
+            "sampleMicroseconds": [
+                36292.3584,
+                36304.1416,
+                36668.9082,
+                36108.666600000004,
+                35516.5668,
+                35469.85,
+                35635.2834,
+                35947.75,
+                37044.875
+            ]
+        },
+        {
+            "name": "apply.imported-source.warm",
+            "iterations": 5,
+            "medianMicroseconds": 37144.3,
+            "minMicroseconds": 35547.916600000004,
+            "maxMicroseconds": 37837.916600000004,
+            "medianBytes": 1496.0,
+            "sampleMicroseconds": [
+                35547.916600000004,
+                36121.425,
+                37401.0334,
+                37837.916600000004,
+                37127.041600000004,
+                37778.9918,
+                37270.6332,
+                37144.3,
+                37104.066600000006
+            ]
+        },
+        {
+            "name": "png.encode.32",
+            "iterations": 10,
+            "medianMicroseconds": 24.675,
+            "minMicroseconds": 24.5083,
+            "maxMicroseconds": 31.2416,
+            "medianBytes": 320.0,
+            "sampleMicroseconds": [
+                31.2416,
+                24.675,
+                24.8792,
+                25.1584,
+                24.5541,
+                25.975,
+                24.5833,
+                24.5541,
+                24.5083
+            ]
+        },
+        {
+            "name": "png.cold-write.32",
+            "iterations": 10,
+            "medianMicroseconds": 72.3375,
+            "minMicroseconds": 67.0834,
+            "maxMicroseconds": 93.1292,
+            "medianBytes": 1400.0,
+            "sampleMicroseconds": [
+                87.87089999999999,
+                83.2916,
+                93.1292,
+                76.1375,
+                72.3375,
+                67.9666,
+                67.38329999999999,
+                68.9542,
+                67.0834
+            ]
+        },
+        {
+            "name": "png.cache-hit.32",
+            "iterations": 1000,
+            "medianMicroseconds": 1.2975,
+            "minMicroseconds": 1.271167,
+            "maxMicroseconds": 1.407,
+            "medianBytes": 248.0,
+            "sampleMicroseconds": [
+                1.271167,
+                1.27625,
+                1.277625,
+                1.363,
+                1.3495,
+                1.359167,
+                1.2975,
+                1.2919159999999998,
+                1.407
+            ]
+        },
+        {
+            "name": "apply.generated.warm.32",
+            "iterations": 5,
+            "medianMicroseconds": 36853.3168,
+            "minMicroseconds": 35383.65,
+            "maxMicroseconds": 38955.875,
+            "medianBytes": 576.0,
+            "sampleMicroseconds": [
+                36919.6334,
+                36913.7,
+                36853.3168,
+                36659.6334,
+                37298.9,
+                35383.65,
+                38955.875,
+                35415.6832,
+                35393.6832
+            ]
+        },
+        {
+            "name": "png.gpu-readback-encode.32",
+            "iterations": 10,
+            "medianMicroseconds": 449.975,
+            "minMicroseconds": 399.6792,
+            "maxMicroseconds": 752.4957999999999,
+            "medianBytes": 1776.0,
+            "sampleMicroseconds": [
+                752.4957999999999,
+                674.1667,
+                605.8042,
+                479.7333,
+                449.975,
+                431.2375,
+                412.90829999999994,
+                410.65829999999994,
+                399.6792
+            ]
+        },
+        {
+            "name": "png.encode.256",
+            "iterations": 10,
+            "medianMicroseconds": 1508.8790999999999,
+            "minMicroseconds": 1490.5208,
+            "maxMicroseconds": 1523.8791999999999,
+            "medianBytes": 5152.0,
+            "sampleMicroseconds": [
+                1493.225,
+                1523.8791999999999,
+                1504.475,
+                1501.3083000000001,
+                1511.1459,
+                1490.5208,
+                1508.8790999999999,
+                1512.0292,
+                1511.2958
+            ]
+        },
+        {
+            "name": "png.cold-write.256",
+            "iterations": 10,
+            "medianMicroseconds": 1610.0375,
+            "minMicroseconds": 1569.425,
+            "maxMicroseconds": 1733.225,
+            "medianBytes": 6232.0,
+            "sampleMicroseconds": [
+                1610.0375,
+                1583.1416,
+                1581.5583000000001,
+                1649.0958999999998,
+                1733.225,
+                1707.4917,
+                1581.1416,
+                1674.1042000000002,
+                1569.425
+            ]
+        },
+        {
+            "name": "png.cache-hit.256",
+            "iterations": 1000,
+            "medianMicroseconds": 1.202584,
+            "minMicroseconds": 1.197625,
+            "maxMicroseconds": 1.296042,
+            "medianBytes": 248.0,
+            "sampleMicroseconds": [
+                1.204625,
+                1.20175,
+                1.296042,
+                1.283083,
+                1.2009580000000002,
+                1.20125,
+                1.197625,
+                1.2247919999999999,
+                1.202584
+            ]
+        },
+        {
+            "name": "apply.generated.warm.256",
+            "iterations": 5,
+            "medianMicroseconds": 37564.9666,
+            "minMicroseconds": 36731.1918,
+            "maxMicroseconds": 38072.2166,
+            "medianBytes": 576.0,
+            "sampleMicroseconds": [
+                37100.666600000004,
+                38072.2166,
+                37564.9666,
+                37876.4,
+                36731.1918,
+                37596.183399999994,
+                37766.125,
+                37233.0332,
+                37362.625
+            ]
+        },
+        {
+            "name": "png.gpu-readback-encode.256",
+            "iterations": 10,
+            "medianMicroseconds": 2601.1791000000003,
+            "minMicroseconds": 2528.4209,
+            "maxMicroseconds": 2672.3042,
+            "medianBytes": 6608.0,
+            "sampleMicroseconds": [
+                2672.3042,
+                2578.675,
+                2614.4125,
+                2612.3625,
+                2601.1791000000003,
+                2535.1,
+                2625.2959,
+                2528.4209,
+                2591.2708
+            ]
+        },
+        {
+            "name": "png.encode.1024",
+            "iterations": 2,
+            "medianMicroseconds": 22771.0,
+            "minMicroseconds": 22675.4375,
+            "maxMicroseconds": 23396.3335,
+            "medianBytes": 46032.0,
+            "sampleMicroseconds": [
+                23396.3335,
+                23099.6045,
+                22982.771,
+                23064.083,
+                22761.396,
+                22675.4375,
+                22771.0,
+                22688.833,
+                22737.7085
+            ]
+        },
+        {
+            "name": "png.cold-write.1024",
+            "iterations": 2,
+            "medianMicroseconds": 22982.021,
+            "minMicroseconds": 22829.708,
+            "maxMicroseconds": 24868.958,
+            "medianBytes": 47112.0,
+            "sampleMicroseconds": [
+                22829.708,
+                23625.25,
+                22911.2295,
+                22982.021,
+                23147.2085,
+                22936.4375,
+                22920.5625,
+                24868.958,
+                23144.9375
+            ]
+        },
+        {
+            "name": "png.cache-hit.1024",
+            "iterations": 1000,
+            "medianMicroseconds": 1.2243330000000001,
+            "minMicroseconds": 1.216,
+            "maxMicroseconds": 1.3377080000000001,
+            "medianBytes": 248.0,
+            "sampleMicroseconds": [
+                1.22425,
+                1.222375,
+                1.216,
+                1.237042,
+                1.231625,
+                1.2243330000000001,
+                1.221,
+                1.2690830000000002,
+                1.3377080000000001
+            ]
+        },
+        {
+            "name": "apply.generated.warm.1024",
+            "iterations": 5,
+            "medianMicroseconds": 37290.1832,
+            "minMicroseconds": 35969.1668,
+            "maxMicroseconds": 39760.5,
+            "medianBytes": 576.0,
+            "sampleMicroseconds": [
+                39760.5,
+                36970.4918,
+                37290.1832,
+                36095.15,
+                35969.1668,
+                36223.1168,
+                37588.175,
+                37891.933399999994,
+                38406.6416
+            ]
+        },
+        {
+            "name": "png.gpu-readback-encode.1024",
+            "iterations": 2,
+            "medianMicroseconds": 27834.4375,
+            "minMicroseconds": 27097.021,
+            "maxMicroseconds": 30354.6045,
+            "medianBytes": 47488.0,
+            "sampleMicroseconds": [
+                27834.4375,
+                30354.6045,
+                27700.958,
+                27318.5625,
+                29915.396,
+                27381.625,
+                28396.0415,
+                28576.9585,
+                27097.021
+            ]
+        },
+        {
+            "name": "png.encode.2048",
+            "iterations": 2,
+            "medianMicroseconds": 92022.396,
+            "minMicroseconds": 91689.375,
+            "maxMicroseconds": 94615.8125,
+            "medianBytes": 154752.0,
+            "sampleMicroseconds": [
+                92022.396,
+                94615.8125,
+                92399.292,
+                92619.3545,
+                91884.2085,
+                92557.9585,
+                91731.9165,
+                91851.2915,
+                91689.375
+            ]
+        },
+        {
+            "name": "png.cold-write.2048",
+            "iterations": 2,
+            "medianMicroseconds": 92935.292,
+            "minMicroseconds": 91799.2085,
+            "maxMicroseconds": 94719.4585,
+            "medianBytes": 155832.0,
+            "sampleMicroseconds": [
+                91799.2085,
+                92215.4165,
+                92080.25,
+                92020.7705,
+                92935.292,
+                93255.6045,
+                93134.5835,
+                94719.4585,
+                94459.8545
+            ]
+        },
+        {
+            "name": "png.cache-hit.2048",
+            "iterations": 1000,
+            "medianMicroseconds": 1.578,
+            "minMicroseconds": 1.370417,
+            "maxMicroseconds": 2.128667,
+            "medianBytes": 248.0,
+            "sampleMicroseconds": [
+                2.128667,
+                1.506375,
+                1.3704580000000002,
+                1.370417,
+                1.5282909999999998,
+                1.5974169999999999,
+                1.578,
+                1.640875,
+                1.590542
+            ]
+        },
+        {
+            "name": "apply.generated.warm.2048",
+            "iterations": 5,
+            "medianMicroseconds": 36300.9834,
+            "minMicroseconds": 35528.9832,
+            "maxMicroseconds": 37397.2334,
+            "medianBytes": 576.0,
+            "sampleMicroseconds": [
+                37397.2334,
+                37308.5916,
+                36262.8,
+                36300.9834,
+                36276.5166,
+                36374.208399999996,
+                36102.2416,
+                36380.4666,
+                35528.9832
+            ]
+        },
+        {
+            "name": "png.gpu-readback-encode.2048",
+            "iterations": 2,
+            "medianMicroseconds": 106362.2915,
+            "minMicroseconds": 103011.8545,
+            "maxMicroseconds": 112837.0625,
+            "medianBytes": 156208.0,
+            "sampleMicroseconds": [
+                106062.9375,
+                112837.0625,
+                103011.8545,
+                103260.271,
+                106362.2915,
+                107180.0415,
+                106194.083,
+                106653.7705,
+                107316.0
+            ]
+        }
+    ]
+}

@@ -1,0 +1,454 @@
+{
+  "date": "2026-11-08",
+  "unity": "7000.0.0a16 (0745a91df592)",
+  "platform": "macOS arm64, Metal",
+  "compilation": {
+    "status": "completed",
+    "failed": false,
+    "errors": []
+  },
+  "editMode": {
+    "status": "completed",
+    "duration": 2.15,
+    "summary": {
+      "total": 59,
+      "passed": 59,
+      "failed": 0,
+      "skipped": 0,
+      "inconclusive": 0
+    },
+    "results": [
+      {
+        "FullName": "ProjectIcon.Editor.Tests.EditorIconBehaviorTests.AutoApply_DisablingClearsPendingWorkAndOwnedIcon",
+        "Status": "Passed",
+        "Duration": 0.161256666,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "ProjectIcon.Editor.Tests.EditorIconBehaviorTests.AutoApply_EnablingAfterDisableAppliesOnTheNextUpdate",
+        "Status": "Passed",
+        "Duration": 0.004843125,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "ProjectIcon.Editor.Tests.EditorIconBehaviorTests.Cleanup_ReleasesOwnedNativeIconAndPendingWork",
+        "Status": "Passed",
+        "Duration": 0.134585,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "ProjectIcon.Editor.Tests.EditorIconBehaviorTests.Initialize_RequestsAnImmediateApplyEvenAfterRecentWork",
+        "Status": "Passed",
+        "Duration": 0.003999334,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "ProjectIcon.Editor.Tests.EditorIconBehaviorTests.NativeBridge_InvalidModeDoesNotPoisonLaterValidCalls(-1)",
+        "Status": "Passed",
+        "Duration": 0.135422958,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "ProjectIcon.Editor.Tests.EditorIconBehaviorTests.NativeBridge_InvalidModeDoesNotPoisonLaterValidCalls(2)",
+        "Status": "Passed",
+        "Duration": 0.134216041,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "ProjectIcon.Editor.Tests.EditorIconBehaviorTests.NativeBridge_InvalidModeDoesNotPoisonLaterValidCalls(int.MaxValue)",
+        "Status": "Passed",
+        "Duration": 0.136755208,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "ProjectIcon.Editor.Tests.EditorIconBehaviorTests.NativeBridge_InvalidPathIsRejectedBeforeImageLoading(null)",
+        "Status": "Passed",
+        "Duration": 0.000926458,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "ProjectIcon.Editor.Tests.EditorIconBehaviorTests.NativeBridge_InvalidPathIsRejectedBeforeImageLoading(\"\")",
+        "Status": "Passed",
+        "Duration": 0.000161791,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "ProjectIcon.Editor.Tests.EditorIconBehaviorTests.NativeBridge_InvalidPathIsRejectedBeforeImageLoading(\"/tmp/icon.png\\0ignored\")",
+        "Status": "Passed",
+        "Duration": 3.6583e-05,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "ProjectIcon.Editor.Tests.EditorIconBehaviorTests.ProjectChangeBurst_CoalescesIntoOneApplyWithoutExtendingRetryWindows",
+        "Status": "Passed",
+        "Duration": 0.011113958,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "ProjectIcon.Editor.Tests.EditorIconBehaviorTests.RemovingLastPlayerIcon_ReleasesOwnedNativeIcon",
+        "Status": "Passed",
+        "Duration": 0.131853542,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "ProjectIcon.Editor.Tests.EditorIconBehaviorTests.Selection_PrefersActiveTargetBeforeDefault(Application)",
+        "Status": "Passed",
+        "Duration": 0.008229917,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "ProjectIcon.Editor.Tests.EditorIconBehaviorTests.Selection_PrefersActiveTargetBeforeDefault(Any)",
+        "Status": "Passed",
+        "Duration": 0.00019825,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "ProjectIcon.Editor.Tests.EditorIconBehaviorTests.Selection_QueriesEachTargetAndKindAtMostOnceWhenEmpty(Unknown)",
+        "Status": "Passed",
+        "Duration": 0.004541041,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "ProjectIcon.Editor.Tests.EditorIconBehaviorTests.Selection_QueriesEachTargetAndKindAtMostOnceWhenEmpty(Standalone)",
+        "Status": "Passed",
+        "Duration": 0.000159708,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "ProjectIcon.Editor.Tests.EditorIconBehaviorTests.Selection_QueriesEveryRepresentableTargetAndSkipsRejectedEnumValues",
+        "Status": "Passed",
+        "Duration": 0.003096417,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "ProjectIcon.Editor.Tests.EditorIconBehaviorTests.Selection_RecoversFromUnsupportedApplicationKind",
+        "Status": "Passed",
+        "Duration": 0.003121792,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "ProjectIcon.Editor.Tests.EditorIconBehaviorTests.Selection_SkipsDestroyedTexturesAndUnsupportedTargets",
+        "Status": "Passed",
+        "Duration": 0.004966709,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "ProjectIcon.Editor.Tests.EditorIconBehaviorTests.Selection_UsesDefaultBeforeOtherPlatforms",
+        "Status": "Passed",
+        "Duration": 0.004421208,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "ProjectIcon.Editor.Tests.EditorIconLifecycleTests.InitializeAndCleanup_OwnExactlyOneUpdateCallback",
+        "Status": "Passed",
+        "Duration": 0.00336475,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "ProjectIcon.Editor.Tests.EditorIconLifecycleTests.ProjectChange_DoesNotExtendTheStartupRetryWindow",
+        "Status": "Passed",
+        "Duration": 0.001219667,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "ProjectIcon.Editor.Tests.EditorIconLifecycleTests.RepeatedPlayModeWithoutDomainReload_KeepsIconUpdatesRegistered",
+        "Status": "Passed",
+        "Duration": 0.547939375,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "ProjectIcon.Editor.Tests.EditorIconPackageContractTests.ApplyIcon_MissingTextureReturnsFailure",
+        "Status": "Passed",
+        "Duration": 0.005567125,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "ProjectIcon.Editor.Tests.EditorIconPackageContractTests.Assemblies_SupportProjectIconDisableSymbol(\"Editor/ProjectIcon.Editor.asmdef\")",
+        "Status": "Passed",
+        "Duration": 0.003447667,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "ProjectIcon.Editor.Tests.EditorIconPackageContractTests.Assemblies_SupportProjectIconDisableSymbol(\"Tests/Editor/ProjectIcon.Editor.Tests.asmdef\")",
+        "Status": "Passed",
+        "Duration": 0.000370291,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "ProjectIcon.Editor.Tests.EditorIconPackageContractTests.NativeBridge_AppliesSourceImagesAndTextureFallbackForEveryMode(0)",
+        "Status": "Passed",
+        "Duration": 0.342992333,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "ProjectIcon.Editor.Tests.EditorIconPackageContractTests.NativeBridge_AppliesSourceImagesAndTextureFallbackForEveryMode(1)",
+        "Status": "Passed",
+        "Duration": 0.228660083,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "ProjectIcon.Editor.Tests.EditorIconPackageContractTests.NativeBundle_ContainsProjectIconExecutableAndMetadata",
+        "Status": "Passed",
+        "Duration": 0.001751792,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "ProjectIcon.Editor.Tests.EditorIconPackageContractTests.NativeBundle_UsesStableGuidAndMacOsEditorOnlyImporter",
+        "Status": "Passed",
+        "Duration": 0.002821791,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "ProjectIcon.Editor.Tests.EditorIconPackageContractTests.Package_UsesProjectIconIdentity",
+        "Status": "Passed",
+        "Duration": 0.001071166,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "ProjectIcon.Editor.Tests.EditorIconPackageContractTests.ReadableCopy_BlockedCacheDirectoryReturnsErrorAndRecovers",
+        "Status": "Passed",
+        "Duration": 0.002093666,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "ProjectIcon.Editor.Tests.EditorIconPackageContractTests.ReadableCopy_ColorFormatsPreserveGreen(RGBAHalf)",
+        "Status": "Passed",
+        "Duration": 0.006235875,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "ProjectIcon.Editor.Tests.EditorIconPackageContractTests.ReadableCopy_ColorFormatsPreserveGreen(RGBAFloat)",
+        "Status": "Passed",
+        "Duration": 0.001380417,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "ProjectIcon.Editor.Tests.EditorIconPackageContractTests.ReadableCopy_ColorFormatsPreserveGreen(RGHalf)",
+        "Status": "Passed",
+        "Duration": 0.001379959,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "ProjectIcon.Editor.Tests.EditorIconPackageContractTests.ReadableCopy_ColorFormatsPreserveGreen(RGFloat)",
+        "Status": "Passed",
+        "Duration": 0.000761291,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "ProjectIcon.Editor.Tests.EditorIconPackageContractTests.ReadableCopy_ColorFormatsPreserveGreen(RG16)",
+        "Status": "Passed",
+        "Duration": 0.000874791,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "ProjectIcon.Editor.Tests.EditorIconPackageContractTests.ReadableCopy_ColorFormatsPreserveGreen(RG32)",
+        "Status": "Passed",
+        "Duration": 0.001184042,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "ProjectIcon.Editor.Tests.EditorIconPackageContractTests.ReadableCopy_ColorFormatsPreserveGreen(RGBA64)",
+        "Status": "Passed",
+        "Duration": 0.000317584,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "ProjectIcon.Editor.Tests.EditorIconPackageContractTests.ReadableCopy_ColorFormatsPreserveGreen(RGB565)",
+        "Status": "Passed",
+        "Duration": 0.000274,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "ProjectIcon.Editor.Tests.EditorIconPackageContractTests.ReadableCopy_ColorFormatsPreserveGreen(ARGB4444)",
+        "Status": "Passed",
+        "Duration": 0.000268458,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "ProjectIcon.Editor.Tests.EditorIconPackageContractTests.ReadableCopy_ColorFormatsPreserveGreen(RGBA4444)",
+        "Status": "Passed",
+        "Duration": 0.000253584,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "ProjectIcon.Editor.Tests.EditorIconPackageContractTests.ReadableCopy_ColorFormatsPreserveGreen(ARGB32)",
+        "Status": "Passed",
+        "Duration": 0.000246958,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "ProjectIcon.Editor.Tests.EditorIconPackageContractTests.ReadableCopy_ColorFormatsPreserveGreen(BGRA32)",
+        "Status": "Passed",
+        "Duration": 0.000253375,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "ProjectIcon.Editor.Tests.EditorIconPackageContractTests.ReadableCopy_DestroyedTextureReturnsErrorWithoutThrowing",
+        "Status": "Passed",
+        "Duration": 0.001306458,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "ProjectIcon.Editor.Tests.EditorIconPackageContractTests.ReadableCopy_DifferentTextureInvalidatesCache",
+        "Status": "Passed",
+        "Duration": 0.004033958,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "ProjectIcon.Editor.Tests.EditorIconPackageContractTests.ReadableCopy_ReusesUnchangedTextureAndRegeneratesAfterUpdatesOrDeletion",
+        "Status": "Passed",
+        "Duration": 0.003654917,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "ProjectIcon.Editor.Tests.EditorIconPackageContractTests.ReadableCopy_SingleChannelTextureRemainsGrayscale(R8)",
+        "Status": "Passed",
+        "Duration": 0.001132875,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "ProjectIcon.Editor.Tests.EditorIconPackageContractTests.ReadableCopy_SingleChannelTextureRemainsGrayscale(R16)",
+        "Status": "Passed",
+        "Duration": 0.000334333,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "ProjectIcon.Editor.Tests.EditorIconPackageContractTests.ReadableCopy_SingleChannelTextureRemainsGrayscale(RHalf)",
+        "Status": "Passed",
+        "Duration": 0.000239458,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "ProjectIcon.Editor.Tests.EditorIconPackageContractTests.ReadableCopy_SingleChannelTextureRemainsGrayscale(RFloat)",
+        "Status": "Passed",
+        "Duration": 0.000236833,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "ProjectIcon.Editor.Tests.EditorIconPackageContractTests.ReadableCopy_UnreadableMidtonesPreserveColorAlphaAndRenderState(False)",
+        "Status": "Passed",
+        "Duration": 0.001834292,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "ProjectIcon.Editor.Tests.EditorIconPackageContractTests.ReadableCopy_UnreadableMidtonesPreserveColorAlphaAndRenderState(True)",
+        "Status": "Passed",
+        "Duration": 0.001044,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "ProjectIcon.Editor.Tests.EditorIconPackageContractTests.ReadableCopy_UnreadableTextureUsesGpuWithoutChangingActiveTarget",
+        "Status": "Passed",
+        "Duration": 0.003320833,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "ProjectIcon.Editor.Tests.EditorIconPreferencesTests.ApplicationIconMode_FallsBackToBadge_WhenStoredValueIsInvalid",
+        "Status": "Passed",
+        "Duration": 0.003850166,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "ProjectIcon.Editor.Tests.EditorIconPreferencesTests.ApplicationIconMode_PersistsEverySupportedModeInEditorPrefs",
+        "Status": "Passed",
+        "Duration": 0.004733625,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "ProjectIcon.Editor.Tests.EditorIconPreferencesTests.AutoApplyPlayerIcon_PersistsInEditorPrefs",
+        "Status": "Passed",
+        "Duration": 0.001399791,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "ProjectIcon.Editor.Tests.EditorIconPreferencesTests.Preferences_UseAutoApplyAndBadgeDefaults_WhenKeysAreMissing",
+        "Status": "Passed",
+        "Duration": 0.003883875,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "ProjectIcon.Editor.Tests.EditorIconPreferencesTests.SettingsProvider_IsUserScopedUnderProjectIcon",
+        "Status": "Passed",
+        "Duration": 0.00072725,
+        "Message": null,
+        "StackTrace": null
+      }
+    ]
+  },
+  "nativeTests": "Passed cache, invalidation, pinning, exception recovery, coalesced retries, reset and ABI checks using shipped bundle.",
+  "markdownlint": "Passed for CHANGELOG.md, Documentation~/index.md and Documentation~/performance.md.",
+  "sourceSha256": {
+    "Editor/EditorIconApplier.cs": "8e2e526176e25a8f8dcef1a57977cfdb6ab8d90f54ff5cfabcace4291b2c4069",
+    "Tests/Editor/EditorIconBehaviorTests.cs": "eb1665659099c01b965505667ab1b3ad6300179219a590eab705eea36167b4fb",
+    "Tests/Editor/EditorIconBenchmarks.cs": "a5498d8dc33f8ed497616119ef573f7b05d767d466b965b0b4dbd95cf3471f5c",
+    "Native~/macOS/benchmarks.mm": "c8f3ca33a2cf3ace7c44261c5bccc452fd5a2d43813fe7a88b0a45f09be14100",
+    "Native~/macOS/benchmark.py": "716b51af623d5ef6e984f15d52700e290cf824155205729064ab2683a0ed99b5"
+  },
+  "notRun": [
+    "Unity 2021.3",
+    "Unity 2022.3",
+    "Unity 6",
+    "Intel execution",
+    "Other macOS versions",
+    "Windows/Linux compilation",
+    "Interactive focus and activation sequences"
+  ]
+}

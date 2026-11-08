@@ -42,6 +42,10 @@ All notable changes to this package are documented in this file.
 
 ### Changed
 
+- Skip obsolete build-target enum values that Unity 6 and newer cannot map to
+  icon settings, avoiding repeated exceptions during fallback icon searches.
+- Add opt-in managed and native benchmark tools and measured optimization
+  tradeoffs in the performance guide.
 - Reuse generated PNG copies until their texture changes or the cache file is
   deleted or overwritten, avoiding repeated readback, encoding and native
   composition during icon retries.

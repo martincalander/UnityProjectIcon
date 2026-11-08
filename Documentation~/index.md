@@ -11,6 +11,7 @@ assets, or Player builds.
 - [Compatibility](compatibility.md)
 - [Troubleshooting](troubleshooting.md)
 - [Native bundle notes](native-bundle.md)
+- [Performance and benchmarks](performance.md)
 - [Changelog](../CHANGELOG.md)
 
 After installation, assign an application icon in Player Settings, then verify

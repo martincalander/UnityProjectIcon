@@ -1,0 +1,290 @@
+[
+  {
+    "variant": "canvas512",
+    "mode": 0,
+    "size": 128,
+    "maxAbsoluteChannelDifference": 9,
+    "meanAbsoluteChannelDifference": 0.1537017822265625,
+    "changedChannelFraction": 0.0616607666015625
+  },
+  {
+    "variant": "canvas512",
+    "mode": 0,
+    "size": 1024,
+    "maxAbsoluteChannelDifference": 81,
+    "meanAbsoluteChannelDifference": 0.19472837448120117,
+    "changedChannelFraction": 0.025254011154174805
+  },
+  {
+    "variant": "canvas512",
+    "mode": 1,
+    "size": 128,
+    "maxAbsoluteChannelDifference": 6,
+    "meanAbsoluteChannelDifference": 0.1205902099609375,
+    "changedChannelFraction": 0.0826416015625
+  },
+  {
+    "variant": "canvas512",
+    "mode": 1,
+    "size": 1024,
+    "maxAbsoluteChannelDifference": 19,
+    "meanAbsoluteChannelDifference": 0.16589665412902832,
+    "changedChannelFraction": 0.07631206512451172
+  },
+  {
+    "variant": "canvas256",
+    "mode": 0,
+    "size": 128,
+    "maxAbsoluteChannelDifference": 52,
+    "meanAbsoluteChannelDifference": 0.93035888671875,
+    "changedChannelFraction": 0.245361328125
+  },
+  {
+    "variant": "canvas256",
+    "mode": 0,
+    "size": 1024,
+    "maxAbsoluteChannelDifference": 198,
+    "meanAbsoluteChannelDifference": 0.7450907230377197,
+    "changedChannelFraction": 0.21343445777893066
+  },
+  {
+    "variant": "canvas256",
+    "mode": 1,
+    "size": 128,
+    "maxAbsoluteChannelDifference": 42,
+    "meanAbsoluteChannelDifference": 0.8913726806640625,
+    "changedChannelFraction": 0.1828765869140625
+  },
+  {
+    "variant": "canvas256",
+    "mode": 1,
+    "size": 1024,
+    "maxAbsoluteChannelDifference": 70,
+    "meanAbsoluteChannelDifference": 1.008178949356079,
+    "changedChannelFraction": 0.17968344688415527
+  },
+  {
+    "variant": "replacement-source-image",
+    "mode": 0,
+    "size": 128,
+    "maxAbsoluteChannelDifference": 0,
+    "meanAbsoluteChannelDifference": 0.0,
+    "changedChannelFraction": 0.0
+  },
+  {
+    "variant": "replacement-source-image",
+    "mode": 0,
+    "size": 1024,
+    "maxAbsoluteChannelDifference": 0,
+    "meanAbsoluteChannelDifference": 0.0,
+    "changedChannelFraction": 0.0
+  },
+  {
+    "variant": "replacement-source-image",
+    "mode": 1,
+    "size": 128,
+    "maxAbsoluteChannelDifference": 106,
+    "meanAbsoluteChannelDifference": 1.9822540283203125,
+    "changedChannelFraction": 0.23907470703125
+  },
+  {
+    "variant": "replacement-source-image",
+    "mode": 1,
+    "size": 1024,
+    "maxAbsoluteChannelDifference": 20,
+    "meanAbsoluteChannelDifference": 0.249192476272583,
+    "changedChannelFraction": 0.15205979347229004
+  },
+  {
+    "variant": "bitmap-representation",
+    "mode": 0,
+    "size": 128,
+    "maxAbsoluteChannelDifference": 0,
+    "meanAbsoluteChannelDifference": 0.0,
+    "changedChannelFraction": 0.0
+  },
+  {
+    "variant": "bitmap-representation",
+    "mode": 0,
+    "size": 1024,
+    "maxAbsoluteChannelDifference": 0,
+    "meanAbsoluteChannelDifference": 0.0,
+    "changedChannelFraction": 0.0
+  },
+  {
+    "variant": "bitmap-representation",
+    "mode": 1,
+    "size": 128,
+    "maxAbsoluteChannelDifference": 0,
+    "meanAbsoluteChannelDifference": 0.0,
+    "changedChannelFraction": 0.0
+  },
+  {
+    "variant": "bitmap-representation",
+    "mode": 1,
+    "size": 1024,
+    "maxAbsoluteChannelDifference": 0,
+    "meanAbsoluteChannelDifference": 0.0,
+    "changedChannelFraction": 0.0
+  },
+  {
+    "variant": "tiff-representation",
+    "mode": 0,
+    "size": 128,
+    "maxAbsoluteChannelDifference": 0,
+    "meanAbsoluteChannelDifference": 0.0,
+    "changedChannelFraction": 0.0
+  },
+  {
+    "variant": "tiff-representation",
+    "mode": 0,
+    "size": 1024,
+    "maxAbsoluteChannelDifference": 0,
+    "meanAbsoluteChannelDifference": 0.0,
+    "changedChannelFraction": 0.0
+  },
+  {
+    "variant": "tiff-representation",
+    "mode": 1,
+    "size": 128,
+    "maxAbsoluteChannelDifference": 0,
+    "meanAbsoluteChannelDifference": 0.0,
+    "changedChannelFraction": 0.0
+  },
+  {
+    "variant": "tiff-representation",
+    "mode": 1,
+    "size": 1024,
+    "maxAbsoluteChannelDifference": 0,
+    "meanAbsoluteChannelDifference": 0.0,
+    "changedChannelFraction": 0.0
+  },
+  {
+    "variant": "rgba8-representation",
+    "mode": 0,
+    "size": 128,
+    "maxAbsoluteChannelDifference": 0,
+    "meanAbsoluteChannelDifference": 0.0,
+    "changedChannelFraction": 0.0
+  },
+  {
+    "variant": "rgba8-representation",
+    "mode": 0,
+    "size": 1024,
+    "maxAbsoluteChannelDifference": 0,
+    "meanAbsoluteChannelDifference": 0.0,
+    "changedChannelFraction": 0.0
+  },
+  {
+    "variant": "rgba8-representation",
+    "mode": 1,
+    "size": 128,
+    "maxAbsoluteChannelDifference": 0,
+    "meanAbsoluteChannelDifference": 0.0,
+    "changedChannelFraction": 0.0
+  },
+  {
+    "variant": "rgba8-representation",
+    "mode": 1,
+    "size": 1024,
+    "maxAbsoluteChannelDifference": 0,
+    "meanAbsoluteChannelDifference": 0.0,
+    "changedChannelFraction": 0.0
+  },
+  {
+    "variant": "multiple-resolutions",
+    "mode": 0,
+    "size": 128,
+    "maxAbsoluteChannelDifference": 0,
+    "meanAbsoluteChannelDifference": 0.0,
+    "changedChannelFraction": 0.0
+  },
+  {
+    "variant": "multiple-resolutions",
+    "mode": 0,
+    "size": 1024,
+    "maxAbsoluteChannelDifference": 0,
+    "meanAbsoluteChannelDifference": 0.0,
+    "changedChannelFraction": 0.0
+  },
+  {
+    "variant": "multiple-resolutions",
+    "mode": 1,
+    "size": 128,
+    "maxAbsoluteChannelDifference": 0,
+    "meanAbsoluteChannelDifference": 0.0,
+    "changedChannelFraction": 0.0
+  },
+  {
+    "variant": "multiple-resolutions",
+    "mode": 1,
+    "size": 1024,
+    "maxAbsoluteChannelDifference": 0,
+    "meanAbsoluteChannelDifference": 0.0,
+    "changedChannelFraction": 0.0
+  },
+  {
+    "variant": "cache-always",
+    "mode": 0,
+    "size": 128,
+    "maxAbsoluteChannelDifference": 0,
+    "meanAbsoluteChannelDifference": 0.0,
+    "changedChannelFraction": 0.0
+  },
+  {
+    "variant": "cache-always",
+    "mode": 0,
+    "size": 1024,
+    "maxAbsoluteChannelDifference": 0,
+    "meanAbsoluteChannelDifference": 0.0,
+    "changedChannelFraction": 0.0
+  },
+  {
+    "variant": "cache-always",
+    "mode": 1,
+    "size": 128,
+    "maxAbsoluteChannelDifference": 0,
+    "meanAbsoluteChannelDifference": 0.0,
+    "changedChannelFraction": 0.0
+  },
+  {
+    "variant": "cache-always",
+    "mode": 1,
+    "size": 1024,
+    "maxAbsoluteChannelDifference": 0,
+    "meanAbsoluteChannelDifference": 0.0,
+    "changedChannelFraction": 0.0
+  },
+  {
+    "variant": "coalesced-notifications",
+    "mode": 0,
+    "size": 128,
+    "maxAbsoluteChannelDifference": 0,
+    "meanAbsoluteChannelDifference": 0.0,
+    "changedChannelFraction": 0.0
+  },
+  {
+    "variant": "coalesced-notifications",
+    "mode": 0,
+    "size": 1024,
+    "maxAbsoluteChannelDifference": 0,
+    "meanAbsoluteChannelDifference": 0.0,
+    "changedChannelFraction": 0.0
+  },
+  {
+    "variant": "coalesced-notifications",
+    "mode": 1,
+    "size": 128,
+    "maxAbsoluteChannelDifference": 0,
+    "meanAbsoluteChannelDifference": 0.0,
+    "changedChannelFraction": 0.0
+  },
+  {
+    "variant": "coalesced-notifications",
+    "mode": 1,
+    "size": 1024,
+    "maxAbsoluteChannelDifference": 0,
+    "meanAbsoluteChannelDifference": 0.0,
+    "changedChannelFraction": 0.0
+  }
+]

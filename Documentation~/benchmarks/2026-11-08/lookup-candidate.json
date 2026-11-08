@@ -1,0 +1,10 @@
+[
+  "original: 1123,276 us, 370167,76 bytes",
+  "candidate: 772,01 us, 349312,4 bytes",
+  "candidate: 769,13 us, 349312,4 bytes",
+  "original: 1032,969 us, 370167,76 bytes",
+  "original: 1020,481 us, 370167,76 bytes",
+  "candidate: 777,7769999999999 us, 349312,4 bytes",
+  "candidate: 1155,2450000000001 us, 349314,24 bytes",
+  "original: 1020,2769999999999 us, 370189,6 bytes"
+]
