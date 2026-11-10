@@ -132,8 +132,10 @@ namespace ProjectIcon.Editor
             if (!AutoApplyEnabled)
                 return;
 
-            StartFastReapplyWindow();
-            TryApplyPlayerIconSilently();
+            // Losing focus gets one apply. The native observers already reassert on resign.
+            if (hasFocus)
+                StartFastReapplyWindow();
+            TryApplyPlayerIcon(out _);
         }
 
         static void StartForceReapplyWindow()
@@ -180,19 +182,31 @@ namespace ProjectIcon.Editor
                 StartForceReapplyWindow();
             }
 
-            double now = EditorApplication.timeSinceStartup;
-            bool inFastForceWindow = now <= s_fastReapplyUntilTime;
-            bool inStartupForceWindow = now <= s_forceReapplyUntilTime;
-            double interval = inFastForceWindow
-                ? FocusForceReapplyIntervalSeconds
-                : inStartupForceWindow
-                ? StartupForceReapplyIntervalSeconds
-                : MaintenanceForceReapplyIntervalSeconds;
-
-            if (!s_applyRequested && now - s_lastApplyTime < interval)
+            if (!s_applyRequested && !IsReapplyDue(EditorApplication.timeSinceStartup))
                 return;
 
-            TryApplyPlayerIconSilently();
+            TryApplyPlayerIcon(out _);
+        }
+
+        static bool IsReapplyDue(double now)
+        {
+            if (now <= s_fastReapplyUntilTime)
+                return now - s_lastApplyTime >= GetRetryInterval(
+                    s_fastReapplyUntilTime, FocusForceReapplyDurationSeconds, FocusForceReapplyIntervalSeconds);
+
+            if (now <= s_forceReapplyUntilTime)
+                return now - s_lastApplyTime >= GetRetryInterval(
+                    s_forceReapplyUntilTime, StartupForceReapplyDurationSeconds, StartupForceReapplyIntervalSeconds);
+
+            // Maintenance waits while in Play Mode. The first update after leaving it finds the interval overdue.
+            return now - s_lastApplyTime >= MaintenanceForceReapplyIntervalSeconds && !EditorApplication.isPlaying;
+        }
+
+        static double GetRetryInterval(double windowEndTime, double windowDuration, double minimumInterval)
+        {
+            // Wait as long as the window had been running at the last apply, so retries thin out over the window.
+            double elapsedAtLastApply = s_lastApplyTime - (windowEndTime - windowDuration);
+            return Math.Min(Math.Max(elapsedAtLastApply, minimumInterval), MaintenanceForceReapplyIntervalSeconds);
         }
 
         internal static bool AutoApplyEnabled
@@ -216,15 +230,10 @@ namespace ProjectIcon.Editor
                 if (AutoApplyEnabled)
                 {
                     StartFastReapplyWindow();
-                    TryApplyPlayerIconSilently();
+                    TryApplyPlayerIcon(out _);
                 }
 #endif
             }
-        }
-
-        static void TryApplyPlayerIconSilently()
-        {
-            TryApplyPlayerIcon(out _);
         }
 
         static bool TryApplyPlayerIcon(out string error)

@@ -42,6 +42,14 @@ All notable changes to this package are documented in this file.
 
 ### Changed
 
+- Space out icon retries after a script reload or Editor focus change. Each
+  retry now waits as long as the retry window had been running, between the old
+  minimum and 30 seconds. A script reload applies about 8 times in two minutes
+  instead of about 60, and gaining focus about 6 times in six seconds instead of
+  about 25.
+- Apply once when the Editor loses focus, without starting a retry window.
+- Skip the 30-second maintenance apply during Play Mode. The first update after
+  leaving Play Mode applies.
 - Skip obsolete build-target enum values that Unity 6 and newer cannot map to
   icon settings, avoiding repeated exceptions during fallback icon searches.
 - Add opt-in managed and native benchmark tools and measured optimization

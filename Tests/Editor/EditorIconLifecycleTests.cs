@@ -10,14 +10,19 @@ namespace ProjectIcon.Editor.Tests
 {
     public sealed class EditorIconLifecycleTests
     {
+        const BindingFlags StaticPrivate = BindingFlags.Static | BindingFlags.NonPublic;
         bool m_optionsEnabled;
         EnterPlayModeOptions m_options;
+        bool m_hadAutoApply;
+        bool m_autoApply;
 
         [SetUp]
         public void SetUp()
         {
             m_optionsEnabled = EditorSettings.enterPlayModeOptionsEnabled;
             m_options = EditorSettings.enterPlayModeOptions;
+            m_hadAutoApply = EditorPrefs.HasKey(EditorIconPreferences.AutoApplyPlayerIconKey);
+            m_autoApply = EditorIconApplier.AutoApplyEnabled;
         }
 
         [UnityTearDown]
@@ -28,6 +33,10 @@ namespace ProjectIcon.Editor.Tests
 
             EditorSettings.enterPlayModeOptions = m_options;
             EditorSettings.enterPlayModeOptionsEnabled = m_optionsEnabled;
+            if (m_hadAutoApply)
+                EditorIconApplier.AutoApplyEnabled = m_autoApply;
+            else
+                EditorPrefs.DeleteKey(EditorIconPreferences.AutoApplyPlayerIconKey);
             EditorIconApplier.Initialize();
         }
 
@@ -49,9 +58,8 @@ namespace ProjectIcon.Editor.Tests
         [Test]
         public void ProjectChange_DoesNotExtendTheStartupRetryWindow()
         {
-            const BindingFlags flags = BindingFlags.Static | BindingFlags.NonPublic;
-            FieldInfo window = typeof(EditorIconApplier).GetField("s_forceReapplyUntilTime", flags);
-            MethodInfo onProjectChanged = typeof(EditorIconApplier).GetMethod("OnProjectChanged", flags);
+            FieldInfo window = typeof(EditorIconApplier).GetField("s_forceReapplyUntilTime", StaticPrivate);
+            MethodInfo onProjectChanged = typeof(EditorIconApplier).GetMethod("OnProjectChanged", StaticPrivate);
             Assert.That(window, Is.Not.Null);
             Assert.That(onProjectChanged, Is.Not.Null);
 
@@ -73,12 +81,33 @@ namespace ProjectIcon.Editor.Tests
                 yield return new EnterPlayMode(expectDomainReload: false);
                 Assert.That(EditorApplication.isPlaying, Is.True);
                 AssertUpdateCallbackCount();
+#if UNITY_EDITOR_OSX
+                // Outside retry windows, Play Mode skips the 30-second maintenance apply.
+                double overdue = EditorApplication.timeSinceStartup - 60d;
+                EditorIconApplier.AutoApplyEnabled = true;
+                SetField("s_autoApplyWasEnabled", true);
+                SetField("s_applyRequested", false);
+                SetField("s_forceReapplyUntilTime", -1d);
+                SetField("s_fastReapplyUntilTime", -1d);
+                SetField("s_lastApplyTime", overdue);
+                Update();
+                Assert.That(GetField<double>("s_lastApplyTime"), Is.EqualTo(overdue));
+#endif
 
                 yield return new ExitPlayMode();
                 Assert.That(EditorApplication.isPlaying, Is.False);
                 AssertUpdateCallbackCount();
+#if UNITY_EDITOR_OSX
+                // The first update after leaving Play Mode applies the overdue maintenance check.
+                Update();
+                Assert.That(GetField<double>("s_lastApplyTime"), Is.GreaterThan(overdue));
+#endif
             }
         }
+
+        static void Update() => typeof(EditorIconApplier).GetMethod("ReapplyAfterDelay", StaticPrivate).Invoke(null, null);
+        static void SetField(string name, object value) => typeof(EditorIconApplier).GetField(name, StaticPrivate).SetValue(null, value);
+        static T GetField<T>(string name) => (T)typeof(EditorIconApplier).GetField(name, StaticPrivate).GetValue(null);
 
         static int UpdateCallbackCount()
         {

@@ -28,7 +28,10 @@ icon on the next check. It leaves icons owned by other tools alone.
 
 Unity can restore its own application icon during startup and normal Editor
 activity. Project Icon responds to focus and project changes and also performs
-periodic maintenance.
+a maintenance check every 30 seconds outside Play Mode. Retries after a script
+reload or focus change space out over time, so an icon reset by another tool can
+take up to 30 seconds to return. Switching away from the Editor and back applies
+it immediately.
 
 If it continues reverting, confirm Auto Apply is still enabled and that the
 native bundle is present at:

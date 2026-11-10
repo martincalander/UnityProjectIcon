@@ -53,7 +53,9 @@ applications share the Dock.
 
 Appearance changes apply immediately on macOS. The package also reapplies after
 project and focus changes and performs a slower maintenance check while the
-Editor remains open.
+Editor remains open. Retries after a script reload or after the Editor gains
+focus start quickly and then space out. The maintenance check waits during Play
+Mode and runs again once Play Mode ends.
 
 ## Understand Preference Scope
 

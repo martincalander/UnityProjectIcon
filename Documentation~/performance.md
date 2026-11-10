@@ -165,12 +165,30 @@ work spread across the retry window. Closely spaced applies share deferred work,
 but every explicit apply and notification still submits immediately. The current
 100-notification stress burst therefore submits 103 times.
 
-The highest-value next experiment is a less aggressive retry policy with visible
-focus, activation, Play Mode and external-reset verification. Coalescing immediate
-notifications could reduce bursts substantially without changing image pixels,
-but requires evidence that delayed reassertion remains reliable. Reducing the
-managed six-second focus retry window or the two-minute startup retry window has
-the same correctness question. Their end-to-end behavior has not been changed.
+The managed retry windows were the highest-value scheduling change, and they now
+back off. The window lengths are unchanged: two minutes after each code load and
+six seconds after the Editor gains focus. Inside a window, the next apply waits as
+long as the window had been running at the last apply, at least 2 seconds
+(startup) or 0.25 seconds (focus) and at most 30 seconds. Startup applies at about
+0, 2, 4, 8, 16, 32, 64 and 94 seconds, 8 applies instead of about 60. Gaining
+focus applies at 0, 0.25, 0.5, 1, 2 and 4 seconds, 6 applies instead of about 25.
+Losing focus applies once and starts no window, because the native observers
+already reassert on resign. Each managed apply makes one immediate setter call
+and up to three deferred ones within 0.25 seconds. A code load therefore drops
+from up to about 240 setter calls to at most 32, and switching away and back
+from up to about 200 to at most 28. Outside both windows the 30-second
+maintenance apply waits during Play Mode; the first update after leaving Play
+Mode finds it overdue and applies.
+
+The scheduler change is covered by EditMode tests for due and not-yet-due points
+in both windows, focus loss and Play Mode. On 2026-11-10 all 72 EditMode tests
+and the native suite passed in Unity 7000.0.0a16 on an Apple M5 Pro with macOS
+27.2.1. Dock behavior itself cannot be read from a test, so focus, activation,
+Play Mode and external-reset behavior still need the manual Dock checklist.
+
+Coalescing immediate native notifications could reduce bursts further without
+changing image pixels, but requires evidence that delayed reassertion remains
+reliable. The native retry schedule is unchanged.
 
 ## Coverage and limits
 

@@ -32,6 +32,8 @@ namespace ProjectIcon.Editor.Tests
                     UnityEngine.Object.DestroyImmediate(texture);
             m_textures.Clear();
             SetField("s_lastApplyTime", -30d);
+            SetField("s_forceReapplyUntilTime", 0d);
+            SetField("s_fastReapplyUntilTime", 0d);
             if (m_hadAutoApply)
                 EditorIconApplier.AutoApplyEnabled = m_autoApply;
             else
@@ -171,6 +173,66 @@ namespace ProjectIcon.Editor.Tests
             Assert.That(GetField<double>("s_lastApplyTime"), Is.EqualTo(applied));
             Assert.That(GetField<double>("s_forceReapplyUntilTime"), Is.EqualTo(-1d));
             Assert.That(GetField<double>("s_fastReapplyUntilTime"), Is.EqualTo(-1d));
+        }
+
+        // Window lengths in seconds: startup retries after code loads, focus retries after the Editor gains focus.
+        const double StartupWindow = 120d;
+        const double FocusWindow = 6d;
+
+        // Within a window, the next retry waits as long as the window had run at the last apply,
+        // at least the window minimum (2 s startup, 0.25 s focus) and at most 30 s.
+        [TestCase(false, 10d, 2d, false, TestName = "Scheduler_StartupRetryWaitsForTheWindowAgeAtLastApply")]
+        [TestCase(false, 10d, 6d, true, TestName = "Scheduler_StartupRetryIsDueAfterTheWindowAgeAtLastApply")]
+        [TestCase(false, 1d, 1.5d, false, TestName = "Scheduler_StartupRetryWaitsAtLeastTheMinimum")]
+        [TestCase(false, 100d, 29d, false, TestName = "Scheduler_StartupRetryIntervalIsCappedAtThirtySeconds")]
+        [TestCase(false, 100d, 31d, true, TestName = "Scheduler_StartupRetryIsDueAfterThirtySeconds")]
+        [TestCase(true, 3d, 1d, false, TestName = "Scheduler_FocusRetryWaitsForTheWindowAgeAtLastApply")]
+        [TestCase(true, 3d, 2d, true, TestName = "Scheduler_FocusRetryIsDueAfterTheWindowAgeAtLastApply")]
+        [TestCase(true, 0.1d, 0.1d, false, TestName = "Scheduler_FocusRetryWaitsAtLeastTheMinimum")]
+        [TestCase(true, 0.4d, 0.4d, true, TestName = "Scheduler_FocusRetryIsDueAfterTheMinimum")]
+        public void Scheduler_RetryWindowsBackOff(bool focusWindow, double windowAge, double lastApplyAge, bool due)
+        {
+            double now = EditorApplication.timeSinceStartup;
+            PrepareScheduler(now - lastApplyAge);
+            if (focusWindow)
+                SetField("s_fastReapplyUntilTime", now - windowAge + FocusWindow);
+            else
+                SetField("s_forceReapplyUntilTime", now - windowAge + StartupWindow);
+
+            Update();
+            Assert.That(GetField<double>("s_lastApplyTime") != now - lastApplyAge, Is.EqualTo(due));
+        }
+
+        [TestCase(29d, false)]
+        [TestCase(31d, true)]
+        public void Scheduler_MaintenanceAppliesEveryThirtySecondsOutsideWindows(double lastApplyAge, bool due)
+        {
+            double lastApply = EditorApplication.timeSinceStartup - lastApplyAge;
+            PrepareScheduler(lastApply);
+            Update();
+            Assert.That(GetField<double>("s_lastApplyTime") != lastApply, Is.EqualTo(due));
+        }
+
+        [TestCase(true)]
+        [TestCase(false)]
+        public void FocusChange_AppliesOnceAndOnlyGainingFocusStartsTheRetryWindow(bool hasFocus)
+        {
+            PrepareScheduler(-1000d);
+            typeof(EditorIconApplier).GetMethod("OnEditorFocusChanged", StaticPrivate)
+                .Invoke(null, new object[] { hasFocus });
+            Assert.That(GetField<double>("s_lastApplyTime"), Is.GreaterThan(-1000d));
+            Assert.That(GetField<double>("s_fastReapplyUntilTime") > EditorApplication.timeSinceStartup,
+                Is.EqualTo(hasFocus));
+        }
+
+        static void PrepareScheduler(double lastApplyTime)
+        {
+            EditorIconApplier.AutoApplyEnabled = true;
+            SetField("s_autoApplyWasEnabled", true);
+            SetField("s_applyRequested", false);
+            SetField("s_forceReapplyUntilTime", -1d);
+            SetField("s_fastReapplyUntilTime", -1d);
+            SetField("s_lastApplyTime", lastApplyTime);
         }
 
         [Test]
